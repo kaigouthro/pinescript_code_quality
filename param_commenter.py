@@ -25,13 +25,12 @@ the functions perform the following:
 
 def getParams(line):
     params = []
-    m = re.match(r'^(export +(method +)?)?\w+ *\(([^\)]*)\) *=>', line)
+    m = re.match(r'^((export\s+|method\s+)*\w+)\s*\(([^)]*)\)\s*=>', line)
     if m:
         param_string = m.group(3)
         if param_string:
             params = param_string.split(',')
-            params = [p.strip() for p in params]
-            params = [p.split('=')[0].strip() for p in params]
+            params = [p.split('=')[0].strip() if '=' in p else p for p in params]
             params = [p.split(' ')[-1].strip() + '\t' + p.split(' ')[0].strip() for p in params]
     return params
 
@@ -59,7 +58,7 @@ def createComments(inputFile, outputFile):
                 type_name = line.split('type')[1]
                 comments.append('\n\n// @type {}'.format(type_name))
                 depth += 1
-            if re.match(r'^(export +(method +)?)?\w+ *\([^\)]*\) *=>', line):
+            if re.match(r'^(export\s+|method\s+)*\w+\s*\([^)]*\) *=>', line):
                 comment = create_comment(line)
                 comments.append(comment)
             if depth == 0:
