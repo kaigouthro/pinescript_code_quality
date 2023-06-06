@@ -3,7 +3,7 @@ import os
 import time
 import requests
 
-""" 
+"""
 I only set it to grab cookies from chrome for logging in..
 you may choose otherwise..
 
@@ -14,26 +14,11 @@ import unidecode
 import browser_cookie3
 import urllib
 import alive_progress as ap
+from  codecs import decode
 
 
-# to decode.. kinda of a  hack job....
-def ascii_map():
-    data = {}
-    for num in range(256):
-        h = num
-        filename = "x{num:02x}".format(num=num)
-        try:
-            mod = __import__(f"unidecode.{filename}", fromlist=True)
-        except ImportError:
-            pass
-        else:
-            for l, val in enumerate(mod.data):
-                i = h << 8
-                i += l
-                if i >= 0x80:
-                    data[i] = unidecode(val)
-    return data
-
+"""  SET THIS ? """
+overwrite = False
 
 
 # Get logged in and fetched cookies from Chrome, download indexes of scripts.
@@ -89,12 +74,12 @@ sections = [libs, strats, study, rest]
 # download functional files
 for pct, sector in enumerate(sections):
     names = ["libs", "strats", "study", "rest"]
-    with ap.alive_bar(len(sector)) as script_group:
+    with ap.alive_bar(len(sector),calibrate = 5, dual_line = True, theme='smooth') as script_group:
         script_group.title(f"\n\nChecking {names[pct]} scripts")
-        for sc in sector:
+        for scNum, sc in enumerate(sector):
 
             # put a 100ms delay
-            time.sleep(0.05)
+            time.sleep(0.5)
             scriptIdPart = sc["scriptIdPart"]
             version = sc["version"]
             urlpart = f"{scriptIdPart}/{version}"
@@ -115,15 +100,10 @@ for pct, sector in enumerate(sections):
             )
 
             # for formatting purposes
-            script_name_replace = {
-                " ": "_",
-                "-": "_",
-                "/": "_",
-                "\\": "_",
-                ";": "_",
-                "%": "_",
-                "&": "_",
-            }
+            invalid = '<>:"/\|?* '
+
+            for char in invalid:
+	            script_name = script_name.replace(char, '')
 
             # using requests to download the pine script with cookies
             r = requests.get(url, cookies=cj)
@@ -140,8 +120,7 @@ for pct, sector in enumerate(sections):
             # get text of additional information
             r2 = r2.text
             r2 = r2.replace(r"\n\n+", r"\n")
-            r2 = unidecode.unidecode(r2)
-            r2 = r2.translate(ascii_map())
+            r2 = r2.encode("utf-8").decode()
 
             # check if response is valid and contains the 'source' field
             if "source" not in r:
@@ -151,12 +130,12 @@ for pct, sector in enumerate(sections):
             # extract the source from the response
             r = r["source"]
             r = r.replace(r"\n\n+", r"\n")
-            r = unidecode.unidecode(r)
-            r = r.translate(ascii_map())
-            for from_pattern, replace_to in script_name_replace.items():
-                script_name = script_name.replace(from_pattern, replace_to)
+            r = r.encode("utf-8").decode()#unidecode.unidecode(r)
 
-            # if directory nott exxist, create f'scripts/{sectorname}/{sc["extra"]["kind"]}/'
+            # fix name
+            script_name = script_name.encode("utf-8").decode()
+
+            # if directory nott exist, create
             if not os.path.exists(f'scripts/{sectorname}/{sc["extra"]["kind"]}/'):
                 os.makedirs(f'scripts/{sectorname}/{sc["extra"]["kind"]}/')
 
@@ -164,15 +143,19 @@ for pct, sector in enumerate(sections):
             if os.path.isfile(
                 f'scripts/{sectorname}/{sc["extra"]["kind"]}/{script_name}.pine'
             ):
-                script_group.text(f"{script_name}.pine exists" + "\n")
-                continue
+                if not overwrite:
+                    script_group.text(f"{script_name}.pine exists" + "\n")
+                    continue
+                else:
+                    script_group.text(f"Overwriting {script_name}.pine " + "\n")
+
             with open(
-                f'scripts/{sectorname}/{sc["extra"]["kind"]}/{script_name}.pine', "w"
-            ) as f:
+                f'scripts/{sectorname}/{sc["extra"]["kind"]}/{script_name}.pine', "w",
+            encoding="utf-8") as f:
                 script_group.text(f"{script_name}.pine saved" + "\n")
                 f.write(r)
             with open(
-                f'scripts/{sectorname}/{sc["extra"]["kind"]}/{script_name}.json', "w"
-            ) as f:
+                f'scripts/{sectorname}/{sc["extra"]["kind"]}/{script_name}.json', "w",
+            encoding="utf-8") as f:
                 script_group.text(f"{script_name}.json saved" + "\n")
                 f.write(r2)
