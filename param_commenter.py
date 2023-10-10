@@ -25,10 +25,8 @@ the functions perform the following:
 
 def getParams(line):
     params = []
-    m = re.match(r'^((export\s+|method\s+)*\w+)\s*\(([^)]*)\)\s*=>', line)
-    if m:
-        param_string = m.group(3)
-        if param_string:
+    if m := re.match(r'^((export\s+|method\s+)*\w+)\s*\(([^)]*)\)\s*=>', line):
+        if param_string := m[3]:
             params = param_string.split(',')
             params = [p.split('=')[0].strip() if '=' in p else p for p in params]
             params = [p.split(' ')[-1].strip() + '\t' + p.split(' ')[0].strip() for p in params]
@@ -56,33 +54,31 @@ def createComments(inputFile, outputFile):
             if re.match(r'^(export +)?type',line):
                 fields += line
                 type_name = line.split('type')[1]
-                comments.append('\n\n// @type {}'.format(type_name))
+                comments.append(f'\n\n// @type {type_name}')
                 depth += 1
             if re.match(r'^(export\s+|method\s+)*\w+\s*\([^)]*\) *=>', line):
                 comment = create_comment(line)
                 comments.append(comment)
             if depth == 0:
                 comments.append(line)
+        elif line.startswith('    '):
+            fields += line
+            line = line.strip()
+            if m := re.match(r'(\w+)\s+(\w+)\s*(=\s*\w+)?', line):
+                type_name, field_name, default = m.groups()
+                comments.append(f'// @field {field_name} ({type_name}) \n')
         else:
-            if line.startswith('    '):
-                fields += line
-                line = line.strip()
-                m = re.match(r'(\w+)\s+(\w+)\s*(=\s*\w+)?', line)
-                if m:
-                    type_name, field_name, default = m.groups()
-                    comments.append('// @field {} ({}) \n'.format(field_name, type_name))
-            else:
-                depth = 0
-                comments.append(fields)
-                fields = ''
+            depth = 0
+            comments.append(fields)
+            fields = ''
     with open(outputFile, 'w') as f:
         f.writelines(comments)
 
 if __name__ == '__main__':
     inputFile = sys.argv[1]
     outputFile = sys.argv[2]
-    if not len(sys.argv) == 3:
-        print('Usage: python \\{} inputFile outputFile'.format(sys.argv[0 ]))
+    if len(sys.argv) != 3:
+        print(f'Usage: python \\{sys.argv[0]} inputFile outputFile')
         sys.exit(1)
     else:
         createComments(inputFile, outputFile)
