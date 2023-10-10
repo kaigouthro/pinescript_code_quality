@@ -7,11 +7,11 @@ You may display text or shapes using five different ways with Pine Script®:
 *   [plotshape()](https://www.tradingview.com/pine-script-reference/v5/#fun_plotshape)
 *   [plotarrow()](https://www.tradingview.com/pine-script-reference/v5/#fun_plotarrow)
 *   Labels created with [label.new()](https://www.tradingview.com/pine-script-reference/v5/#fun_label{dot}new)
-*   Tables created with [table.new()](https://www.tradingview.com/pine-script-reference/v5/#fun_table{dot}new) (see [Tables](https://tradingview.com/pine-script-docs/en/v5/concepts/Tables.html#pagetables))
+*   Tables created with [table.new()](https://www.tradingview.com/pine-script-reference/v5/#fun_table{dot}new) (see [Tables](concepts_Tables.html#pagetables))
 
 Which one to use depends on your needs:
 
-*   Tables can display text in various relative positions on charts that will not move as users scroll of zoom the chart horizontally. Their content is not tethered to bars. In contrast, text displayed with [plotchar()](https://www.tradingview.com/pine-script-reference/v5/#fun_plotchar), [plotshape()](https://www.tradingview.com/pine-script-reference/v5/#fun_plotshape) or [label.new()](https://www.tradingview.com/pine-script-reference/v5/#fun_label{dot}new) is always tethered to a specific bar, so it will move with the bar’s position on the chart. See the page on [Tables](https://tradingview.com/pine-script-docs/en/v5/concepts/Tables.html#pagetables) for more information on them.
+*   Tables can display text in various relative positions on charts that will not move as users scroll of zoom the chart horizontally. Their content is not tethered to bars. In contrast, text displayed with [plotchar()](https://www.tradingview.com/pine-script-reference/v5/#fun_plotchar), [plotshape()](https://www.tradingview.com/pine-script-reference/v5/#fun_plotshape) or [label.new()](https://www.tradingview.com/pine-script-reference/v5/#fun_label{dot}new) is always tethered to a specific bar, so it will move with the bar’s position on the chart. See the page on [Tables](concepts_Tables.html#pagetables) for more information on them.
 *   Three function include are able to display pre-defined shapes: [plotshape()](https://www.tradingview.com/pine-script-reference/v5/#fun_plotshape), [plotarrow()](https://www.tradingview.com/pine-script-reference/v5/#fun_plotarrow) and Labels created with [label.new()](https://www.tradingview.com/pine-script-reference/v5/#fun_label{dot}new).
 *   [plotarrow()](https://www.tradingview.com/pine-script-reference/v5/#fun_plotarrow) cannot display text, only up or down arrows.
 *   [plotchar()](https://www.tradingview.com/pine-script-reference/v5/#fun_plotchar) and [plotshape()](https://www.tradingview.com/pine-script-reference/v5/#fun_plotshape) can display non-dynamic (not of “series” form) text on any bar or all bars of the chart.
@@ -30,7 +30,7 @@ These are a few things to keep in mind concerning Pine Script® strings:
 
 This script displays text using the four methods available in Pine Script®:
 
-```
+```swift
 //@version=5
 indicator("Four displays of text", overlay = true)
 plotchar(ta.rising(close, 5), "`plotchar()`", "🠅", location.belowbar, color.lime, size = size.small)
@@ -63,7 +63,7 @@ Note that:
 
 This function is useful to display a single character on bars. It has the following syntax:
 
-```
+```swift
 plotchar(series, title, char, location, color, offset, text, textcolor, editable, size, show_last, display) → void
 
 ```
@@ -71,9 +71,9 @@ plotchar(series, title, char, location, color, offset, text, textcolor, editable
 
 See the [Reference Manual entry for plotchar()](https://www.tradingview.com/pine-script-reference/v5/#fun_plotchar) for details on its parameters.
 
-As explained in the [When the script’s scale must be preserved](https://tradingview.com/pine-script-docs/en/v5/writing/Debugging.html#pagedebugging-whenthescriptsscalemustbepreserved) section of our page on [Debugging](https://tradingview.com/pine-script-docs/en/v5/writing/Debugging.html#pagedebugging), the function can be used to display and inspect values in the Data Window or in the indicator values displayed to the right of the script’s name on the chart:
+As explained in the [When the script’s scale must be preserved](writing/Debugging.html#pagedebugging-whenthescriptsscalemustbepreserved) section of our page on [Debugging](https://tradingview.com/pine-script-docs/en/v5/writing/Debugging.html#pagedebugging), the function can be used to display and inspect values in the Data Window or in the indicator values displayed to the right of the script’s name on the chart:
 
-```
+```swift
 //@version=5
 indicator("", "", true)
 plotchar(bar_index, "Bar index", "", location.top)
@@ -91,7 +91,7 @@ Note that:
 
 [plotchar()](https://www.tradingview.com/pine-script-reference/v5/#fun_plotchar) also works well to identify specific points on the chart or to validate that conditions are `true` when we expect them to be. This example displays an up arrow under bars where [close](https://www.tradingview.com/pine-script-reference/v5/#var_close), [high](https://www.tradingview.com/pine-script-reference/v5/#var_high) and [volume](https://www.tradingview.com/pine-script-reference/v5/#var_volume) have all been rising for two bars:
 
-```
+```swift
 //@version=5
 indicator("", "", true)
 bool longSignal = ta.rising(close, 2) and ta.rising(high, 2) and (na(volume) or ta.rising(volume, 2))
@@ -111,7 +111,7 @@ Note that:
 
 If you don’t mind plotting only circles, you could also use [plot()](https://www.tradingview.com/pine-script-reference/v5/#fun_plot) to achieve a similar effect:
 
-```
+```swift
 //@version=5
 indicator("", "", true)
 longSignal = ta.rising(close, 2) and ta.rising(high, 2) and (na(volume) or ta.rising(volume, 2))
@@ -129,7 +129,7 @@ This method has the inconvenience that, since there is no relative positioning m
 
 This function is useful to display pre-defined shapes and/or text on bars. It has the following syntax:
 
-```
+```swift
 plotshape(series, title, style, location, color, offset, text, textcolor, editable, size, show_last, display) → void
 
 ```
@@ -139,7 +139,7 @@ See the [Reference Manual entry for plotshape()](https://www.tradingview.com/pin
 
 Let’s use the function to achieve more or less the same result as with our second example of the previous section:
 
-```
+```swift
 //@version=5
 indicator("", "", true)
 longSignal = ta.rising(close, 2) and ta.rising(high, 2) and (na(volume) or ta.rising(volume, 2))
@@ -154,7 +154,7 @@ Note that here, rather than using an arrow character, we are using the `shape.ar
 
 It is possible to use different [plotshape()](https://www.tradingview.com/pine-script-reference/v5/#fun_plotshape) calls to superimpose text on bars. You will need to use `\n` followed by a special non-printing character that doesn’t get stripped out to preserve the newline’s functionality. Here we’re using a Unicode Zero-width space (U+200E). While you don’t see it in the following code’s strings, it is there and can be copy/pasted. The special Unicode character needs to be the **last** one in the string for text going up, and the **first** one when you are plotting under the bar and text is going down:
 
-```
+```swift
 //@version=5
 indicator("Lift text", "", true)
 plotshape(true, "", shape.arrowup,   location.abovebar, color.green,  text = "A")
@@ -185,7 +185,7 @@ The available shapes you can use with the `style` parameter are:
 
 The [plotarrow](https://www.tradingview.com/pine-script-reference/v5/#fun_plotarrow) function displays up or down arrows of variable length, based on the relative value of the series used in the function’s first argument. It has the following syntax:
 
-```
+```swift
 plotarrow(series, title, colorup, colordown, offset, minheight, maxheight, editable, show_last, display) → void
 
 ```
@@ -203,7 +203,7 @@ The maximum and minimum possible sizes for the arrows (in pixels) can be control
 
 Here is a simple script illustrating how [plotarrow()](https://www.tradingview.com/pine-script-reference/v5/#fun_plotarrow) works:
 
-```
+```swift
 //@version=5
 indicator("", "", true)
 body = close - open
@@ -218,7 +218,7 @@ Note how the heigth of arrows is proportional to the relative size of the bar bo
 
 You can use any series to plot the arrows. Here we use the value of the “Chaikin Oscillator” to control the location and size of the arrows:
 
-```
+```swift
 //@version=5
 indicator("Chaikin Oscillator Arrows", overlay = true)
 fastLengthInput = input.int(3,  minval = 1)
@@ -238,7 +238,7 @@ Note that we display the actual “Chaikin Oscillator” in a pane below the cha
 
 Labels are only available in v4 and higher versions of Pine Script®. They work very differently than [plotchar()](https://www.tradingview.com/pine-script-reference/v5/#fun_plotchar) and [plotshape()](https://www.tradingview.com/pine-script-reference/v5/#fun_plotshape).
 
-Labels are objects, like [lines and boxes](https://tradingview.com/pine-script-docs/en/v5/concepts/Lines_and_boxes.html#pagelinesandboxes), or [tables](https://tradingview.com/pine-script-docs/en/v5/concepts/Tables.html#pagetables). Like them, they are referred to using an ID, which acts like a pointer. Label IDs are of “label” type. As with other objects, labels IDs are “time series” and all the functions used to manage them accept “series” arguments, which makes them very flexible.
+Labels are objects, like [lines and boxes](concepts_Lines_and_boxes.html#pagelinesandboxes), or [tables](https://tradingview.com/pine-script-docs/en/v5/concepts_Tables.html#pagetables). Like them, they are referred to using an ID, which acts like a pointer. Label IDs are of “label” type. As with other objects, labels IDs are “time series” and all the functions used to manage them accept “series” arguments, which makes them very flexible.
 
 Note
 
@@ -252,7 +252,7 @@ Labels are advantageous because:
 *   Contrary to `plot*()` functions, label-handling functions can be inserted in conditional or loop structures, making it easier to control their behavior.
 *   You can add tooltips to labels.
 
-One drawback to using labels versus [plotchar()](https://www.tradingview.com/pine-script-reference/v5/#fun_plotchar) and [plotshape()](https://www.tradingview.com/pine-script-reference/v5/#fun_plotshape) is that you can only draw a limited quantity of them on the chart. The default is ~50, but you can use the `max_labels_count` parameter in your [indicator()](https://www.tradingview.com/pine-script-reference/v5/#fun_indicator) or [strategy()](https://www.tradingview.com/pine-script-reference/v5/#fun_strategy) declaration statement to specify up to 500. Labels, like [lines and boxes](https://tradingview.com/pine-script-docs/en/v5/concepts/Lines_and_boxes.html#pagelinesandboxes), are managed using a garbage collection mechanism which deletes the oldest ones on the chart, such that only the most recently drawn labels are visible.
+One drawback to using labels versus [plotchar()](https://www.tradingview.com/pine-script-reference/v5/#fun_plotchar) and [plotshape()](https://www.tradingview.com/pine-script-reference/v5/#fun_plotshape) is that you can only draw a limited quantity of them on the chart. The default is ~50, but you can use the `max_labels_count` parameter in your [indicator()](https://www.tradingview.com/pine-script-reference/v5/#fun_indicator) or [strategy()](https://www.tradingview.com/pine-script-reference/v5/#fun_strategy) declaration statement to specify up to 500. Labels, like [lines and boxes](concepts_Lines_and_boxes.html#pagelinesandboxes), are managed using a garbage collection mechanism which deletes the oldest ones on the chart, such that only the most recently drawn labels are visible.
 
 Your toolbox of built-ins to manage labels are all in the `label` namespace. They include:
 
@@ -266,7 +266,7 @@ Your toolbox of built-ins to manage labels are all in the `label` namespace. The
 
 The [label.new()](https://www.tradingview.com/pine-script-reference/v5/#fun_label{dot}new) function creates a new label. It has the following signature:
 
-```
+```swift
 label.new(x, y, text, xloc, yloc, color, style, textcolor, size, textalign, tooltip) → series label
 
 ```
@@ -289,7 +289,7 @@ The _setter_ functions allowing you to change a label’s properties are:
 
 They all have a similar signature. The one for [label.set\_color()](https://www.tradingview.com/pine-script-reference/v5/#fun_label{dot}set_color) is:
 
-```
+```swift
 label.set_color(id, color) → void
 
 ```
@@ -302,7 +302,7 @@ where:
 
 This is how you can create labels in their simplest form:
 
-```
+```swift
 //@version=5
 indicator("", "", true)
 label.new(bar_index, high)
@@ -322,7 +322,7 @@ Note that:
 
 In the next example we display a label on the bar with the highest [high](https://www.tradingview.com/pine-script-reference/v5/#var_high) value in the last 50 bars:
 
-```
+```swift
 //@version=5
 indicator("", "", true)
 
@@ -356,7 +356,7 @@ Note that:
 
 Here we create a label on each bar, but we set its properties conditionally, depending on the bar’s polarity:
 
-```
+```swift
 //@version=5
 indicator("", "", true)
 lbl = label.new(bar_index, na)
@@ -405,82 +405,82 @@ These are the available `style` arguments:
 
 
 * Argument: label.style_xcross
-  * Label: 
-  * Label with text: 
+  * Label:
+  * Label with text:
   *  :  
   * Argument: label.style_label_up
-  * Label: 
-  * Label with text: 
+  * Label:
+  * Label with text:
 * Argument: label.style_cross
-  * Label: 
-  * Label with text: 
+  * Label:
+  * Label with text:
   *  :  
   * Argument: label.style_label_down
-  * Label: 
-  * Label with text: 
+  * Label:
+  * Label with text:
 * Argument: label.style_flag
-  * Label: 
-  * Label with text: 
+  * Label:
+  * Label with text:
   *  :  
   * Argument: label.style_label_left
-  * Label: 
-  * Label with text: 
+  * Label:
+  * Label with text:
 * Argument: label.style_circle
-  * Label: 
-  * Label with text: 
+  * Label:
+  * Label with text:
   *  :  
   * Argument: label.style_label_right
-  * Label: 
-  * Label with text: 
+  * Label:
+  * Label with text:
 * Argument: label.style_square
-  * Label: 
-  * Label with text: 
+  * Label:
+  * Label with text:
   *  :  
   * Argument: label.style_label_lower_left
-  * Label: 
-  * Label with text: 
+  * Label:
+  * Label with text:
 * Argument: label.style_diamond
-  * Label: 
-  * Label with text: 
+  * Label:
+  * Label with text:
   *  :  
   * Argument: label.style_label_lower_right
-  * Label: 
-  * Label with text: 
+  * Label:
+  * Label with text:
 * Argument: label.style_triangleup
-  * Label: 
-  * Label with text: 
+  * Label:
+  * Label with text:
   *  :  
   * Argument: label.style_label_upper_left
-  * Label: 
-  * Label with text: 
+  * Label:
+  * Label with text:
 * Argument: label.style_triangledown
-  * Label: 
-  * Label with text: 
+  * Label:
+  * Label with text:
   *  :  
   * Argument: label.style_label_upper_right
-  * Label: 
-  * Label with text: 
+  * Label:
+  * Label with text:
 * Argument: label.style_arrowup
-  * Label: 
-  * Label with text: 
+  * Label:
+  * Label with text:
   *  :  
   * Argument: label.style_label_center
-  * Label: 
-  * Label with text: 
+  * Label:
+  * Label with text:
 * Argument: label.style_arrowdown
-  * Label: 
-  * Label with text: 
+  * Label:
+  * Label with text:
   *  :  
   * Argument: label.style_none
   * Label:  
-  * Label with text: 
+  * Label with text:
 
 
-When using [xloc.bar\_time](https://www.tradingview.com/pine-script-reference/v5/#var_xloc{dot}bar_time), the `x` value must be a UNIX timestamp in milliseconds. See the page on [Time](https://tradingview.com/pine-script-docs/en/v5/concepts/Time.html#pagetime) for more information. The start time of the current bar can be obtained from the [time](https://www.tradingview.com/pine-script-reference/v5/#var_time) built-in variable. The bar time of previous bars is `time[1]`, `time[2]` and so on. Time can also be set to an absolute value with the [timestamp](https://www.tradingview.com/pine-script-reference/v5/#fun_timestamp) function. You may add or subtract periods of time to achieve relative time offset.
+When using [xloc.bar\_time](https://www.tradingview.com/pine-script-reference/v5/#var_xloc{dot}bar_time), the `x` value must be a UNIX timestamp in milliseconds. See the page on [Time](concepts_Time.html#pagetime) for more information. The start time of the current bar can be obtained from the [time](https://www.tradingview.com/pine-script-reference/v5/#var_time) built-in variable. The bar time of previous bars is `time[1]`, `time[2]` and so on. Time can also be set to an absolute value with the [timestamp](https://www.tradingview.com/pine-script-reference/v5/#fun_timestamp) function. You may add or subtract periods of time to achieve relative time offset.
 
 Let’s position a label one day ago from the date on the last bar:
 
-```
+```swift
 //@version=5
 indicator("")
 daysAgoInput = input.int(1, tooltip = "Use negative values to offset in the future")
@@ -496,7 +496,7 @@ Note that because of varying time gaps and missing bars when markets are closed,
 
 You can also offset using a bar index for the `x` value, e.g.:
 
-```
+```swift
 label.new(bar_index + 10, high)
 label.new(bar_index - 10, high[10])
 label.new(bar_index[10], high[10])
@@ -510,7 +510,7 @@ The [label.delete()](https://www.tradingview.com/pine-script-reference/v5/#fun_l
 
 To keep only a user-defined quantity of labels on the chart, one could use code like this:
 
-```
+```swift
 //@version=5
 MAX_LABELS = 500
 indicator("", max_labels_count = MAX_LABELS)
@@ -535,7 +535,7 @@ Note that:
 
 Note that if one wants to position a label on the last bar only, it is unnecessary and inefficent to create and delete the label as the script executes on all bars, so that only the last label remains:
 
-```
+```swift
 // INEFFICENT!
 //@version=5
 indicator("", "", true)
@@ -547,7 +547,7 @@ label.delete(lbl[1])
 
 This is the efficient way to realize the same task:
 
-```
+```swift
 //@version=5
 indicator("", "", true)
 if barstate.islast
@@ -566,7 +566,7 @@ Labels are subject to both _commit_ and _rollback_ actions, which affect the beh
 
 This script demonstrates the effect of rollback when running in the realtime bar:
 
-```
+```swift
 //@version=5
 indicator("", "", true)
 label.new(bar_index, high)

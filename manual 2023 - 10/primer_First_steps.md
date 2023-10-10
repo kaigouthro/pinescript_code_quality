@@ -1,7 +1,7 @@
 [Introduction](#id1)
 -------------------------------------------------------------------
 
-Welcome to the Pine Script® [v5 User Manual](https://www.tradingview.com/pine-script-docs/en/v5/index.html), which will accompany you in your journey to learn to program your own trading tools in Pine Script®. Welcome also to the very active community of Pine Script® programmers on TradingView.
+Welcome to the Pine Script® [v5 User Manual](https://www.tradingview.com/pine-script-docs/en/v5/index.md), which will accompany you in your journey to learn to program your own trading tools in Pine Script®. Welcome also to the very active community of Pine Script® programmers on TradingView.
 
 In this page, we present a step-by-step approach that you can follow to gradually become more familiar with indicators and strategies (also called _scripts_) written in the Pine Script® programming language on [TradingView](https://www.tradingview.com/). We will get you started on your journey to:
 
@@ -86,7 +86,7 @@ Pine Script® allows you to write three types of scripts:
 *   **Strategies** which include logic to issue trading orders and can be backtested and forward-tested.
 *   **Libraries** which are used by more advanced programmers to package oft-used functions that can be reused by other scripts.
 
-The next step we recommend is to write your [first indicator](https://tradingview.com/pine-script-docs/en/v5/primer/First_indicator.html#pagefirstindicator).
+The next step we recommend is to write your [first indicator](primer/First_indicator.html#pagefirstindicator).
 
 [
 

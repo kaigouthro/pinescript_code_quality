@@ -2,7 +2,7 @@
 
 ![Pine Script® logo](https://tradingview.com/pine-script-docs/en/v5/_images/Pine-script-logo.svg)
 
-](https://www.tradingview.com/pine-script-docs/en/v5/Introduction.html)
+](https://www.tradingview.com/pine-script-docs/en/v5/Introduction.md)
 
 [The Pine Script® Editor](#id1)
 ----------------------------------------------------------------------------------------
@@ -39,7 +39,7 @@ Let’s look at our script’s code, line by line:
 
 Line 1: `//@version=5`
 
-This is a [compiler annotation](https://tradingview.com/pine-script-docs/en/v5/language/Script_structure.html#pagescriptstructure-compilerannotations) telling the compiler the script will use version 5 of Pine Script®.
+This is a [compiler annotation](language/Script_structure.html#pagescriptstructure-compilerannotations) telling the compiler the script will use version 5 of Pine Script®.
 
 Line 2: `indicator("MACD #1")`
 
@@ -111,7 +111,7 @@ We have changed `#1` to `#2` so the second version of our indicator displays a d
 
 Line 3: `fastInput = input(12, "Fast length")`
 
-Instead of assigning a constant value to a variable, we have used the [input()](https://www.tradingview.com/pine-script-reference/v5/#fun_input) function so we can change the value in our script’s “Settings/Inputs” tab. `12` will be the default value and the field’s label will be `"Fast length"`. If the value is changed in the “Inputs” tab, the `fastInput` variable’s content will contain the new value and the script will re-execute on the chart with that new value. Note that, as our Pine Script® [Style Guide](https://tradingview.com/pine-script-docs/en/v5/writing/Style_guide.html#pagestyleguide) recommends, we add `Input` to the end of the variable’s name to remind us, later in the script, that its value comes from a user input.
+Instead of assigning a constant value to a variable, we have used the [input()](https://www.tradingview.com/pine-script-reference/v5/#fun_input) function so we can change the value in our script’s “Settings/Inputs” tab. `12` will be the default value and the field’s label will be `"Fast length"`. If the value is changed in the “Inputs” tab, the `fastInput` variable’s content will contain the new value and the script will re-execute on the chart with that new value. Note that, as our Pine Script® [Style Guide](writing/Style_guide.html#pagestyleguide) recommends, we add `Input` to the end of the variable’s name to remind us, later in the script, that its value comes from a user input.
 
 Line 4: `slowInput = input(26, "Slow length")`
 

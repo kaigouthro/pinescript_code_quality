@@ -2,7 +2,7 @@
 
 ![Pine Script® logo](https://tradingview.com/pine-script-docs/en/v5/_images/Pine-script-logo.svg)
 
-](https://www.tradingview.com/pine-script-docs/en/v5/Introduction.html)
+](https://www.tradingview.com/pine-script-docs/en/v5/Introduction.md)
 
 [Introduction](#id1)
 -------------------------------------------------------------------
@@ -11,14 +11,14 @@ A set of built-in variables in the `barstate` namespace allow your script to det
 
 These states can be used to restrict the execution or the logic of your code to specific bars.
 
-Some built-ins return information on the trading session the current bar belongs to. They are explained in the [Session states](https://tradingview.com/pine-script-docs/en/v5/concepts/Sessions.html#pagesessions-sessionstates) section.
+Some built-ins return information on the trading session the current bar belongs to. They are explained in the [Session states](concepts_Sessions.html#pagesessions-sessionstates) section.
 
 [Bar state built-in variables](#id2)
 ---------------------------------------------------------------------------------------------------
 
 Note that while indicators and libraries run on all price or volume updates in real time, strategies not using `calc_on_every_tick` will not; they will only execute when the realtime bar closes. This will affect the detection of bar states in that type of script. On open markets, for example, this code will not display a background until the realtime closes because that is when the strategy runs:
 
-```
+```swift
 //@version=5
 strategy("S")
 bgcolor(barstate.islast ? color.silver : na)
@@ -32,7 +32,7 @@ bgcolor(barstate.islast ? color.silver : na)
 
 It can be useful to initialize variables on the first bar only, e.g.:
 
-```
+```swift
 // Declare array and set its values on the first bar only.
 FILL_COLOR = color.green
 var fillColors = array.new_color(0)
@@ -53,7 +53,7 @@ if barstate.isfirst
 
 It can be used to restrict the execution of code to the chart’s last bar, which is often useful when drawing lines, labels or tables. Here, we use it to determine when to update a label which we want to appear only on the last bar. We create the label only once and then update its properties using `label.set_*()` functions because it is more efficient:
 
-```
+```swift
 //@version=5
 indicator("", "", true)
 // Create label on the first bar only.
@@ -79,7 +79,7 @@ All historical bars are considered _new_ bars because the Pine Script® runtime 
 
 [barstate.isnew](https://www.tradingview.com/pine-script-reference/v5/#var_barstate{dot}isnew) can be useful to reset [varip](https://www.tradingview.com/pine-script-reference/v5/#op_varip) variables when a new realtime bar comes in. The following code will reset `updateNo` to 1 on all historical bars and at the beginning of each realtime bar. It calculates the number of realtime updates during each realtime bar:
 
-```
+```swift
 //@version=5
 indicator("")
 updateNo() =>
@@ -99,7 +99,7 @@ plot(updateNo())
 
 It can be useful to avoid repainting by requiring the realtime bar to be closed before a condition can become `true`. We use it here to hold plotting of our RSI until the realtime bar closes and becomes an elapsed realtime bar. It will plot on historical bars because [barstate.isconfirmed](https://www.tradingview.com/pine-script-reference/v5/#var_barstate{dot}isconfirmed) is always `true` on them:
 
-```
+```swift
 //@version=5
 indicator("")
 myRSI = ta.rsi(close, 20)
@@ -121,7 +121,7 @@ It can be used to detect the first realtime bar with `barstate.islastconfirmedhi
 
 Here is an example of a script using `barstate.*` variables:
 
-```
+```swift
 //@version=5
 indicator("Bar States", overlay = true, max_labels_count = 500)
 

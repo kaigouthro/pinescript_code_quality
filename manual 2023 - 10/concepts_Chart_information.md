@@ -2,12 +2,12 @@
 
 ![Pine Script® logo](https://tradingview.com/pine-script-docs/en/v5/_images/Pine-script-logo.svg)
 
-](https://www.tradingview.com/pine-script-docs/en/v5/Introduction.html)
+](https://www.tradingview.com/pine-script-docs/en/v5/Introduction.md)
 
 [Introduction](#id1)
 -------------------------------------------------------------------
 
-The way scripts can obtain information about the chart and symbol they are currently running on is through a subset of Pine Script®’s [built-in variables](https://tradingview.com/pine-script-docs/en/v5/language/Built-ins.html#pagebuiltinfunctions-builtinvariables). The ones we cover here allow scripts to access information relating to:
+The way scripts can obtain information about the chart and symbol they are currently running on is through a subset of Pine Script®’s [built-in variables](language/Built-ins.html#pagebuiltinfunctions-builtinvariables). The ones we cover here allow scripts to access information relating to:
 
 *   The chart’s prices and volume
 *   The chart’s symbol
@@ -33,9 +33,9 @@ Other values are available through:
 
 On historical bars, the values of the above variables do not vary during the bar because only OHLCV information is available on them. When running on historical bars, scripts execute on the bar’s [close](https://www.tradingview.com/pine-script-reference/v5/#var_close), when all the bar’s information is known and cannot change during the script’s execution on the bar.
 
-Realtime bars are another story altogether. When indicators (or strategies using `calc_on_every_tick = true`) run in realtime, the values of the above variables (except [open](https://www.tradingview.com/pine-script-reference/v5/#var_open)) will vary between successive iterations of the script on the realtime bar, because they represent their **current** value at one point in time during the progress of the realtime bar. This may lead to one form of [repainting](https://tradingview.com/pine-script-docs/en/v5/concepts/Repainting.html#pagerepainting). See the page on Pine Script®’s [execution model](https://tradingview.com/pine-script-docs/en/v5/language/Execution_model.html#pageexecutionmodel) for more details.
+Realtime bars are another story altogether. When indicators (or strategies using `calc_on_every_tick = true`) run in realtime, the values of the above variables (except [open](https://www.tradingview.com/pine-script-reference/v5/#var_open)) will vary between successive iterations of the script on the realtime bar, because they represent their **current** value at one point in time during the progress of the realtime bar. This may lead to one form of [repainting](concepts_Repainting.html#pagerepainting). See the page on Pine Script®’s [execution model](https://tradingview.com/pine-script-docs/en/v5/language/Execution_model.html#pageexecutionmodel) for more details.
 
-The [\[\]](https://www.tradingview.com/pine-script-reference/v5/#op_[]) [history-referencing operator](https://tradingview.com/pine-script-docs/en/v5/language/Operators.html#pageoperators-historyreferencingoperator) can be used to refer to past values of the built-in variables, e.g., `close[1]` refers to the value of [close](https://www.tradingview.com/pine-script-reference/v5/#var_close) on the previous bar, relative to the particular bar the script is executing on.
+The [\[\]](https://www.tradingview.com/pine-script-reference/v5/#op_[]) [history-referencing operator](language/Operators.html#pageoperators-historyreferencingoperator) can be used to refer to past values of the built-in variables, e.g., `close[1]` refers to the value of [close](https://www.tradingview.com/pine-script-reference/v5/#var_close) on the previous bar, relative to the particular bar the script is executing on.
 
 [Symbol information](#id3)
 -------------------------------------------------------------------------------
@@ -57,7 +57,7 @@ Built-in variables in the `syminfo` namespace provide scripts with information o
 
 This script will display the values of those built-in variables on the chart:
 
-```
+```swift
 //@version=5
 indicator("`syminfo.*` built-ins", "", true)
 printTable(txtLeft, txtRight) =>
@@ -117,7 +117,7 @@ Two additional built-ins return more specific timeframe information:
 *   [timeframe.multiplier](https://www.tradingview.com/pine-script-reference/v5/#var_timeframe{dot}multiplier) returns a “simple int” containing the multiplier of the timeframe unit. A chart timeframe of one hour will return `60` because intraday timeframes are expressed in minutes. A 30sec timeframe will return `30` (seconds), a daily chart will return `1` (day), a quarterly chart will return `3` (months), and a yearly chart will return `12` (months). The value of this variable cannot be used as an argument to `timeframe` parameters in built-in functions, as they expect a string in timeframe specifications format.
 *   [timeframe.period](https://www.tradingview.com/pine-script-reference/v5/#var_timeframe{dot}period) returns a string in Pine Script®’s timeframe specification format.
 
-See the page on [Timeframes](https://tradingview.com/pine-script-docs/en/v5/concepts/Timeframes.html#pagetimeframes) for more information.
+See the page on [Timeframes](concepts_Timeframes.html#pagetimeframes) for more information.
 
 [Session information](#id5)
 ---------------------------------------------------------------------------------
@@ -125,7 +125,7 @@ See the page on [Timeframes](https://tradingview.com/pine-script-docs/en/v5/conc
 Session information is available in different forms:
 
 *   The [syminfo.session](https://www.tradingview.com/pine-script-reference/v5/#var_syminfo{dot}session) built-in variable returns a value that is either [session.regular](https://www.tradingview.com/pine-script-reference/v5/#var_session{dot}regular) or [session.extended](https://www.tradingview.com/pine-script-reference/v5/#var_session{dot}extended). It reflects the session setting on the chart for that symbol. If the “Chart settings/Symbol/Session” field is set to “Extended”, it will only return “extended” if the symbol and the user’s feed allow for extended sessions. It is used when a session type is expected, for example as the argument for the `session` parameter in [ticker.new()](https://www.tradingview.com/pine-script-reference/v5/#fun_ticker{dot}new).
-*   [Session state built-ins](https://tradingview.com/pine-script-docs/en/v5/concepts/Sessions.html#pagesessions-sessionstates) provide information on the trading session a bar belongs to.
+*   [Session state built-ins](concepts_Sessions.html#pagesessions-sessionstates) provide information on the trading session a bar belongs to.
 
 [
 

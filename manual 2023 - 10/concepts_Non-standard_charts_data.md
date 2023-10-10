@@ -2,7 +2,7 @@
 
 ![Pine Script® logo](https://tradingview.com/pine-script-docs/en/v5/_images/Pine-script-logo.svg)
 
-](https://www.tradingview.com/pine-script-docs/en/v5/Introduction.html)
+](https://www.tradingview.com/pine-script-docs/en/v5/Introduction.md)
 
 [\`ticker.heikinashi()\`](#id11)
 ----------------------------------------------------------------------
@@ -15,7 +15,7 @@ This script requests the close value of Heikin-Ashi bars and plots them on top o
 
 ![../_images/NonStandardCharts-TickerHeikinAshi-01.png](https://tradingview.com/pine-script-docs/en/v5/_images/NonStandardCharts-TickerHeikinAshi-01.png)
 
-```
+```swift
 //@version=5
 indicator("HA Close", "", true)
 haTicker = ticker.heikinashi(syminfo.tickerid)
@@ -34,7 +34,7 @@ If you wanted to omit values for extended hours in the last example, an intermed
 
 ![../_images/NonStandardCharts-TickerHeikinAshi-02.png](https://tradingview.com/pine-script-docs/en/v5/_images/NonStandardCharts-TickerHeikinAshi-02.png)
 
-```
+```swift
 //@version=5
 indicator("HA Close", "", true)
 regularSessionTicker = ticker.new(syminfo.prefix, syminfo.ticker, session.regular)
@@ -56,7 +56,7 @@ This script plots Heikin-Ashi candles under the chart:
 
 ![../_images/NonStandardCharts-TickerHeikinAshi-03.png](https://tradingview.com/pine-script-docs/en/v5/_images/NonStandardCharts-TickerHeikinAshi-03.png)
 
-```
+```swift
 //@version=5
 indicator("Heikin-Ashi candles")
 CANDLE_GREEN = #26A69A
@@ -72,15 +72,15 @@ plotcandle(haO, haH, haL, haC, color = candleColor)
 
 Note that:
 
-*   We use a [tuple](https://tradingview.com/pine-script-docs/en/v5/language/Variable_declarations.html#pagevariabledeclarations-tupledeclarations) with [request.security()](https://www.tradingview.com/pine-script-reference/v5/#fun_request{dot}security) to fetch four values with the same call.
-*   We use [plotcandle()](https://www.tradingview.com/pine-script-reference/v5/#fun_plotcandle) to plot our candles. See the [Bar plotting](https://tradingview.com/pine-script-docs/en/v5/concepts/Bar_plotting.html#pagebarplotting) page for more information.
+*   We use a [tuple](language/Variable_declarations.html#pagevariabledeclarations-tupledeclarations) with [request.security()](https://www.tradingview.com/pine-script-reference/v5/#fun_request{dot}security) to fetch four values with the same call.
+*   We use [plotcandle()](https://www.tradingview.com/pine-script-reference/v5/#fun_plotcandle) to plot our candles. See the [Bar plotting](concepts_Bar_plotting.html#pagebarplotting) page for more information.
 
 [\`ticker.renko()\`](#id12)
 -----------------------------------------------------------------
 
 _Renko_ bars only plot price movements, without taking time or volume into consideration. They look like bricks stacked in adjacent columns [\[1\]](#ticks). A new brick is only drawn after the price passes the top or bottom by a predetermined amount. The [ticker.renko()](https://www.tradingview.com/pine-script-reference/v5/#fun_ticker{dot}renko) function creates a ticker id which can be used with [request.security()](https://www.tradingview.com/pine-script-reference/v5/#fun_request{dot}security) to fetch Renko values, but there is no Pine Script® function to draw Renko bars on the chart:
 
-```
+```swift
 //@version=5
 indicator("", "", true)
 renkoTicker = ticker.renko(syminfo.tickerid, "ATR", 10)
@@ -95,7 +95,7 @@ plot(renkoLow)
 
 The _Line Break_ chart type displays a series of vertical boxes that are based on price changes [\[1\]](#ticks). The [ticker.linebreak()](https://www.tradingview.com/pine-script-reference/v5/#fun_ticker{dot}linebreak) function creates a ticker id which can be used with [request.security()](https://www.tradingview.com/pine-script-reference/v5/#fun_request{dot}security) to fetch “Line Break” values, but there is no Pine Script® function to draw such bars on the chart:
 
-```
+```swift
 //@version=5
 indicator("", "", true)
 lineBreakTicker = ticker.linebreak(syminfo.tickerid, 3)
@@ -110,7 +110,7 @@ plot(lineBreakClose)
 
 _Kagi_ charts are made of a continuous line that changes directions. The direction changes when the price changes [\[1\]](#ticks) beyond a predetermined amount. The [ticker.kagi()](https://www.tradingview.com/pine-script-reference/v5/#fun_ticker{dot}kagi) function creates a ticker id which can be used with [request.security()](https://www.tradingview.com/pine-script-reference/v5/#fun_request{dot}security) to fetch “Kagi” values, but there is no Pine Script® function to draw such bars on the chart:
 
-```
+```swift
 //@version=5
 indicator("", "", true)
 kagiBreakTicker = ticker.linebreak(syminfo.tickerid, 3)
@@ -125,7 +125,7 @@ plot(kagiBreakClose)
 
 _Point and Figure_ (PnF) charts only plot price movements [\[1\]](#ticks), without taking time into consideration. A column of X’s is plotted as the price rises, and O’s are plotted when price drops. The [ticker.pointfigure()](https://www.tradingview.com/pine-script-reference/v5/#fun_ticker{dot}pointfigure) function creates a ticker id which can be used with [request.security()](https://www.tradingview.com/pine-script-reference/v5/#fun_request{dot}security) to fetch “PnF” values, but there is no Pine Script® function to draw such bars on the chart. Every column of X’s or O’s is represented with four numbers. You may think of them as synthetic OHLC PnF values:
 
-```
+```swift
 //@version=5
 indicator("", "", true)
 pnfTicker = ticker.pointfigure(syminfo.tickerid, "hl", "ATR", 14, 3)

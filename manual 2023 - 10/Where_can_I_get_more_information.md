@@ -2,7 +2,7 @@
 
 ![Pine Script® logo](https://tradingview.com/pine-script-docs/en/v5/_images/Pine-script-logo.svg)
 
-](https://www.tradingview.com/pine-script-docs/en/v5/Introduction.html)
+](https://www.tradingview.com/pine-script-docs/en/v5/Introduction.md)
 
 *   A description of all the Pine Script® operators, variables and functions can be found in the [Reference Manual](https://www.tradingview.com/pine-script-reference/v5/).
 *   Use the code from one of TradingView’s built-in scripts to start from. Open a new chart and click the “Pine Script® Editor” button on the toolbar. Once in the editor window, click the “Open” button, then select “Built-in script…” from the dropdown list to open a dialog box containing a list of TradingView’s built-in scripts.

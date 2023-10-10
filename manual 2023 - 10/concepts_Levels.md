@@ -2,16 +2,16 @@
 
 ![Pine Script® logo](https://tradingview.com/pine-script-docs/en/v5/_images/Pine-script-logo.svg)
 
-](https://www.tradingview.com/pine-script-docs/en/v5/Introduction.html)
+](https://www.tradingview.com/pine-script-docs/en/v5/Introduction.md)
 
 [\`hline()\` levels](#id1)
 -------------------------------------------------------------------------
 
-Levels are lines plotted using the [hline()](https://www.tradingview.com/pine-script-reference/v5/#fun_hline) function. It is designed to plot **horizontal** levels using a **single color**, i.e., it does not change on different bars. See the [Levels](https://tradingview.com/pine-script-docs/en/v5/concepts/Plots.html#pageplots-levels) section of the page on [plot()](https://www.tradingview.com/pine-script-reference/v5/#plot) for alternative ways to plot levels when [hline()](https://www.tradingview.com/pine-script-reference/v5/#fun_hline) won’t do what you need.
+Levels are lines plotted using the [hline()](https://www.tradingview.com/pine-script-reference/v5/#fun_hline) function. It is designed to plot **horizontal** levels using a **single color**, i.e., it does not change on different bars. See the [Levels](concepts_Plots.html#pageplots-levels) section of the page on [plot()](https://www.tradingview.com/pine-script-reference/v5/#plot) for alternative ways to plot levels when [hline()](https://www.tradingview.com/pine-script-reference/v5/#fun_hline) won’t do what you need.
 
 The function has the following signature:
 
-```
+```swift
 hline(price, title, color, linestyle, linewidth, editable) → hline
 
 ```
@@ -25,7 +25,7 @@ hline(price, title, color, linestyle, linewidth, editable) → hline
 
 Let’s see [hline()](https://www.tradingview.com/pine-script-reference/v5/#fun_hline) in action in the “True Strength Index” indicator:
 
-```
+```swift
 //@version=5
 indicator("TSI")
 myTSI = 100 * ta.tsi(close, 25, 13)
@@ -57,7 +57,7 @@ The space between two levels plotted with [hline()](https://www.tradingview.com/
 
 Let’s put some background colors in our TSI indicator:
 
-```
+```swift
 //@version=5
 indicator("TSI")
 myTSI = 100 * ta.tsi(close, 25, 13)
@@ -86,7 +86,7 @@ plot(myTSI)
 
 Note that:
 
-*   We have now used the return value of our [hline()](https://www.tradingview.com/pine-script-reference/v5/#fun_hline) function calls, which is of the [hline](https://tradingview.com/pine-script-docs/en/v5/language/Type_system.html#pagetypesystem-plotandhline) special type. We use the `plus50Hline`, `plus25Hline`, `zeroHline`, `minus25Hline` and `minus50Hline` variables to store those “hline” IDs because we will need them in our [fill()](https://www.tradingview.com/pine-script-reference/v5/#fun_fill) calls later.
+*   We have now used the return value of our [hline()](https://www.tradingview.com/pine-script-reference/v5/#fun_hline) function calls, which is of the [hline](language/Type_system.html#pagetypesystem-plotandhline) special type. We use the `plus50Hline`, `plus25Hline`, `zeroHline`, `minus25Hline` and `minus50Hline` variables to store those “hline” IDs because we will need them in our [fill()](https://www.tradingview.com/pine-script-reference/v5/#fun_fill) calls later.
 *   To generate lighter color shades for the background colors, we declare a `fillColor()` function that accepts a color and returns its 90 transparency. We use calls to that function for the `color` arguments in our [fill()](https://www.tradingview.com/pine-script-reference/v5/#fun_fill) calls.
 *   We make our [fill()](https://www.tradingview.com/pine-script-reference/v5/#fun_fill) calls for each of the four different fills we want, between four different pairs of levels.
 *   We use `color.teal` in our second fill because it produces a green that fits the color scheme better than the `color.green` used for the 25 level.

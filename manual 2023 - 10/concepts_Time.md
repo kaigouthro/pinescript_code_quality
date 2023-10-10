@@ -1,6 +1,6 @@
 Timestamps can be formatted using [str.format()](https://www.tradingview.com/pine-script-reference/v5/#fun_str{dot}format). These are examples of various formats:
 
-```
+```swift
 //@version=5
 indicator("", "", true)
 

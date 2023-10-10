@@ -73,7 +73,7 @@ In the following script, all plots use the same [color.olive](https://www.tradin
 
 ![../_images/Colors-UsingColors-1.png](https://tradingview.com/pine-script-docs/en/v5/_images/Colors-UsingColors-1.png)
 
-```
+```swift
 //@version=5
 indicator("", "", true)
 // ————  Transparency (#99) is included in the hex value.
@@ -104,7 +104,7 @@ Let’s say you want to color a moving average in different colors, depending on
 
 ![../_images/Colors-ConditionalColors-1.png](https://tradingview.com/pine-script-docs/en/v5/_images/Colors-ConditionalColors-1.png)
 
-```
+```swift
 //@version=5
 indicator("Conditional colors", "", true)
 int   lengthInput = input.int(20, "Length", minval = 2)
@@ -130,7 +130,7 @@ You can also use conditional colors to avoid plotting under certain conditions. 
 
 ![../_images/Colors-ConditionalColors-2.png](https://tradingview.com/pine-script-docs/en/v5/_images/Colors-ConditionalColors-2.png)
 
-```
+```swift
 //@version=5
 indicator("Conditional colors", "", true)
 int legsInput = input.int(5, "Pivot Legs", minval = 1)
@@ -172,7 +172,7 @@ Let’s put [color.new(color, transp)](https://www.tradingview.com/pine-script-r
 
 ![../_images/Colors-CalculatingColors-1.png](https://tradingview.com/pine-script-docs/en/v5/_images/Colors-CalculatingColors-1.png)
 
-```
+```swift
 //@version=5
 indicator("Volume")
 // We name our color constants to make them more readable.
@@ -207,7 +207,7 @@ In our next example we use [color.rgb(red, green, blue, transp)](https://www.tra
 
 ![../_images/Colors-CalculatingColors-2.png](https://tradingview.com/pine-script-docs/en/v5/_images/Colors-CalculatingColors-2.png)
 
-```
+```swift
 //@version=5
 indicator("Holiday candles", "", true)
 float r = math.random(0, 255)
@@ -231,7 +231,7 @@ Our last examples of color calculations will use [color.from\_gradient(value, bo
 
 ![../_images/Colors-CalculatingColors-3.png](https://tradingview.com/pine-script-docs/en/v5/_images/Colors-CalculatingColors-3.png)
 
-```
+```swift
 //@version=5
 indicator(title="CCI line gradient", precision=2, timeframe="")
 var color GOLD_COLOR   = #CCCC00
@@ -261,7 +261,7 @@ The argument used for `value` in [color.from\_gradient()](https://www.tradingvie
 
 ![../_images/Colors-CalculatingColors-4.png](https://tradingview.com/pine-script-docs/en/v5/_images/Colors-CalculatingColors-4.png)
 
-```
+```swift
 //@version=5
 indicator(title="CCI line gradient", precision=2, timeframe="")
 var color GOLD_COLOR   = #CCCC00
@@ -322,7 +322,7 @@ And with the dark theme:
 
 ![../_images/Colors-MixingTransparencies-2.png](https://tradingview.com/pine-script-docs/en/v5/_images/Colors-MixingTransparencies-2.png)
 
-```
+```swift
 //@version=5
 indicator("CCI DC", precision = 6)
 color GOLD_COLOR   = #CCCC00ff
@@ -418,7 +418,7 @@ If you want a special plot to stand out, you can also give it more importance by
 
 ![../_images/Colors-PlotCrispLines-1.png](https://tradingview.com/pine-script-docs/en/v5/_images/Colors-PlotCrispLines-1.png)
 
-```
+```swift
 //@version=5
 indicator("")
 plot(high, "", color.new(color.orange, 80), 8)
@@ -445,7 +445,7 @@ The type of color you use in your scripts has an impact on how users of your scr
 
 If your script uses a calculated color, i.e., a color where at least one of its RGBA components can only be known at runtime, then the “Settings/Style” tab will NOT offer users the usual color widgets they can use to modify your plot colors. Plots of the same script not using calculated colors will also be affected. In this script, for example, our first [plot()](https://www.tradingview.com/pine-script-reference/v5/#fun_plot) call uses a calculated color, and the second one doesn’t:
 
-```
+```swift
 //@version=5
 indicator("Calculated colors", "", true)
 float ma = ta.sma(close, 20)
@@ -469,7 +469,7 @@ The solution to enable script users to control the colors used is to supply them
 
 ![../_images/Colors-ColorsSelection-3.png](https://tradingview.com/pine-script-docs/en/v5/_images/Colors-ColorsSelection-3.png)
 
-```
+```swift
 //@version=5
 indicator("Calculated colors", "", true)
 color maInput = input.color(color.purple, "MA")

@@ -2,14 +2,14 @@
 
 ![Pine Script® logo](https://tradingview.com/pine-script-docs/en/v5/_images/Pine-script-logo.svg)
 
-](https://www.tradingview.com/pine-script-docs/en/v5/Introduction.html)
+](https://www.tradingview.com/pine-script-docs/en/v5/Introduction.md)
 
 [Introduction](#id1)
 -------------------------------------------------------------------
 
 Session information is usable in three different ways in Pine Script®:
 
-1.  **Session strings** containing from-to start times and day information that can be used in functions such as [time()](https://www.tradingview.com/pine-script-reference/v5/#fun_time) and [time\_close()](https://www.tradingview.com/pine-script-reference/v5/#fun_time_close) to detect when bars are in a particular time period, with the option of limiting valid sessions to specific days. The [input.session()](https://www.tradingview.com/pine-script-reference/v5/#fun_input{dot}session) function provides a way to allow script users to define session values through a script’s “Inputs” tab (see the [Session input](https://tradingview.com/pine-script-docs/en/v5/concepts/Inputs.html#pageinputs-sessioninput) section for more information).
+1.  **Session strings** containing from-to start times and day information that can be used in functions such as [time()](https://www.tradingview.com/pine-script-reference/v5/#fun_time) and [time\_close()](https://www.tradingview.com/pine-script-reference/v5/#fun_time_close) to detect when bars are in a particular time period, with the option of limiting valid sessions to specific days. The [input.session()](https://www.tradingview.com/pine-script-reference/v5/#fun_input{dot}session) function provides a way to allow script users to define session values through a script’s “Inputs” tab (see the [Session input](concepts_Inputs.html#pageinputs-sessioninput) section for more information).
 2.  **Session states** built-in variables such as [session.ismarket](https://www.tradingview.com/pine-script-reference/v5/#var_session{dot}ismarket) can identify which session a bar belongs to.
 3.  When fetching data with [request.security()](https://www.tradingview.com/pine-script-reference/v5/#fun_request{dot}security) you can also choose to return data from _regular_ sessions only or _extended_ sessions. In this case, the definition of **regular and extended sessions** is that of the exchange. It is part of the instrument’s properties — not user-defined, as in point #1. This notion of _regular_ and _extended_ sessions is the same one used in the chart’s interface, in the “Chart Settings/Symbol/Session” field, for example.
 
@@ -81,7 +81,7 @@ A session that begins at 9:00, breaks from 16:00 to 17:00, and continues until 2
 
 Session properties defined with session strings are independent of the exchange-defined sessions determining when an instrument can be traded. Programmers have complete liberty in creating whatever session definitions suit their purpose, which is usually to detect when bars belong to specific time periods. This is accomplished in Pine Script® by using one of the following two signatures of the [time()](https://www.tradingview.com/pine-script-reference/v5/#fun_time) function:
 
-```
+```swift
 time(timeframe, session, timezone) → series int
 time(timeframe, session) → series int
 
@@ -92,7 +92,7 @@ Here, we use [time()](https://www.tradingview.com/pine-script-reference/v5/#fun_
 
 ![../_images/Sessions-UsingSessionStrings-01.png](https://tradingview.com/pine-script-docs/en/v5/_images/Sessions-UsingSessionStrings-01.png)
 
-```
+```swift
 //@version=5
 indicator("Opening high/low", overlay = true)
 
@@ -117,13 +117,13 @@ plot(hi, "hi", color.lime,    2, plot.style_circles)
 Note that:
 
 *   We use a session input to allow users to specify the time they want to detect. We are only looking for the session’s beginning time on bars, so we use a five-minute gap between the beginning and end time of our `"0930-0935"` default value.
-    
+
 *   We create a `sessionBegins()` function to detect the beginning of a session. Its `time("", sess)` call uses an empty string for the function’s `timeframe` parameter, which means it uses the chart’s timeframe, whatever that is. The function returns `true` when:
-    
+
     > *   The chart uses an intraday timeframe (seconds or minutes).
     > *   The script isn’t on the chart’s first bar, which we ensure with `(not barstate.isfirst)`. This check prevents the code from always detecting a session beginning on the first bar because `na(t[1]) and not na(t)` is always `true` there.
     > *   The [time()](https://www.tradingview.com/pine-script-reference/v5/#fun_time) call has returned [na](https://www.tradingview.com/pine-script-reference/v5/#var_na) on the previous bar because it wasn’t in the session’s time period, and it has returned a value that is not [na](https://www.tradingview.com/pine-script-reference/v5/#var_na) on the current bar, which means the bar is **in** the session’s time period.
-    
+
 
 [Session states](#id5)
 -----------------------------------------------------------------------
@@ -146,7 +146,7 @@ Scripts using the [request.security()](https://www.tradingview.com/pine-script-r
 
 ![../_images/Sessions-RegularAndExtendedSessions-01.png](https://tradingview.com/pine-script-docs/en/v5/_images/Sessions-RegularAndExtendedSessions-01.png)
 
-```
+```swift
 //@version=5
 indicator("Example 1: Regular Session Data")
 regularSessionData = request.security("NASDAQ:AAPL", timeframe.period, close, barmerge.gaps_on)
@@ -159,7 +159,7 @@ If you want the [request.security()](https://www.tradingview.com/pine-script-ref
 
 ![../_images/Sessions-RegularAndExtendedSessions-02.png](https://tradingview.com/pine-script-docs/en/v5/_images/Sessions-RegularAndExtendedSessions-02.png)
 
-```
+```swift
 //@version=5
 indicator("Example 2: Extended Session Data")
 t = ticker.new("NASDAQ", "AAPL", session.extended)
@@ -173,7 +173,7 @@ Note that the previous chart’s gaps in the script’s plot are now filled. Als
 
 The [ticker.new()](https://www.tradingview.com/pine-script-reference/v5/#fun_ticker{dot}new) function has the following signature:
 
-```
+```swift
 ticker.new(prefix, ticker, session, adjustment) → simple string
 
 ```
@@ -188,7 +188,7 @@ Where:
 
 Our first example could be rewritten as:
 
-```
+```swift
 //@version=5
 indicator("Example 1: Regular Session Data")
 t = ticker.new("NASDAQ", "AAPL", session.regular)
@@ -200,7 +200,7 @@ plot(regularSessionData, style = plot.style_linebr)
 
 If you want to use the same session specifications used for the chart’s main symbol, omit the third argument in [ticker.new()](https://www.tradingview.com/pine-script-reference/v5/#fun_ticker{dot}new); it is optional. If you want your code to declare your intention explicitly, use the [syminfo.session](https://www.tradingview.com/pine-script-reference/v5/#var_syminfo{dot}session) built-in variable. It holds the session type of the chart’s main symbol:
 
-```
+```swift
 //@version=5
 indicator("Example 1: Regular Session Data")
 t = ticker.new("NASDAQ", "AAPL", syminfo.session)

@@ -2,7 +2,7 @@
 
 ![Pine Script® logo](https://tradingview.com/pine-script-docs/en/v5/_images/Pine-script-logo.svg)
 
-](https://www.tradingview.com/pine-script-docs/en/v5/Introduction.html)
+](https://www.tradingview.com/pine-script-docs/en/v5/Introduction.md)
 
 [Introduction](#id5)
 -------------------------------------------------------------------
@@ -78,7 +78,7 @@ Note that by default, strategies are recalculated at the bar’s close, so if th
 
 Let’s look at an example where we detect crosses of the RSI centerline:
 
-```
+```swift
 //@version=5
 indicator("All `alert()` calls")
 r = ta.rsi(close, 20)
@@ -114,7 +114,7 @@ Note that:
 
 Lastly, because [alert()](https://www.tradingview.com/pine-script-reference/v5/#fun_alert) messages can be constructed dynamically at runtime, we could have used the following code to generate our alert events:
 
-```
+```swift
 // Trigger an alert on crosses.
 if xUp or xDn
     firstPart = (xUp ? "Go long" : "Go short") + " (RSI is "
@@ -129,7 +129,7 @@ When users create a _script alert_ on _alert() function calls_, the alert will t
 
 Suppose, for our next example, that we want to provide the option of triggering alerts on only longs, only shorts, or both. You could code your script like this:
 
-```
+```swift
 //@version=5
 indicator("Selective `alert()` calls")
 detectLongsInput  = input.bool(true,  "Detect Longs")
@@ -173,7 +173,7 @@ While _script alerts_ on strategies will use _order fill events_ to trigger aler
 
 This strategy creates _alert() function calls_ when RSI moves against the trade for three consecutive bars:
 
-```
+```swift
 //@version=5
 strategy("Strategy with selective `alert()` calls")
 r = ta.rsi(close, 20)
@@ -217,7 +217,7 @@ The argument used for the `alert_message` parameter is a “series string”, so
 
 Let’s look at a strategy where we use the `alert_message` parameter in both our [strategy.entry()](https://www.tradingview.com/pine-script-reference/v5/#fun_strategy{dot}entry) calls:
 
-```
+```swift
 //@version=5
 strategy("Strategy using `alert_message`")
 r = ta.rsi(close, 20)
@@ -259,7 +259,7 @@ While the presence of [alertcondition()](https://www.tradingview.com/pine-script
 
 The [alertcondition()](https://www.tradingview.com/pine-script-reference/v5/#fun_alertcondition) function has the following signature:
 
-```
+```swift
 alertcondition(condition, title, message)
 
 ```
@@ -283,7 +283,7 @@ The [alertcondition()](https://www.tradingview.com/pine-script-reference/v5/#fun
 
 Here is an example of code creating _alertcondition() events_:
 
-```
+```swift
 //@version=5
 indicator("`alertcondition()` on single condition")
 r = ta.rsi(close, 20)
@@ -306,7 +306,7 @@ Because we have two [alertcondition()](https://www.tradingview.com/pine-script-r
 
 If we wanted to include the value of RSI when the cross occurs, we could not simply add its value to the `message` string using `str.tostring(r)`, as we could in an [alert()](https://www.tradingview.com/pine-script-reference/v5/#fun_alert) call or in an `alert_message` argument in a strategy. We can, however, include it using a placeholder. This shows two alternatives:
 
-```
+```swift
 alertcondition(xUp, "Long Alert",  "Go long. RSI is {{plot_0}}")
 alertcondition(xDn, "Short Alert", 'Go short. RSI is {{plot("RSI")}}')
 
@@ -325,7 +325,7 @@ If we want to offer script users the possiblity of creating a single alert from 
 
 This script demonstrates one way to do it:
 
-```
+```swift
 //@version=5
 indicator("`alertcondition()` on multiple conditions")
 detectLongsInput  = input.bool(true, "Detect Longs")
@@ -373,7 +373,7 @@ Corresponding values of the bar on which the alert has been triggered.
 
 Value of the corresponding plot number. Plots are numbered from zero to 19 in order of appearance in the script, so only one of the first 20 plots can be used. For example, the built-in “Volume” indicator has two output series: Volume and Volume MA, so you could use the following:
 
-```
+```swift
 alertcondition(volume > sma(volume,20), "Volume alert", "Volume ({{plot_0}}) > average ({{plot_1}})")
 
 ```
@@ -383,7 +383,7 @@ alertcondition(volume > sma(volume,20), "Volume alert", "Volume ({{plot_0}}) > a
 
 This placeholder can be used when one needs to refer to a plot using the `title` argument used in a [plot()](https://www.tradingview.com/pine-script-reference/v5/#fun_plot) call. Note that double quotation marks (`"`) **must** be used inside the placeholder to wrap the `title` argument. This requires that a single quotation mark (`'`) be used to wrap the `message` string:
 
-```
+```swift
 //@version=5
 indicator("")
 r = ta.rsi(close, 14)
@@ -416,7 +416,7 @@ The most common instances of repainting traders want to avoid with alerts are on
 
 The simplest way to avoid this type of repainting is to configure the triggering frequency of alerts so they only trigger on the close of the realtime bar. There is no panacea; avoiding this type of repainting **always** entails waiting for confirmed information, which means the trader must sacrifice immediacy to achieve reliability.
 
-Note that other types of repainting such as those documented in our [Repainting](https://tradingview.com/pine-script-docs/en/v5/concepts/Repainting.html#pagerepainting) section may not be preventable by simply triggering alerts on the close of realtime bars.
+Note that other types of repainting such as those documented in our [Repainting](concepts_Repainting.html#pagerepainting) section may not be preventable by simply triggering alerts on the close of realtime bars.
 
 [
 

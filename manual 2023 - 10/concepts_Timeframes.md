@@ -2,7 +2,7 @@
 
 ![Pine Script® logo](https://tradingview.com/pine-script-docs/en/v5/_images/Pine-script-logo.svg)
 
-](https://www.tradingview.com/pine-script-docs/en/v5/Introduction.html)
+](https://www.tradingview.com/pine-script-docs/en/v5/Introduction.md)
 
 [Introduction](#id1)
 -------------------------------------------------------------------
@@ -13,11 +13,11 @@ Programmers interested in accessing data from multiple timeframes will need to b
 
 **Timeframe strings** come into play in different contexts:
 
-*   They must be used in [request.security()](https://www.tradingview.com/pine-script-reference/v5/#fun_request{dot}security) when requesting data from another symbol and/or timeframe. See the page on [Other timeframes and data](https://tradingview.com/pine-script-docs/en/v5/concepts/Other_timeframes_and_data.html#pageothertimeframesanddata) to explore the use of [request.security()](https://www.tradingview.com/pine-script-reference/v5/#fun_request{dot}security).
-*   They can be used as an argument to [time()](https://www.tradingview.com/pine-script-reference/v5/#fun_time) and [time\_close()](https://www.tradingview.com/pine-script-reference/v5/#fun_time_close) functions, to return the time of a higher timeframe bar. This, in turn, can be used to detect changes in higher timeframes from the chart’s timeframe without using [request.security()](https://www.tradingview.com/pine-script-reference/v5/#fun_request{dot}security). See the [Testing for changes in higher timeframes](https://tradingview.com/pine-script-docs/en/v5/concepts/Time.html#pagetime-testingforchangesinhighertimeframes) section to see how to do this.
-*   The [input.timeframe()](https://www.tradingview.com/pine-script-reference/v5/#fun_input{dot}session) function provides a way to allow script users to define a timeframe through a script’s “Inputs” tab (see the [Timeframe input](https://tradingview.com/pine-script-docs/en/v5/concepts/Inputs.html#pageinputs-timeframeinput) section for more information).
+*   They must be used in [request.security()](https://www.tradingview.com/pine-script-reference/v5/#fun_request{dot}security) when requesting data from another symbol and/or timeframe. See the page on [Other timeframes and data](concepts_Other_timeframes_and_data.html#pageothertimeframesanddata) to explore the use of [request.security()](https://www.tradingview.com/pine-script-reference/v5/#fun_request{dot}security).
+*   They can be used as an argument to [time()](https://www.tradingview.com/pine-script-reference/v5/#fun_time) and [time\_close()](https://www.tradingview.com/pine-script-reference/v5/#fun_time_close) functions, to return the time of a higher timeframe bar. This, in turn, can be used to detect changes in higher timeframes from the chart’s timeframe without using [request.security()](https://www.tradingview.com/pine-script-reference/v5/#fun_request{dot}security). See the [Testing for changes in higher timeframes](concepts_Time.html#pagetime-testingforchangesinhighertimeframes) section to see how to do this.
+*   The [input.timeframe()](https://www.tradingview.com/pine-script-reference/v5/#fun_input{dot}session) function provides a way to allow script users to define a timeframe through a script’s “Inputs” tab (see the [Timeframe input](concepts_Inputs.html#pageinputs-timeframeinput) section for more information).
 *   The [indicator()](https://www.tradingview.com/pine-script-reference/v5/#fun_indicator) declaration statement has an optional `timeframe` parameter that can be used to provide multi-timeframe capabilities to simple scripts without using [request.security()](https://www.tradingview.com/pine-script-reference/v5/#fun_request{dot}security).
-*   Many built-in variables provide information on the timeframe used by the chart the script is running on. See the [Chart timeframe](https://tradingview.com/pine-script-docs/en/v5/concepts/Chart_information.html#pagechartinformation-charttimeframe) section for more information on them, including [timeframe.period](https://www.tradingview.com/pine-script-reference/v5/#var_timeframe{dot}period) which returns a string in Pine Script®’s timeframe specification format.
+*   Many built-in variables provide information on the timeframe used by the chart the script is running on. See the [Chart timeframe](concepts_Chart_information.html#pagechartinformation-charttimeframe) section for more information on them, including [timeframe.period](https://www.tradingview.com/pine-script-reference/v5/#var_timeframe{dot}period) which returns a string in Pine Script®’s timeframe specification format.
 
 [Timeframe string specifications](#id2)
 ---------------------------------------------------------------------------------------------------------
@@ -25,30 +25,30 @@ Programmers interested in accessing data from multiple timeframes will need to b
 Timeframe strings follow these rules:
 
 *   They are composed of the multiplier and the timeframe unit, e.g., “1S”, “30” (30 minutes), “1D” (one day), “3M” (three months).
-    
+
 *   The unit is represented by a single letter, with no letter used for minutes: “S” for seconds, “D” for days, “W” for weeks and “M” for months.
-    
+
 *   When no multiplier is used, 1 is assumed: “S” is equivalent to “1S”, “D” to “1D, etc. If only “1” is used, it is interpreted as “1min”, since no unit letter identifier is used for minutes.
-    
+
 *   There is no “hour” unit; “1H” is **not** valid. The correct format for one hour is “60” (remember no unit letter is specified for minutes).
-    
+
 *   The valid multipliers vary for each timeframe unit:
-    
+
     > *   For seconds, only the discrete 1, 5, 10, 15 and 30 multipliers are valid.
     > *   For minutes, 1 to 1440.
     > *   For days, 1 to 365.
     > *   For weeks, 1 to 52.
     > *   For months, 1 to 12.
-    
+
 
 [Comparing timeframes](#id3)
 -----------------------------------------------------------------------------------
 
-It can be useful to compare different timeframe strings to determine, for example, if the timeframe used on the chart is lower than the higher timeframes used in the script, as using timeframes lower than the chart is usually not a good idea. See the [Requesting data of a lower timeframe](https://tradingview.com/pine-script-docs/en/v5/concepts/Other_timeframes_and_data.html#pageothertimeframesanddata-requestingdatafromalowertimeframe) section for more information on the subject.
+It can be useful to compare different timeframe strings to determine, for example, if the timeframe used on the chart is lower than the higher timeframes used in the script, as using timeframes lower than the chart is usually not a good idea. See the [Requesting data of a lower timeframe](concepts_Other_timeframes_and_data.html#pageothertimeframesanddata-requestingdatafromalowertimeframe) section for more information on the subject.
 
 Converting timeframe strings to a representation in fractional minutes provides a way to compare them using a universal unit. This script uses the [timeframe.in\_seconds()](https://www.tradingview.com/pine-script-reference/v5/#fun_timeframe{dot}in_seconds) function to convert a timeframe into float seconds and then converts the result into minutes:
 
-```
+```swift
 //@version=5
 indicator("Timeframe in minutes example", "", true)
 string tfInput = input.timeframe(defval = "", title = "Input TF")

@@ -2,7 +2,7 @@
 
 ![Pine Script® logo](https://tradingview.com/pine-script-docs/en/v5/_images/Pine-script-logo.svg)
 
-](https://www.tradingview.com/pine-script-docs/en/v5/Introduction.html)
+](https://www.tradingview.com/pine-script-docs/en/v5/Introduction.md)
 
 [Introduction](#id1)
 -------------------------------------------------------------------
@@ -23,9 +23,9 @@ We recommend the use of:
 [Script organization](#id3)
 ---------------------------------------------------------------------------------
 
-The Pine Script® compiler is quite forgiving of the positioning of specific statements or the version [compiler annotation](https://tradingview.com/pine-script-docs/en/v5/language/Script_structure.html#pagescriptstructure-compilerannotations) in the script. While other arrangements are syntactically correct, this is how we recommend organizing scripts:
+The Pine Script® compiler is quite forgiving of the positioning of specific statements or the version [compiler annotation](language/Script_structure.html#pagescriptstructure-compilerannotations) in the script. While other arrangements are syntactically correct, this is how we recommend organizing scripts:
 
-```
+```swift
 <license>
 <version>
 <declaration_statement>
@@ -49,7 +49,7 @@ The reuse of code from those scripts is governed by our [House Rules on Script P
 
 The standard license comments appearing at the beginning of scripts are:
 
-```
+```swift
 // This source code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
 // © username
 
@@ -58,18 +58,18 @@ The standard license comments appearing at the beginning of scripts are:
 
 ### [<version>](#id5)
 
-This is the [compiler annotation](https://tradingview.com/pine-script-docs/en/v5/language/Script_structure.html#pagescriptstructure-compilerannotations) defining the version of Pine Script® the script will use. If none is present, v1 is used. For v5, use:
+This is the [compiler annotation](language/Script_structure.html#pagescriptstructure-compilerannotations) defining the version of Pine Script® the script will use. If none is present, v1 is used. For v5, use:
 
 ### [<constant\_declarations>](#id8)
 
 While there is a “constant” form in Pine Script®, there is no formal “constant” type. We nonetheless use “constant” to denote variables of any type meeting these criteria:
 
 *   They are initialized using a literal (e.g., `100` or `"AAPL"`) or a built-in of “const” form (e.g., `color.green`).
-*   Their value does not change during the script’s execution, meaning their value is never redefined using [:=](https://tradingview.com/pine-script-docs/en/v5/language/Operators.html#pageoperators-reassignmentoperator).
+*   Their value does not change during the script’s execution, meaning their value is never redefined using [:=](language/Operators.html#pageoperators-reassignmentoperator).
 
 We use `SNAKE_CASE` to name these variables and group their declaration near the top of the script. For example:
 
-```
+```swift
 // ————— Constants
 int     MS_IN_MIN   = 60 * 1000
 int     MS_IN_HOUR  = MS_IN_MIN  * 60
@@ -123,7 +123,7 @@ It is **much** easier to read scripts when all their inputs are in the same code
 
 Suffixing input variable names with `input` makes them more readily identifiable when they are used later in the script: `maLengthInput`, `bearColorInput`, `showAvgInput`, etc.
 
-```
+```swift
 // ————— Inputs
 string  resetInput              = input.string(RST2,        "CVD Resets",                       inline = "00", options = [RST1, RST2, RST3, RST4, RST5, RST6, RST7])
 string  fixedTfInput            = input.timeframe("D",      "  Fixed HTF:  ",                   tooltip = TT_RST_HTF)
@@ -141,9 +141,9 @@ All user-defined functions must be defined in the script’s global scope; neste
 
 Optimal function design should minimize the use of global variables in the function’s scope, as they undermine function portability. When it can’t be avoided, those functions must follow the global variable declarations in the code, which entails they can’t always be placed in the <function\_declarations> section. Such dependencies on global variables should ideally be documented in the function’s comments.
 
-It will also help readers if you document the function’s objective, parameters and result. The same syntax used in [libraries](https://tradingview.com/pine-script-docs/en/v5/concepts/Libraries.html#pagelibraries) can be used to document your functions. This can make it easier to port your functions to a library should you ever decide to do so.
+It will also help readers if you document the function’s objective, parameters and result. The same syntax used in [libraries](concepts_Libraries.html#pagelibraries) can be used to document your functions. This can make it easier to port your functions to a library should you ever decide to do so.
 
-```
+```swift
 //@version=5
 indicator("<function_declarations>", "", true)
 
@@ -181,7 +181,7 @@ Strategies are easier to read when strategy calls are grouped in the same sectio
 
 ### [<visuals>](#id13)
 
-This section should ideally include all the statements producing the script’s visuals, whether they be plots, drawings, background colors, candle-plotting, etc. See the Pine Script® User Manual’s section on [here](https://tradingview.com/pine-script-docs/en/v5/concepts/Colors.html#pagecolors-zindex) for more information on how the relative depth of visuals is determined.
+This section should ideally include all the statements producing the script’s visuals, whether they be plots, drawings, background colors, candle-plotting, etc. See the Pine Script® User Manual’s section on [here](concepts_Colors.html#pagecolors-zindex) for more information on how the relative depth of visuals is determined.
 
 ### [<alerts>](#id14)
 
@@ -192,7 +192,7 @@ Alert code will usually require the script’s calculations to have executed bef
 
 A space should be used on both sides of all operators, except unary operators (`-1`). A space is also recommended after all commas and when using named function arguments, as in `plot(series = close)`
 
-```
+```swift
 int a = close > open ? 1 : -1
 var int newLen = 2
 newLen := min(20, newlen + 1)
@@ -209,7 +209,7 @@ plot(close, color = color.red)
 
 Line wrapping can make long lines easier to read. Line wraps are defined by using an indentation level that is not a multiple of four, as four spaces or a tab are used to define local blocks. Here we use two spaces:
 
-```
+```swift
 plot(
   series = close,
   title = "Close",
@@ -225,7 +225,7 @@ plot(
 
 Vertical alignment using tabs or spaces can be useful in code sections containing many similar lines such as constant declarations or inputs. They can make mass edits much easier using the Pine Script® Editor’s multi-cursor feature (ctrl + alt + 🠅/🠇):
 
-```
+```swift
 // Colors used as defaults in inputs.
 color COLOR_AQUA  = #0080FFff
 color COLOR_BLACK = #000000ff

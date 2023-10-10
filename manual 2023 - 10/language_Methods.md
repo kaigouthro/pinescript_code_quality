@@ -5,7 +5,7 @@ This page contains advanced material. If you are a beginning Pine Script® progr
 [Introduction](#id1)
 -------------------------------------------------------------------
 
-Pine Script® methods are specialized functions associated with specific instances of built-in or user-defined [types](https://tradingview.com/pine-script-docs/en/v5/language/Type_system.html#pagetypesystem). They are essentially the same as regular functions in most regards but offer a shorter, more convenient syntax. Users can access methods using dot notation on variables directly, just like accessing the fields of a Pine Script® [object](https://tradingview.com/pine-script-docs/en/v5/language/Objects.html#pageobjects).
+Pine Script® methods are specialized functions associated with specific instances of built-in or user-defined [types](language/Type_system.html#pagetypesystem). They are essentially the same as regular functions in most regards but offer a shorter, more convenient syntax. Users can access methods using dot notation on variables directly, just like accessing the fields of a Pine Script® [object](https://tradingview.com/pine-script-docs/en/v5/language/Objects.html#pageobjects).
 
 [Built-in methods](#id2)
 ---------------------------------------------------------------------------
@@ -14,7 +14,7 @@ Pine Script® includes built-in methods for [array](https://www.tradingview.com/
 
 When using these special types, the expressions
 
-```
+```swift
 <namespace>.<functionName>([paramName =] <objectName>, …)
 
 ```
@@ -22,7 +22,7 @@ When using these special types, the expressions
 
 and
 
-```
+```swift
 <objectName>.<functionName>(…)
 
 ```
@@ -40,7 +40,7 @@ The following script computes Bollinger Bands over a specified number of prices 
 
 ![../_images/Methods_custom_bb.png](https://tradingview.com/pine-script-docs/en/v5/_images/Methods_custom_bb.png)
 
-```
+```swift
 //@version=5
 indicator("Custom Sample BB", overlay = true)
 
@@ -75,7 +75,7 @@ plot(lowBand, "Lower", color.red)
 
 Let’s rewrite this code to utilize methods rather than built-in functions. In this version, we have replaced all built-in [array.\*](https://www.tradingview.com/pine-script-reference/v5/#op_array) functions in the script with equivalent methods:
 
-```
+```swift
 //@version=5
 indicator("Custom Sample BB", overlay = true)
 
@@ -121,7 +121,7 @@ Pine Script® allows users to define custom methods for use with objects of any 
 *   The [method](https://www.tradingview.com/pine-script-reference/v5/#op_method) keyword must be included before the function name.
 *   The type of the first parameter in the signature must be explicitly declared, as it represents the type of object that the method will be associated with.
 
-```
+```swift
 [export] method <functionName>(<paramType> <paramName> [= <defaultValue>], …) =>
     <functionBlock>
 
@@ -130,7 +130,7 @@ Pine Script® allows users to define custom methods for use with objects of any 
 
 Let’s apply user-defined methods to our previous Bollinger Bands example to encapsulate operations from the global scope, which will simplify the code and promote reusability. See this portion from the example:
 
-```
+```swift
 // Identify if `n` bars have passed.
 if bar_index % n == 0
     // Update the queue.
@@ -151,7 +151,7 @@ We will start by defining a simple method to queue values through an array in a 
 
 This `maintainQueue()` method invokes the [push()](https://www.tradingview.com/pine-script-reference/v5/#fun_array{dot}push) and [shift()](https://www.tradingview.com/pine-script-reference/v5/#fun_array{dot}shift) methods on a `srcArray` when `takeSample` is true and returns the object:
 
-```
+```swift
 // @function         Maintains a queue of the size of `srcArray`.
 //                   It appends a `value` to the array and removes its oldest element at position zero.
 // @param srcArray   (array<float>) The array where the queue is maintained.
@@ -170,11 +170,11 @@ method maintainQueue(array<float> srcArray, float value, bool takeSample = true)
 
 Note that:
 
-*   Just as with user-defined functions, we use the `@function` [compiler annotation](https://tradingview.com/pine-script-docs/en/v5/language/Script_structure.html#pagescriptstructure-compilerannotations) to document method descriptions.
+*   Just as with user-defined functions, we use the `@function` [compiler annotation](language/Script_structure.html#pagescriptstructure-compilerannotations) to document method descriptions.
 
 Now we can replace `sourceArray.push()` and `sourceArray.shift()` with `sourceArray.maintainQueue()` in our example:
 
-```
+```swift
 // Identify if `n` bars have passed.
 if bar_index % n == 0
     // Update the queue.
@@ -194,7 +194,7 @@ From here, we will further simplify our code by defining a method that handles a
 
 This `calcBB()` method invokes the [avg()](https://www.tradingview.com/pine-script-reference/v5/#fun_array{dot}avg) and [stdev()](https://www.tradingview.com/pine-script-reference/v5/#fun_array{dot}stdev) methods on a `srcArray` to update `mean` and `dev` values when `calculate` is true. The method uses these values to return a tuple containing the basis, upper band, and lower band values respectively:
 
-```
+```swift
 // @function         Computes Bollinger Band values from an array of data.
 // @param srcArray   (array<float>) The array where the queue is maintained.
 // @param multiplier (float) Standard deviaiton multiplier.
@@ -214,7 +214,7 @@ method calcBB(array<float> srcArray, float mult, bool calculate = true) =>
 
 With this method, we can now remove Bollinger Band calculations from the global scope and improve code readability:
 
-```
+```swift
 // Identify if `n` bars have passed.
 bool newSample = bar_index % n == 0
 
@@ -231,7 +231,7 @@ Note that:
 
 Here is how the full script example looks now that we’ve applied our user-defined methods:
 
-```
+```swift
 //@version=5
 indicator("Custom Sample BB", overlay = true)
 
@@ -291,7 +291,7 @@ As a simple example, suppose we want to define a method to identify a variable�
 
 Below, we have defined a `getType()` method that returns a string representation of a variable’s type with overloads for the five primitive types:
 
-```
+```swift
 // @function   Identifies an object's type.
 // @param this Object to inspect.
 // @returns    (string) A string representation of the type.
@@ -317,7 +317,7 @@ Now we can use these overloads to inspect some variables. This script uses [str.
 
 ![../_images/Methods_overloads_type_inspection.png](https://tradingview.com/pine-script-docs/en/v5/_images/Methods_overloads_type_inspection.png)
 
-```
+```swift
 //@version=5
 indicator("Type Inspection")
 
@@ -372,7 +372,7 @@ There are many ways in which we could choose to tackle this objective. For this 
 
 Written below is an overload of the built-in [fill()](https://www.tradingview.com/pine-script-reference/v5/#fun_array{dot}fill) method for `array<float>` instances. This overload replaces elements in a `srcArray` within the range between the `lowerBound` and `upperBound` with an `innerValue`, and replaces all elements outside the range with an `outerValue`:
 
-```
+```swift
 // @function          Replaces elements in a `srcArray` between `lowerBound` and `upperBound` with an `innerValue`,
 //                    and replaces elements outside the range with an `outerValue`.
 // @param srcArray    (array<float>) Array to modify.
@@ -394,7 +394,7 @@ method fill(array<float> srcArray, float innerValue, float outerValue, float low
 
 With this method, we can filter an array by value ranges to produce an array of occurrences. For example, the expression
 
-```
+```swift
 srcArray.copy().fill(1.0, 0.0, min, val)
 
 ```
@@ -402,7 +402,7 @@ srcArray.copy().fill(1.0, 0.0, min, val)
 
 copies the `srcArray` object, replaces all elements between `min` and `val` with 1.0, then replaces all elements above `val` with 0.0. From here, it’s easy to estimate the output of the cumulative distribution function at the `val`, as it’s simply the average of the resulting array:
 
-```
+```swift
 srcArray.copy().fill(1.0, 0.0, min, val).avg()
 
 ```
@@ -416,7 +416,7 @@ Note that:
 
 We can now use this to define a method that will calculate our empirical distribution values. The following `eCDF()` method estimates a number of evenly spaced ascending `steps` from the cumulative distribution function of a `srcArray` and pushes the results into a `cdfArray`:
 
-```
+```swift
 // @function       Estimates the empirical CDF of a `srcArray`.
 // @param srcArray (array<float>) Array to calculate on.
 // @param steps    (int) Number of steps in the estimation.
@@ -439,7 +439,7 @@ Lastly, to ensure that our `eCDF()` method functions properly for arrays contain
 
 This `featureScale()` method uses array [min()](https://www.tradingview.com/pine-script-reference/v5/#fun_array{dot}min) and [range()](https://www.tradingview.com/pine-script-reference/v5/#fun_array{dot}range) methods to produce a rescaled copy of a `srcArray`. We will use this to normalize our arrays prior to invoking the `eCDF()` method:
 
-```
+```swift
 // @function        Rescales the elements within a `srcArray` to the interval [0, 1].
 // @param srcArray  (array<float>) Array to normalize.
 // @returns         (array<float>) Normalized copy of the `srcArray`.
@@ -463,7 +463,7 @@ The full example below queues a `sourceArray` of size `length` with `sourceInput
 
 ![../_images/Methods_empirical_distribution.png](https://tradingview.com/pine-script-docs/en/v5/_images/Methods_empirical_distribution.png)
 
-```
+```swift
 //@version=5
 indicator("Empirical Distribution", overlay = true)
 

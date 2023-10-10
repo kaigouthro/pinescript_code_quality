@@ -2,7 +2,7 @@
 
 ![Pine Script® logo](https://tradingview.com/pine-script-docs/en/v5/_images/Pine-script-logo.svg)
 
-](https://www.tradingview.com/pine-script-docs/en/v5/Introduction.html)
+](https://www.tradingview.com/pine-script-docs/en/v5/Introduction.md)
 
 [Introduction](#id1)
 -------------------------------------------------------------------
@@ -16,7 +16,7 @@ Both functions require four arguments that will be used for the OHLC prices ([op
 
 The signature of [plotcandle()](https://www.tradingview.com/pine-script-reference/v5/#fun_plotcandle) is:
 
-```
+```swift
 plotcandle(open, high, low, close, title, color, wickcolor, editable, show_last, bordercolor, display) → void
 
 ```
@@ -24,7 +24,7 @@ plotcandle(open, high, low, close, title, color, wickcolor, editable, show_last,
 
 This plots simple candles, all in blue, using the habitual OHLC values, in a separate pane:
 
-```
+```swift
 //@version=5
 indicator("Single-color candles")
 plotcandle(open, high, low, close)
@@ -36,7 +36,7 @@ plotcandle(open, high, low, close)
 
 To color them green or red, we can use the following code:
 
-```
+```swift
 //@version=5
 indicator("Example 2")
 paletteColor = close >= open ? color.lime : color.red
@@ -51,7 +51,7 @@ Note that the `color` parameter accepts “series color” arguments, so constan
 
 You can build bars or candles using values other than the actual OHLC values. For example you could calculate and plot smoothed candles using the following code, which also colors wicks depending on the position of [close](https://www.tradingview.com/pine-script-reference/v5/#var_close) relative to the smoothed close (`c`) of our indicator:
 
-```
+```swift
 //@version=5
 indicator("Smoothed candles", overlay = true)
 lenInput = input.int(9)
@@ -71,7 +71,7 @@ plotcandle(o, h, l, c, wickcolor = ourWickColor)
 
 You may find it useful to plot OHLC values taken from a higher timeframe. You can, for example, plot daily bars on an intraday chart:
 
-```
+```swift
 // NOTE: Use this script on an intraday chart.
 //@version=5
 indicator("Daily bars")
@@ -95,25 +95,25 @@ plotcandle(timeframe.isintraday ? o : na, h, l, c, color = bodyColor, wickcolor 
 Note that:
 
 *   We show the script’s plot after having used “Visual Order/Bring to Front” from the script’s “More” menu. This causes our script’s candles to appear on top of the chart’s candles.
-    
+
 *   The script will only display candles when two conditions are met:
-    
+
     > *   The chart is using an intraday timeframe (see the check on `timeframe.isintraday` in the [plotcandle()](https://www.tradingview.com/pine-script-reference/v5/#fun_plotcandle) call). We do this because it’s not useful to show a daily value on timeframes higher or equal to 1D.
     > *   The [request.security()](https://www.tradingview.com/pine-script-reference/v5/#fun_request{dot}security) function returns non [na](https://www.tradingview.com/pine-script-reference/v5/#var_na) values (see `gaps = barmerge.gaps_on` in the function call).
-    
+
 *   We use a tuple (`[open, high, low, close]`) with [request.security()](https://www.tradingview.com/pine-script-reference/v5/#fun_request{dot}security) to fetch four values in one call.
-    
+
 *   We use [var](https://www.tradingview.com/pine-script-reference/v5/#op_var) to declare our `UP_COLOR` and `DN_COLOR` color constants on bar zero only. We use constants because those colors are used in more than one place in our code. This way, if we need to change them, we need only do so in one place.
-    
+
 *   We create a lighter transparency for the body of our candles in the `bodyColor` variable initialization, so they don’t obstruct the chart’s candles.
-    
+
 
 [Plotting bars with \`plotbar()\`](#id3)
 -----------------------------------------------------------------------------------------------------
 
 The signature of [plotbar()](https://www.tradingview.com/pine-script-reference/v5/#fun_plotbar) is:
 
-```
+```swift
 plotbar(open, high, low, close, title, color, editable, show_last, display) → void
 
 ```
@@ -123,7 +123,7 @@ Note that [plotbar()](https://www.tradingview.com/pine-script-reference/v5/#fun_
 
 This plots conventional bars using the same coloring logic as in the second example of the previous section:
 
-```
+```swift
 //@version=5
 indicator("Dual-color bars")
 paletteColor = close >= open ? color.lime : color.red

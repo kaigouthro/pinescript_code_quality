@@ -34,7 +34,7 @@ Note the following in the preceding screenshot:
 
 The script in the preceding screenshot used the simplest way to inspect numerical values: a [plot()](https://www.tradingview.com/pine-script-reference/v5/#fun_plot) call, which plots a line corresponding to the variable’s value in the script’s display area. Our example script plotted the value of the [bar\_index](https://www.tradingview.com/pine-script-reference/v5/#var_bar_index) built-in variable, which contains the bar’s number, a value beginning at zero on the dataset’s first bar and increased by one on each subsequent bar. We used a [plot()](https://www.tradingview.com/pine-script-reference/v5/#fun_plot) call to plot the variable to inspect because our script was not plotting anything else; we were not preoccupied with preserving the scale for other plots to continue to plot normally. This is the script we used:
 
-```
+```swift
 //@version=5
 indicator("Plot `bar_index`")
 plot(bar_index, "Bar Index")
@@ -48,7 +48,7 @@ Plotting values in the script’s display area is not always possible. When we a
 
 Suppose we want to continue inspecting the value of [bar\_index](https://www.tradingview.com/pine-script-reference/v5/#var_bar_index), but this time in a script where we are also plotting RSI:
 
-```
+```swift
 //@version=5
 indicator("Plot RSI and `bar_index`")
 r = ta.rsi(close, 20)
@@ -71,7 +71,7 @@ where:
 
 In order to preserve our plot of RSI while still being able to inspect the value or [bar\_index](https://www.tradingview.com/pine-script-reference/v5/#var_bar_index), we will plot the variable using [plotchar()](https://www.tradingview.com/pine-script-reference/v5/#fun_plotchar) like this:
 
-```
+```swift
 //@version=5
 indicator("Plot RSI and `bar_index`")
 r = ta.rsi(close, 20)
@@ -98,7 +98,7 @@ Pine Script® labels must be used to display strings. Labels only appear in the 
 
 The following script demonstrates the simplest way to repetitively draw a label showing the symbol’s name:
 
-```
+```swift
 //@version=5
 indicator("Simple label", "", true)
 label.new(bar_index, high, syminfo.ticker)
@@ -110,7 +110,7 @@ label.new(bar_index, high, syminfo.ticker)
 
 By default, only the last 50 labels will be shown on the chart. You can increase this amount up to a maximum of 500 by using the `max_labels_count` parameter in your script’s [indicator()](https://www.tradingview.com/pine-script-reference/v5/#fun_indicator) or [strategy()](https://www.tradingview.com/pine-script-reference/v5/#fun_strategy) declaration statement. For example:
 
-```
+```swift
 indicator("Simple label", "", true, max_labels_count = 500)
 
 ```
@@ -120,7 +120,7 @@ indicator("Simple label", "", true, max_labels_count = 500)
 
 As strings manipulated in Pine scripts often do not change bar to bar, the method most frequently used to visualize them is to draw a label on the dataset’s last bar. Here, we use a function to create a label that only appears on the chart’s last bar. Our `f_print()` function has only one parameter, the text string to be displayed:
 
-```
+```swift
 //@version=5
 indicator("print()", "", true)
 print(txt) =>
@@ -151,7 +151,7 @@ Note the following in our last code example:
 
 Many methods can be used to display occurrences where a condition is met. This code shows six ways to identify bars where RSI is smaller than 30:
 
-```
+```swift
 //@version=5
 indicator("Single conditions")
 r = ta.rsi(close, 20)
@@ -193,7 +193,7 @@ Programmers needing to identify situations where more than one condition is met 
 
 The state of multiple individual conditions can be displayed using a technique like this one, where four individual conditions are used to build our `bull` compound condition:
 
-```
+```swift
 //@version=5
 indicator("Compound conditions")
 periodInput    = input.int(20)
@@ -240,7 +240,7 @@ Note that:
 
 Variables in function are local to the function, so not available for plotting from the script’s global scope. In this script we have written the `hlca()` function to calculate a weighed average:
 
-```
+```swift
 //@version=5
 indicator("Debugging from inside functions", "", true)
 hlca() =>
@@ -256,7 +256,7 @@ plot(h)
 
 We need to inspect the value of `hlca` in the function’s local scope as the function calculates, bar to bar. We cannot access the `hlca` variable used inside the function from the script’s global scope. We thus need another mechanism to pull that variable’s value from inside the function’s local scope, while still being able to use the function’s result. We can use Pine Script®’s ability to have functions return a tuple to gain access to the variable:
 
-```
+```swift
 //@version=5
 indicator("Debugging from inside functions", "", true)
 hlca() =>
@@ -277,7 +277,7 @@ plot(instantVal, "instantVal", color.black)
 
 Contrary to global scope variables, array elements of globally defined arrays can be modified from within functions. We can use this feature to write a functionally equivalent script:
 
-```
+```swift
 //@version=5
 indicator("Debugging from inside functions", "", true)
 // Create an array containing only one float element.
@@ -302,7 +302,7 @@ plot(array.get(instantValGlobal, 0), "instantValGlobal", color.black)
 
 Values inside [for](https://www.tradingview.com/pine-script-reference/v5/#op_for) loops cannot be plotted using [plot()](https://www.tradingview.com/pine-script-reference/v5/#fun_plot) calls in the loop. As in functions, such variables are also local to the loop’s scope. Here, we explore three different techniques to inspect variable values originating from [for](https://www.tradingview.com/pine-script-reference/v5/#op_for) loops, starting from this code example, which calculates the balance of bars in the lookback period which have a higher/lower true range value than the current bar:
 
-```
+```swift
 //@version=5
 indicator("Debugging from inside `for` loops")
 lookbackInput = input.int(20, minval = 0)
@@ -321,7 +321,7 @@ plot(trBalance)
 
 When we want to extract values from more than one loop iteration we can use lines and labels. Here we draw a line corresponding to the value of [ta.tr](https://www.tradingview.com/pine-script-reference/v5/#var_ta{dot}tr) used in each loop iteration. We also use a label to display, for each line, the loop’s index and the line’s value. This gives us a general idea of the values being used in each loop iteration:
 
-```
+```swift
 //@version=5
 indicator("Debugging from inside `for` loops", max_lines_count = 500, max_labels_count = 500)
 lookbackInput = input.int(20, minval = 0)
@@ -352,7 +352,7 @@ Note that:
 
 The two techniques we use most frequently to debug our Pine Script® code are:
 
-```
+```swift
 plotchar(v, "v", "", location.top, size = size.tiny)
 
 ```
@@ -360,7 +360,7 @@ plotchar(v, "v", "", location.top, size = size.tiny)
 
 to plot variables of type _float_, _int_ or _bool_ in the indicator’s values and the Data Window, and the one-line version of our `print()` function to debug strings:
 
-```
+```swift
 print(txt) => var _label = label.new(bar_index, na, txt, xloc.bar_index, yloc.price, color(na), label.style_none, color.gray, size.large, text.align_left), label.set_xy(_label, bar_index, ta.highest(10)[1]), label.set_text(_label, txt)
 print(stringName)
 
@@ -369,7 +369,7 @@ print(stringName)
 
 As we use AutoHotkey for Windows to speed repetitive tasks, we include these lines in our AutoHotkey script (this is **not** Pine Script® code):
 
-```
+```swift
 ; ————— This is AHK code, not Pine Script®. —————
 ^+f:: SendInput plotchar(^v, "^v", "", location.top, size = size.tiny){Return}
 ^+p:: SendInput print(txt) => var lbl = label.new(bar_index, na, txt, xloc.bar_index, yloc.price, color(na), label.style_none, color.gray, size.large, text.align_left), label.set_xy(lbl, bar_index, highest(10)[1]), label.set_text(lbl, txt)`nprint(){Left}
@@ -379,7 +379,7 @@ As we use AutoHotkey for Windows to speed repetitive tasks, we include these lin
 
 The second line will type a debugging [plotchar()](https://www.tradingview.com/pine-script-reference/v5/#fun_plotchar) call including an expression or variable name previously copied to the clipboard when we use ctrl + shift + f. Copying the `variableName` variable name or the `close > open` conditional expression to the clipboard and hitting ctrl + shift + f will, respectively, yield:
 
-```
+```swift
 plotchar(variableName, "variableName", "", location.top, size = size.tiny)
 plotchar(close > open, "close > open", "", location.top, size = size.tiny)
 
@@ -388,7 +388,7 @@ plotchar(close > open, "close > open", "", location.top, size = size.tiny)
 
 The third line triggers on ctrl + shift + p. It types our one-line `print()` function in a script and on a second line, an empty call to the function with the cursor placed so all that’s left to do is type the string we want to display:
 
-```
+```swift
 print(txt) => var lbl = label.new(bar_index, na, txt, xloc.bar_index, yloc.price, color(na), label.style_none, color.gray, size.large, text.align_left), label.set_xy(lbl, bar_index, ta.highest(10)[1]), label.set_text(lbl, txt)
 print()
 

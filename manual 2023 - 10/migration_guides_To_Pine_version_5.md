@@ -1,7 +1,7 @@
 [Introduction](#id1)
 -------------------------------------------------------------------
 
-This guide documents the **changes** made to Pine Script® from v4 to v5. It will guide you in the adaptation of existing Pine scripts to Pine Script® v5. See our [Release notes](https://tradingview.com/pine-script-docs/en/v5/Release_notes.html#pagereleasenotes-october2021) for a list of the **new** features in Pine Script® v5.
+This guide documents the **changes** made to Pine Script® from v4 to v5. It will guide you in the adaptation of existing Pine scripts to Pine Script® v5. See our [Release notes](Release_notes.html#pagereleasenotes-october2021) for a list of the **new** features in Pine Script® v5.
 
 The most frequent adaptations required to convert older scripts to v5 are:
 
@@ -18,7 +18,7 @@ The Pine Script® Editor includes a utility to automatically convert v4 scripts 
 
 ![../_images/v4_to_v5_convert_button.png](https://tradingview.com/pine-script-docs/en/v5/_images/v4_to_v5_convert_button.png)
 
-Not all scripts can be automatically converted from v4 to v5. If you want to convert the script manually or if your indicator returns a compilation error after conversion, use the following sections to determine how to complete the conversion. A list of some errors you can encounter during the automatic conversion and how to fix them can be found in the [Common script conversion errors](https://tradingview.com/pine-script-docs/en/v5/migration_guides/v4_to_v5_migration_guide.html#pagetopineversion5-commonconversionerrors) section of this guide.
+Not all scripts can be automatically converted from v4 to v5. If you want to convert the script manually or if your indicator returns a compilation error after conversion, use the following sections to determine how to complete the conversion. A list of some errors you can encounter during the automatic conversion and how to fix them can be found in the [Common script conversion errors](migration_guides/v4_to_v5_migration_guide.html#pagetopineversion5-commonconversionerrors) section of this guide.
 
 [Renamed functions and variables](#id3)
 ---------------------------------------------------------------------------------------------------------
@@ -32,14 +32,14 @@ Not counting functions moved to new namespaces, only two functions have been ren
 *   `study()` is now [indicator()](https://www.tradingview.com/pine-script-reference/v5/#fun_indicator).
 *   `tickerid()` is now [ticker.new()](https://www.tradingview.com/pine-script-reference/v5/#fun_ticker{dot}new).
 
-The full list of renamed functions and variables can be found in the [All variable, function, and parameter name changes](https://tradingview.com/pine-script-docs/en/v5/migration_guides/v4_to_v5_migration_guide.html#pagetopineversion5-allvariables) section of this guide.
+The full list of renamed functions and variables can be found in the [All variable, function, and parameter name changes](migration_guides/v4_to_v5_migration_guide.html#pagetopineversion5-allvariables) section of this guide.
 
 [Renamed function parameters](#id4)
 -------------------------------------------------------------------------------------------------
 
 The parameter names of some built-in functions were changed to improve the nomenclature. This has no bearing on most scripts, but if you used these parameter names when calling functions, they will require adaptation. For example, we have standardized all mentions:
 
-```
+```swift
 // Valid in v4. Not valid in v5.
 timev4 = time(resolution = "1D")
 // Valid in v5.
@@ -50,7 +50,7 @@ timeBoth = time("1D")
 ```
 
 
-The full list of renamed function parameters can be found in the [All variable, function, and parameter name changes](https://tradingview.com/pine-script-docs/en/v5/migration_guides/v4_to_v5_migration_guide.html#pagetopineversion5-allvariables) section of this guide.
+The full list of renamed function parameters can be found in the [All variable, function, and parameter name changes](migration_guides/v4_to_v5_migration_guide.html#pagetopineversion5-allvariables) section of this guide.
 
 [Removed an \`rsi()\` overload](#id5)
 -----------------------------------------------------------------------------------------------
@@ -64,7 +64,7 @@ This caused a single built-in function to behave in two very different ways, and
 
 The [ta.rsi()](https://www.tradingview.com/pine-script-reference/v5/#fun_ta{dot}rsi) function in v5 only accepts a “simple int” argument for its `length` parameter. If your v4 code used the now deprecated overload of the function with a `float` second argument, you can replace the whole `rsi()` call with the following formula, which is equivalent:
 
-```
+```swift
 100.0 - (100.0 / (1.0 + arg1 / arg2))
 
 ```
@@ -84,7 +84,7 @@ A number of words are reserved and cannot be used for variable or function names
 
 The [iff()](https://www.tradingview.com/pine-script-reference/v4/#fun_iff) and [offset()](https://www.tradingview.com/pine-script-reference/v4/#fun_offset) functions have been removed. Code using the [iff()](https://www.tradingview.com/pine-script-reference/v4/#fun_iff) function can be rewritten using the ternary operator:
 
-```
+```swift
 // iff(<condition>, <return_when_true>, <return_when_false>)
 // Valid in v4, not valid in v5
 barColorIff = iff(close >= open, color.green, color.red)
@@ -99,7 +99,7 @@ Note that the ternary operator is evaluated “lazily”; only the required valu
 
 Some functions require evaluation on every bar to correctly calculate, so you will need to make special provisions for these by pre-evaluating them before the ternary:
 
-```
+```swift
 // `iff()` in v4: `highest()` and `lowest()` are calculated on every bar
 v1 = iff(close > open, highest(10), lowest(10))
 plot(v1)
@@ -114,7 +114,7 @@ plot(v1)
 
 The [offset()](https://www.tradingview.com/pine-script-reference/v4/#fun_offset) function was deprecated because the more readable [\[\]](https://www.tradingview.com/pine-script-reference/v5/#op_[]) operator is equivalent:
 
-```
+```swift
 // Valid in v4. Not valid in v5.
 prevClosev4 = offset(close, 1)
 // Valid in v4 and v5.
@@ -130,7 +130,7 @@ The v4 [input()](https://www.tradingview.com/pine-script-reference/v4/#fun_input
 
 To convert, for example, a v4 script using an input of type `input.symbol`, the [input.symbol()](https://www.tradingview.com/pine-script-reference/v5/#fun_input{dot}symbol) function must be used in v5:
 
-```
+```swift
 // Valid in v4. Not valid in v5.
 aaplTicker = input("AAPL", type = input.symbol)
 // Valid in v5
@@ -141,7 +141,7 @@ aaplTicker = input.symbol("AAPL")
 
 The [input()](https://www.tradingview.com/pine-script-reference/v5/#fun_input) function persists in v5, but in a simpler form, with less parameters. It has the advantage of automatically detecting input types “bool/color/int/float/string/source” from the argument used for `defval`:
 
-```
+```swift
 // Valid in v4 and v5.
 // While "AAPL" is a valid symbol, it is only a string here because `input.symbol()` is not used.
 tickerString = input("AAPL", title = "Ticker string")
@@ -156,7 +156,7 @@ In v4, built-in constants such as `plot.style_area` used as arguments when calli
 
 In v5, the use of correct built-in named constants as arguments to function parameters requiring them is mandatory:
 
-```
+```swift
 // Not valid in v5: `true` is used as an argument for `lookahead`.
 request.security(syminfo.tickerid, "1D", close, lookahead = true)
 // Valid in v5: uses a named constant instead of `true`.
@@ -179,7 +179,7 @@ The `transp=` parameter used in the signature of many v4 plotting functions was 
 
 Note that in v4, the [bgcolor()](https://www.tradingview.com/pine-script-reference/v5/#fun_bgcolor) and [fill()](https://www.tradingview.com/pine-script-reference/v5/#fun_fill) functions had an optional `transp` parameter that used a default value of 90. This meant that the code below could display Bollinger Bands with a semi-transparent fill between two bands and a semi-transparent backround color where bands cross price, even though no argument is used for the `transp` parameter in its [bgcolor()](https://www.tradingview.com/pine-script-reference/v5/#fun_bgcolor) and [fill()](https://www.tradingview.com/pine-script-reference/v5/#fun_fill) calls:
 
-```
+```swift
 //@version=4
 study("Bollinger Bands", overlay = true)
 [middle, upper, lower] = bb(close, 5, 4)
@@ -197,7 +197,7 @@ bgcolor(crossUp ? color.green : crossDn ? color.red : na)
 
 In v5 we need to explictly mention the 90 transparency with the color, yielding:
 
-```
+```swift
 //@version=5
 indicator("Bollinger Bands", overlay = true)
 [middle, upper, lower] = ta.bb(close, 5, 4)
@@ -219,7 +219,7 @@ bgcolor(crossUp ? color.new(color.green, TRANSP) : crossDn ? color.new(color.red
 
 The default set of days for `session` strings used in the [time()](https://www.tradingview.com/pine-script-reference/v5/#fun_time) and [time\_close()](https://www.tradingview.com/pine-script-reference/v5/#fun_time_close) functions, and returned by [input.session()](https://www.tradingview.com/pine-script-reference/v5/#fun_input{dot}session), has changed from `"23456"` (Monday to Friday) to `"1234567"` (Sunday to Saturday):
 
-```
+```swift
 // On symbols that are traded during weekends, this will behave differently in v4 and v5.
 t0 = time("1D", "1000-1200")
 // v5 equivalent of the behavior of `t0` in v4.
@@ -230,7 +230,7 @@ t2 = time("1D", "1000-1200:1234567")
 ```
 
 
-This change in behavior should not have much impact on scripts running on conventional markets that are closed during weekends. If it is important for you to ensure your session definitions preserve their v4 behavior in v5 code, add `":23456"` to your session strings. See this manual’s page on [Sessions](https://tradingview.com/pine-script-docs/en/v5/concepts/Sessions.html#pagesessions) for more information.
+This change in behavior should not have much impact on scripts running on conventional markets that are closed during weekends. If it is important for you to ensure your session definitions preserve their v4 behavior in v5 code, add `":23456"` to your session strings. See this manual’s page on [Sessions](concepts_Sessions.html#pagesessions) for more information.
 
 [\`strategy.exit()\` now must do something](#id12)
 ------------------------------------------------------------------------------------------------------------------------
@@ -244,7 +244,7 @@ Gone are the days when the [strategy.exit()](https://www.tradingview.com/pine-sc
 
 To make this work, you need to change the “int” arguments used for the `style` and `linestyle` arguments in [plot()](https://www.tradingview.com/pine-script-reference/v5/#fun_plot) and [hline()](https://www.tradingview.com/pine-script-reference/v5/#fun_hline) for built-in constants:
 
-```
+```swift
 // Will cause an error during conversion
 plotStyle = input(1)
 hlineStyle = input(1)
@@ -275,13 +275,13 @@ hline(100, linestyle = hlineStyle)
 ```
 
 
-See the [Some function parameters now require built-in arguments](https://tradingview.com/pine-script-docs/en/v5/migration_guides/v4_to_v5_migration_guide.html#pagetopineversion5-somefunctionparametersnowrequirebuiltinarguments) section of this guide for more information.
+See the [Some function parameters now require built-in arguments](migration_guides/v4_to_v5_migration_guide.html#pagetopineversion5-somefunctionparametersnowrequirebuiltinarguments) section of this guide for more information.
 
 ### Undeclared identifier ‘input.%input\_name%’
 
 To fix this issue, remove the `input.*` constants from your code:
 
-```
+```swift
 // Will cause an error during conversion
 _integer = input.integer
 _bool = input.bool
@@ -295,7 +295,7 @@ i2 = input.bool(true, "Boolean")
 ```
 
 
-See the User Manual’s page on [Inputs](https://tradingview.com/pine-script-docs/en/v5/concepts/Inputs.html#pageinputs), and the [Some function parameters now require built-in arguments](https://tradingview.com/pine-script-docs/en/v5/migration_guides/v4_to_v5_migration_guide.html#pagetopineversion5-somefunctionparametersnowrequirebuiltinarguments) section of this guide for more information.
+See the User Manual’s page on [Inputs](concepts_Inputs.html#pageinputs), and the [Some function parameters now require built-in arguments](https://tradingview.com/pine-script-docs/en/v5/migration_guides/v4_to_v5_migration_guide.html#pagetopineversion5-somefunctionparametersnowrequirebuiltinarguments) section of this guide for more information.
 
 ### Invalid argument ‘when’ in ‘strategy.close’ call
 
@@ -305,7 +305,7 @@ The second parameter of [strategy.close()](https://www.tradingview.com/pine-scri
 
 The `strategy.close("Short", strategy.long)` call in this code is equivalent to `strategy.close("Short")`, which is what must be used in v5:
 
-```
+```swift
 // Will cause an error during conversion
 if (longCondition)
     strategy.close("Short", strategy.long)
@@ -319,13 +319,13 @@ if (longCondition)
 ```
 
 
-See the [Some function parameters now require built-in arguments](https://tradingview.com/pine-script-docs/en/v5/migration_guides/v4_to_v5_migration_guide.html#pagetopineversion5-somefunctionparametersnowrequirebuiltinarguments) section of this guide for more information.
+See the [Some function parameters now require built-in arguments](migration_guides/v4_to_v5_migration_guide.html#pagetopineversion5-somefunctionparametersnowrequirebuiltinarguments) section of this guide for more information.
 
 ### Cannot call ‘input.int’ with argument ‘minval’=’%value%’. An argument of ‘literal float’ type was used but a ‘const int’ is expected
 
 In v4, it was possible to pass a “float” argument to `minval` when an “int” value was being input. This is no longer possible in v5; “int” values are required for “int” inputs:
 
-```
+```swift
 // Works in v4, will break on conversion because minval is a 'float' value
 int_input = input(1, "Integer", input.integer, minval = 1.0)
 
@@ -335,7 +335,7 @@ int_input = input.int(1, "Integer", minval = 1)
 ```
 
 
-See the User Manual’s page on [Inputs](https://tradingview.com/pine-script-docs/en/v5/concepts/Inputs.html#pageinputs), and the [Some function parameters now require built-in arguments](https://tradingview.com/pine-script-docs/en/v5/migration_guides/v4_to_v5_migration_guide.html#pagetopineversion5-somefunctionparametersnowrequirebuiltinarguments) section of this guide for more information.
+See the User Manual’s page on [Inputs](concepts_Inputs.html#pageinputs), and the [Some function parameters now require built-in arguments](https://tradingview.com/pine-script-docs/en/v5/migration_guides/v4_to_v5_migration_guide.html#pagetopineversion5-somefunctionparametersnowrequirebuiltinarguments) section of this guide for more information.
 
 [All variable, function, and parameter name changes](#id14)
 ----------------------------------------------------------------------------------------------------------------------------------------------

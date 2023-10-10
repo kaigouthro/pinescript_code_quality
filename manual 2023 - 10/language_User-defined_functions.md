@@ -10,8 +10,8 @@ You can write your functions in two ways:
 
 Functions can be located in two places:
 
-*   If a function is only used in one script, you can include it in the script where it is used. See our [Style guide](https://tradingview.com/pine-script-docs/en/v5/writing/Style_guide.html#pagestyleguide-functiondeclarations) for recommendations on where to place functions in your script.
-*   You can create a Pine Script® [library](https://tradingview.com/pine-script-docs/en/v5/concepts/Libraries.html#pagelibraries) to include your functions, which makes them reusable in other scripts without having to copy their code. Distinct requirements exist for library functions. They are explained in the page on [libraries](https://tradingview.com/pine-script-docs/en/v5/concepts/Libraries.html#pagelibraries).
+*   If a function is only used in one script, you can include it in the script where it is used. See our [Style guide](writing/Style_guide.html#pagestyleguide-functiondeclarations) for recommendations on where to place functions in your script.
+*   You can create a Pine Script® [library](concepts_Libraries.html#pagelibraries) to include your functions, which makes them reusable in other scripts without having to copy their code. Distinct requirements exist for library functions. They are explained in the page on [libraries](https://tradingview.com/pine-script-docs/en/v5/concepts_Libraries.html#pagelibraries).
 
 Whether they use one line or multiple lines, user-defined functions have the following characteristics:
 
@@ -25,7 +25,7 @@ Whether they use one line or multiple lines, user-defined functions have the fol
 
 Simple functions can often be written in one line. This is the formal definition of single-line functions:
 
-```
+```swift
 <function_declaration>
     <identifier>(<parameter_list>) => <return_value>
 
@@ -45,7 +45,7 @@ Here is an example:
 
 After the function `f()` has been declared, it’s possible to call it using different types of arguments:
 
-```
+```swift
 a = f(open, close)
 b = f(2, 2)
 c = f(open, 2)
@@ -60,7 +60,7 @@ In the example above, the type of variable `a` is _series_ because the arguments
 
 Pine Script® also supports multi-line functions with the following syntax:
 
-```
+```swift
 <identifier>(<parameter_list>) =>
     <local_block>
 
@@ -74,7 +74,7 @@ Pine Script® also supports multi-line functions with the following syntax:
 
 where:
 
-```
+```swift
 <parameter_list>
     {<parameter_definition>{, <parameter_definition>}}
 
@@ -88,7 +88,7 @@ The body of a multi-line function consists of several statements. Each statement
 
 Either an expression or a declared variable should be the last statement of the function’s body. The result of this expression (or variable) will be the result of the function’s call. For example:
 
-```
+```swift
 geom_average(x, y) =>
     a = x*x
     b = y*y
@@ -115,7 +115,7 @@ In Pine Script®, nested functions are not allowed, i.e., one cannot declare a f
 
 In most cases a function returns only one result, but it is possible to return a list of results (a _tuple_\-like result):
 
-```
+```swift
 fun(x, y) =>
     a = x+y
     b = x-y
@@ -126,7 +126,7 @@ fun(x, y) =>
 
 Special syntax is required for calling such functions:
 
-```
+```swift
 [res0, res1] = fun(open, close)
 plot(res0)
 plot(res1)

@@ -5,7 +5,7 @@ Pine Script® libraries are publications containing functions that can be reused
 
 A library must be published (privately or publicly) before it can be used in another script. All libraries are published open-source. Public scripts can only use public libraries and they must be open-source. Private scripts or personal scripts saved in the Pine Script® Editor can use public or private libraries. A library can use other libraries, or even previous versions of itself.
 
-Library programmers should be familiar with Pine Script®’s typing nomenclature, scopes and user-defined functions. If you need to brush up on forms and types, see the User Manual’s page on the [Type system](https://tradingview.com/pine-script-docs/en/v5/language/Type_system.html#pagetypesystem). For more information on user-defined functions and scopes, see the [User-defined functions](https://tradingview.com/pine-script-docs/en/v5/language/User-defined_functions.html#pageuserdefinedfunctions) page.
+Library programmers should be familiar with Pine Script®’s typing nomenclature, scopes and user-defined functions. If you need to brush up on forms and types, see the User Manual’s page on the [Type system](language/Type_system.html#pagetypesystem). For more information on user-defined functions and scopes, see the [User-defined functions](https://tradingview.com/pine-script-docs/en/v5/language/User-defined_functions.html#pageuserdefinedfunctions) page.
 
 You can browse the library scripts published publicly by members in TradingView’s [Community Scripts](https://www.tradingview.com/scripts/?script_type=libraries).
 
@@ -16,7 +16,7 @@ A library is a special kind of script that begins with the [library()](https://w
 
 A library script has the following structure, where one or more exportable functions must be defined:
 
-```
+```swift
 //@version=5
 
 // @description <library_description>
@@ -37,14 +37,14 @@ export <function_name>([simple/series] <parameter_type> <parameter_name> [= <def
 
 Note that:
 
-*   The `// @description`, `// @function`, `// @param` and `// @returns` [compiler annotations](https://tradingview.com/pine-script-docs/en/v5/language/Script_structure.html#pagescriptstructure-compilerannotations) are optional but we highly recommend you use them. They serve a double purpose: document the library’s code and populate the default library description which authors can use when publishing the library.
+*   The `// @description`, `// @function`, `// @param` and `// @returns` [compiler annotations](language/Script_structure.html#pagescriptstructure-compilerannotations) are optional but we highly recommend you use them. They serve a double purpose: document the library’s code and populate the default library description which authors can use when publishing the library.
 *   The [export](https://www.tradingview.com/pine-script-reference/v5/#op_export) keyword is mandatory.
 *   <parameter\_type> is mandatory, contrary to user-defined function parameter definitions in indicators or strategies, which are typeless.
 *   <script\_code> can be any code you would normally use in an indicator, including inputs or plots.
 
 This is an example library:
 
-```
+```swift
 //@version=5
 
 // @description Provides functions calculating the all-time high/low of values.
@@ -93,7 +93,7 @@ Library functions always return a result that is either of “simple” or “se
 
 The form of arguments supplied in calls to library functions is autodetected based on how the argument is used inside the function. If the argument can be used in “series” form, it is. If it cannot, an attempt is made with the “simple” type form. This explains why this code:
 
-```
+```swift
 export myEma(int x) =>
     ta.ema(close, x)
 
@@ -104,7 +104,7 @@ will work when called using `myCustomLibrary.myEma(20)`, even though [ta.ema()](
 
 While library functions cannot return results of “const” or “input” forms, they can be written to produce a result of “simple” form. This makes them useful in more contexts than functions returning a result of “series” form, because some built-in functions do not allow “series” arguments. For example, [request.security()](https://www.tradingview.com/pine-script-reference/v5/#fun_request{dot}security) requires a “simple string” for its `symbol` parameter. If we wrote a library function to assemble the argument to `symbol` in the following way, the function’s result would not work because it is of “series” form:
 
-```
+```swift
 export makeTickerid(string prefix, string ticker) =>
     prefix + ":" + ticker
 
@@ -113,7 +113,7 @@ export makeTickerid(string prefix, string ticker) =>
 
 However, by restricting the form of its parameters to “simple”, we could force the function to yield a “simple” result. We can achieve this by prefixing the parameters’ type with the [simple](https://www.tradingview.com/pine-script-reference/v5/#op_simple) keyword:
 
-```
+```swift
 export makeTickerid(simple string prefix, simple string ticker) =>
     prefix + ":" + ticker
 
@@ -126,11 +126,11 @@ One can also use the [series](https://www.tradingview.com/pine-script-reference/
 
 ### [User-defined types and objects](#id5)
 
-You can export [user-defined types (UDTs)](https://tradingview.com/pine-script-docs/en/v5/language/Type_system.html#pagetypesystem-userdefinedtypes) from libraries, and library functions can return [objects](https://tradingview.com/pine-script-docs/en/v5/language/Objects.html#pageobjects).
+You can export [user-defined types (UDTs)](language/Type_system.html#pagetypesystem-userdefinedtypes) from libraries, and library functions can return [objects](https://tradingview.com/pine-script-docs/en/v5/language/Objects.html#pageobjects).
 
 To export a UDT, prefix its definition with the [export](https://www.tradingview.com/pine-script-reference/v5/#op_export) keyword just as you would export a function:
 
-```
+```swift
 //@version=5
 library("Point")
 
@@ -145,7 +145,7 @@ export type point
 
 A script importing that library and creating an object from its `point` UDT would look somewhat like this:
 
-```
+```swift
 //@version=5
 indicator("")
 import userName/Point/1 as pt
@@ -165,7 +165,7 @@ UDTs used in a library **must** be exported if any of its exported functions use
 
 When a library only uses a UDT internally, it does not have to be exported. The following library uses the `point` UDT internally, but only its `drawPivots()` function is exported, which does not use a parameter nor return a result of `point` type:
 
-```
+```swift
 //@version=5
 library("PivotLabels", true)
 
@@ -254,7 +254,7 @@ drawPivots(20, 10, 5)
 
 If the TradingView user published the above library, it could be used like this:
 
-```
+```swift
 //@version=5
 indicator("")
 import TradingView/PivotLabels/1 as dpl
@@ -277,7 +277,7 @@ After adding our example library to the chart and setting up a clean chart showi
 Note that:
 
 *   We leave the library’s title as is (the `title` argument in our [library()](https://www.tradingview.com/pine-script-reference/v5/#fun_library) declaration statement is used as the default). While you can change the publication’s title, it is preferable to keep its default value because the `title` argument is used to reference imported libraries in the [import](https://www.tradingview.com/pine-script-reference/v5/#op_import) statement. It makes life easier for library users when your publication’s title matches the actual name of the library.
-*   A default description is built from the [compiler annotations](https://tradingview.com/pine-script-docs/en/v5/language/Script_structure.html#pagescriptstructure-compilerannotations) we used in our library. We will publish the library wihout retouching it.
+*   A default description is built from the [compiler annotations](language/Script_structure.html#pagescriptstructure-compilerannotations) we used in our library. We will publish the library wihout retouching it.
 *   We chose to publish our library publicly, so it will be visible to all TradingViewers.
 *   We do not have the possibility of selecting a visibility type other than “Open” because libraries are always open-source.
 *   The list of categories for libraries is different than for indicators and strategies. We have selected the “Statistics and Metrics” category.
@@ -296,7 +296,7 @@ Whether using a library’s functions or reusing its code, you must credit the a
 
 Using a library from another script (which can be an indicator, a strategy or another library), is done through the [import](https://www.tradingview.com/pine-script-reference/v5/#op_import) statement:
 
-```
+```swift
 import <username>/<libraryName>/<libraryVersion> [as <alias>]
 
 ```
@@ -310,7 +310,7 @@ where:
 
 To use the library we published in the previous section, our next script will require an [import](https://www.tradingview.com/pine-script-reference/v5/#op_import) statement:
 
-```
+```swift
 import PineCoders/AllTimeHighLow/1 as allTime
 
 ```
@@ -322,7 +322,7 @@ As you type the user name of the library’s author, you can use the Editor’s 
 
 This is an indicator that reuses our library:
 
-```
+```swift
 //@version=5
 indicator("Using AllTimeHighLow library", "", true)
 import PineCoders/AllTimeHighLow/1 as allTime

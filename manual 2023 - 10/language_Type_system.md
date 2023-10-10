@@ -13,7 +13,7 @@ Note
 
 We will often use “type” to refer to the “form type” pair.
 
-The type system is intimately linked to Pine Script®’s [execution model](https://tradingview.com/pine-script-docs/en/v5/language/Execution_model.html#pageexecutionmodel) and [time series](https://tradingview.com/pine-script-docs/en/v5/language/Time_series.html#pagetimeseries) concepts. Understanding all three is key to making the most of the power of Pine Script®.
+The type system is intimately linked to Pine Script®’s [execution model](language/Execution_model.html#pageexecutionmodel) and [time series](https://tradingview.com/pine-script-docs/en/v5/language/Time_series.html#pagetimeseries) concepts. Understanding all three is key to making the most of the power of Pine Script®.
 
 ### [Forms](#id4)
 
@@ -67,7 +67,7 @@ plotchar(xUp, "Cross Up", "▲", location.top, size = size.tiny)
 
 Values of “const” form must be known at compile time, before your script has access to any information related to the symbol/timeframe information it is running on. Compilation occurs when you save a script in the Pine Script® Editor, which doesn’t even require it to already be running on your chart. “const” variables cannot change during the execution of a script.
 
-Variables of “const” form can be initialized using a _literal_ value, or calculated from expressions using only literal values or other variables of “const” form. Our [Style guide](https://tradingview.com/pine-script-docs/en/v5/writing/Style_guide.html#pagestyleguide) recommends using upper case SNAKE\_CASE to name variables of “const” form. While it is not a requirement, “const” variables can be declared using the [var](https://www.tradingview.com/pine-script-reference/v5/#op_var) keyword so they are only initialized on the first bar of the dataset. See the [section on \`var\`](https://tradingview.com/pine-script-docs/en/v5/language/Variable_declarations.html#pagevariabledeclarations-var) for more information.
+Variables of “const” form can be initialized using a _literal_ value, or calculated from expressions using only literal values or other variables of “const” form. Our [Style guide](writing/Style_guide.html#pagestyleguide) recommends using upper case SNAKE\_CASE to name variables of “const” form. While it is not a requirement, “const” variables can be declared using the [var](https://www.tradingview.com/pine-script-reference/v5/#op_var) keyword so they are only initialized on the first bar of the dataset. See the [section on \`var\`](https://tradingview.com/pine-script-docs/en/v5/language/Variable_declarations.html#pagevariabledeclarations-var) for more information.
 
 These are examples of literal values:
 
@@ -239,7 +239,7 @@ Examples:
 ```
 
 
-Pine Script® also has [built-in color constants](https://tradingview.com/pine-script-docs/en/v5/concepts/Colors.html#pagecolors-constantcolors) such as [color.green](https://www.tradingview.com/pine-script-reference/v5/#var_color{dot}green), [color.red](https://www.tradingview.com/pine-script-reference/v5/#var_color{dot}red), [color.orange](https://www.tradingview.com/pine-script-reference/v5/#var_color{dot}orange), [color.blue](https://www.tradingview.com/pine-script-reference/v5/#var_color{dot}blue) (the default color used in [plot()](https://www.tradingview.com/pine-script-reference/v5/#fun_plot) and other plotting functions), etc.
+Pine Script® also has [built-in color constants](concepts_Colors.html#pagecolors-constantcolors) such as [color.green](https://www.tradingview.com/pine-script-reference/v5/#var_color{dot}green), [color.red](https://www.tradingview.com/pine-script-reference/v5/#var_color{dot}red), [color.orange](https://www.tradingview.com/pine-script-reference/v5/#var_color{dot}orange), [color.blue](https://www.tradingview.com/pine-script-reference/v5/#var_color{dot}blue) (the default color used in [plot()](https://www.tradingview.com/pine-script-reference/v5/#fun_plot) and other plotting functions), etc.
 
 When using color built-ins, is possible to add transparency information to them with [color.new](https://www.tradingview.com/pine-script-reference/v5/#fun_color{dot}new).
 
@@ -262,7 +262,7 @@ bgcolor(bgColor)
 ```
 
 
-See the page on [colors](https://tradingview.com/pine-script-docs/en/v5/concepts/Colors.html#pagecolors) for more information on using colors in Pine Script®.
+See the page on [colors](concepts_Colors.html#pagecolors) for more information on using colors in Pine Script®.
 
 #### [string](#id17)
 
@@ -321,7 +321,7 @@ These functions all return an ID which is a reference that uniquely identifies a
 
 #### [Collections](#id20)
 
-Collections in Pine Script® ([arrays](https://tradingview.com/pine-script-docs/en/v5/language/Arrays.html#pagearrays), [matrices](https://tradingview.com/pine-script-docs/en/v5/language/Matrices.html#pagematrices), and [maps](https://tradingview.com/pine-script-docs/en/v5/language/Maps.html#pagemaps)) utilize a reference ID, much like other special types (e.g., labels). The type of the ID defines the type of elements the collection will contain. In Pine, we specify array, matrix, and map types by appending a [type template](#pagetypesystem-typetemplates) to the [array](https://www.tradingview.com/pine-script-reference/v5/#type_array), [matrix](https://www.tradingview.com/pine-script-reference/v5/#type_matrix), or [map](https://www.tradingview.com/pine-script-reference/v5/#type_map) keywords:
+Collections in Pine Script® ([arrays](language/Arrays.html#pagearrays), [matrices](https://tradingview.com/pine-script-docs/en/v5/language/Matrices.html#pagematrices), and [maps](https://tradingview.com/pine-script-docs/en/v5/language/Maps.html#pagemaps)) utilize a reference ID, much like other special types (e.g., labels). The type of the ID defines the type of elements the collection will contain. In Pine, we specify array, matrix, and map types by appending a [type template](#pagetypesystem-typetemplates) to the [array](https://www.tradingview.com/pine-script-reference/v5/#type_array), [matrix](https://www.tradingview.com/pine-script-reference/v5/#type_matrix), or [map](https://www.tradingview.com/pine-script-reference/v5/#type_map) keywords:
 
 *   `array<int>` defines an array containing “int” elements.
 *   `array<label>` defines an array containing “label” IDs.
@@ -349,11 +349,11 @@ Note that:
 
 #### [User-defined types](#id21)
 
-The [type](https://www.tradingview.com/pine-script-reference/v5/#op_type) keyword allows the creation of _user-defined types_ (UDTs) from which [objects](https://tradingview.com/pine-script-docs/en/v5/language/Objects.html#pageobjects) can be created. UDTs are composite types; they contain an arbitrary number of _fields_ that can be of any type. The syntax to define a _user-defined type_ is:
+The [type](https://www.tradingview.com/pine-script-reference/v5/#op_type) keyword allows the creation of _user-defined types_ (UDTs) from which [objects](language/Objects.html#pageobjects) can be created. UDTs are composite types; they contain an arbitrary number of _fields_ that can be of any type. The syntax to define a _user-defined type_ is:
 
 where:
 
-*   `export` is used to export the UDT from a library. See the [Libraries](https://tradingview.com/pine-script-docs/en/v5/concepts/Libraries.html#pagelibraries-objects) page for more information.
+*   `export` is used to export the UDT from a library. See the [Libraries](concepts_Libraries.html#pagelibraries-objects) page for more information.
 *   `<UDT_identifier>` is the name of the user-defined type.
 *   `<field_type>` is the type of the field.
 *   `<field_name>` is the name of the field.
@@ -380,7 +380,7 @@ type pivotPoint
 ```
 
 
-Two built-in methods can be used with a UDT: `new()` and `copy()`. Read about them in the [Objects](https://tradingview.com/pine-script-docs/en/v5/language/Objects.html#pageobjects) page.
+Two built-in methods can be used with a UDT: `new()` and `copy()`. Read about them in the [Objects](language/Objects.html#pageobjects) page.
 
 #### [void](#id22)
 
@@ -456,11 +456,11 @@ ath := math.max(ath, high)
 [Type templates](#id24)
 ------------------------------------------------------------------------
 
-Type templates specify the data types that collections ([arrays](https://tradingview.com/pine-script-docs/en/v5/language/Arrays.html#pagearrays), [matrices](https://tradingview.com/pine-script-docs/en/v5/language/Matrices.html#pagematrices), and [maps](https://tradingview.com/pine-script-docs/en/v5/language/Maps.html#pagemaps)) can contain.
+Type templates specify the data types that collections ([arrays](language/Arrays.html#pagearrays), [matrices](https://tradingview.com/pine-script-docs/en/v5/language/Matrices.html#pagematrices), and [maps](https://tradingview.com/pine-script-docs/en/v5/language/Maps.html#pagemaps)) can contain.
 
-Templates for [arrays](https://tradingview.com/pine-script-docs/en/v5/language/Arrays.html#pagearrays) and [matrices](https://tradingview.com/pine-script-docs/en/v5/language/Matrices.html#pagematrices) consist of a single type identifier surrounded by angle brackets, e.g., `<int>`, `<label>`, and `<PivotPoint>` (where `PivotPoint` is a [user-defined type (UDT)](#pagetypesystem-userdefinedtypes)).
+Templates for [arrays](language/Arrays.html#pagearrays) and [matrices](https://tradingview.com/pine-script-docs/en/v5/language/Matrices.html#pagematrices) consist of a single type identifier surrounded by angle brackets, e.g., `<int>`, `<label>`, and `<PivotPoint>` (where `PivotPoint` is a [user-defined type (UDT)](#pagetypesystem-userdefinedtypes)).
 
-Templates for [maps](https://tradingview.com/pine-script-docs/en/v5/language/Maps.html#pagemaps) consist of two type identifiers enclosed in angle brackets, where the first specifies the type of _keys_ in each key-value pair, and the second specifies the _value_ type. For example, `<string, float>` is a type template for a map that holds `string` keys and `float` values.
+Templates for [maps](language/Maps.html#pagemaps) consist of two type identifiers enclosed in angle brackets, where the first specifies the type of _keys_ in each key-value pair, and the second specifies the _value_ type. For example, `<string, float>` is a type template for a map that holds `string` keys and `float` values.
 
 Users can construct type templates from:
 
@@ -470,7 +470,7 @@ Users can construct type templates from:
 
 Note that:
 
-*   [Maps](https://tradingview.com/pine-script-docs/en/v5/language/Maps.html#pagemaps) can use any of these types as _values_, but they can only accept fundamental types as _keys_.
+*   [Maps](language/Maps.html#pagemaps) can use any of these types as _values_, but they can only accept fundamental types as _keys_.
 
 Scripts use type templates to declare variables that point to collections, and when creating new collection instances. For example:
 

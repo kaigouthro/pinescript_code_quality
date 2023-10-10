@@ -5,28 +5,28 @@ This page contains advanced material. If you are a beginning Pine Script® progr
 [Introduction](#id1)
 -------------------------------------------------------------------
 
-Pine Script® Matrices are collections that store value references in a rectangular format. They are essentially the equivalent of two-dimensional [array](https://www.tradingview.com/pine-script-reference/v5/#op_array) objects with functions and methods for inspection, modification, and specialized calculations. As with [arrays](https://tradingview.com/pine-script-docs/en/v5/language/Arrays.html#pagearrays), all matrix elements must be of the same [type](https://tradingview.com/pine-script-docs/en/v5/language/Type_system.html#pagetypesystem-types), which can be a [built-in](https://www.tradingview.com/pine-script-docs/en/v5/language/Type_system.html#id2) or a [user-defined type](https://tradingview.com/pine-script-docs/en/v5/language/Type_system.html#pagetypesystem-userdefinedtypes).
+Pine Script® Matrices are collections that store value references in a rectangular format. They are essentially the equivalent of two-dimensional [array](https://www.tradingview.com/pine-script-reference/v5/#op_array) objects with functions and methods for inspection, modification, and specialized calculations. As with [arrays](language/Arrays.html#pagearrays), all matrix elements must be of the same [type](https://tradingview.com/pine-script-docs/en/v5/language/Type_system.html#pagetypesystem-types), which can be a [built-in](https://www.tradingview.com/pine-script-docs/en/v5/language/Type_system.html#id2) or a [user-defined type](https://tradingview.com/pine-script-docs/en/v5/language/Type_system.html#pagetypesystem-userdefinedtypes).
 
-Matrices reference their elements using two indices: one index for their rows and the other for their columns. Each index starts at 0 and extends to the number of rows/columns in the matrix minus one. Matrices in Pine can have dynamic numbers of rows and columns that vary across bars. The [total number of elements](https://www.tradingview.com/pine-script-reference/v5/#fun_matrix.elements_count) within a matrix is the product of the number of [rows](https://www.tradingview.com/pine-script-reference/v5/#fun_matrix.rows) and [columns](https://www.tradingview.com/pine-script-reference/v5/#fun_matrix.columns) (e.g., a 5x5 matrix has a total of 25). Like [arrays](https://tradingview.com/pine-script-docs/en/v5/language/Arrays.html#pagearrays), the total number of elements in a matrix cannot exceed 100,000.
+Matrices reference their elements using two indices: one index for their rows and the other for their columns. Each index starts at 0 and extends to the number of rows/columns in the matrix minus one. Matrices in Pine can have dynamic numbers of rows and columns that vary across bars. The [total number of elements](https://www.tradingview.com/pine-script-reference/v5/#fun_matrix.elements_count) within a matrix is the product of the number of [rows](https://www.tradingview.com/pine-script-reference/v5/#fun_matrix.rows) and [columns](https://www.tradingview.com/pine-script-reference/v5/#fun_matrix.columns) (e.g., a 5x5 matrix has a total of 25). Like [arrays](language/Arrays.html#pagearrays), the total number of elements in a matrix cannot exceed 100,000.
 
 [Declaring a matrix](#id2)
 -------------------------------------------------------------------------------
 
 Pine Script® uses the following syntax for matrix declaration:
 
-```
+```swift
 [var/varip ][matrix<type> ]<identifier> = <expression>
 
 ```
 
 
-Where `<type>` is a [type template](https://tradingview.com/pine-script-docs/en/v5/language/Type_system.html#pagetypesystem-typetemplates) for the matrix that declares the type of values it will contain, and the `<expression>` returns either a matrix instance of the type or `na`.
+Where `<type>` is a [type template](language/Type_system.html#pagetypesystem-typetemplates) for the matrix that declares the type of values it will contain, and the `<expression>` returns either a matrix instance of the type or `na`.
 
-When declaring a matrix variable as `na`, users must specify that the identifier will reference matrices of a specific type by including the [matrix](https://www.tradingview.com/pine-script-reference/v5/#op_matrix) keyword followed by a [type template](https://tradingview.com/pine-script-docs/en/v5/language/Type_system.html#pagetypesystem-typetemplates).
+When declaring a matrix variable as `na`, users must specify that the identifier will reference matrices of a specific type by including the [matrix](https://www.tradingview.com/pine-script-reference/v5/#op_matrix) keyword followed by a [type template](language/Type_system.html#pagetypesystem-typetemplates).
 
 This line declares a new `myMatrix` variable with a value of `na`. It explicitly declares the variable as `matrix<float>`, which tells the compiler that the variable can only accept [matrix](https://www.tradingview.com/pine-script-reference/v5/#op_matrix) objects containing [float](https://www.tradingview.com/pine-script-reference/v5/#op_float) values:
 
-```
+```swift
 matrix<float> myMatrix = na
 
 ```
@@ -36,7 +36,7 @@ When a matrix variable is not assigned to `na`, the [matrix](https://www.trading
 
 Here, we declare a `myMatrix` variable referencing a new `matrix<float>` instance with two rows, two columns, and an `initial_value` of 0. The variable gets its type information from the new object in this case, so it doesn’t require an explicit type declaration:
 
-```
+```swift
 myMatrix = matrix.new<float>(2, 2, 0.0)
 
 ```
@@ -50,7 +50,7 @@ This script declares an `m` variable assigned to a matrix that holds a single ro
 
 ![../_images/Matrices-Declaring-a-matrix-Using-var-and-varip-keywords-1.png](https://tradingview.com/pine-script-docs/en/v5/_images/Matrices-Declaring-a-matrix-Using-var-and-varip-keywords-1.png)
 
-```
+```swift
 //@version=5
 indicator("var matrix demo")
 
@@ -71,7 +71,7 @@ plot(m.get(0, 0), linewidth = 3) // Plot the value from the first row and column
 
 Note
 
-Matrix variables declared using [varip](https://www.tradingview.com/pine-script-reference/v5/#kw_varip) behave as ones using [var](https://www.tradingview.com/pine-script-reference/v5/#kw_var) on historical data, but they update their values for realtime bars (i.e., the bars since the script’s last compilation) on each new price tick. Matrices assigned to [varip](https://www.tradingview.com/pine-script-reference/v5/#kw_varip) variables can only hold [int](https://www.tradingview.com/pine-script-reference/v5/#type_int), [float](https://www.tradingview.com/pine-script-reference/v5/#type_float), [bool](https://www.tradingview.com/pine-script-reference/v5/#type_bool), [color](https://www.tradingview.com/pine-script-reference/v5/#type_color), or [string](https://www.tradingview.com/pine-script-reference/v5/#type_string) types or [user-defined types](https://tradingview.com/pine-script-docs/en/v5/language/Type_system.html#pagetypesystem-userdefinedtypes) that exclusively contain within their fields these types or collections ([arrays](https://tradingview.com/pine-script-docs/en/v5/language/Arrays.html#pagearrays), matrices, or [maps](https://tradingview.com/pine-script-docs/en/v5/language/Maps.html#pagemaps)) of these types.
+Matrix variables declared using [varip](https://www.tradingview.com/pine-script-reference/v5/#kw_varip) behave as ones using [var](https://www.tradingview.com/pine-script-reference/v5/#kw_var) on historical data, but they update their values for realtime bars (i.e., the bars since the script’s last compilation) on each new price tick. Matrices assigned to [varip](https://www.tradingview.com/pine-script-reference/v5/#kw_varip) variables can only hold [int](https://www.tradingview.com/pine-script-reference/v5/#type_int), [float](https://www.tradingview.com/pine-script-reference/v5/#type_float), [bool](https://www.tradingview.com/pine-script-reference/v5/#type_bool), [color](https://www.tradingview.com/pine-script-reference/v5/#type_color), or [string](https://www.tradingview.com/pine-script-reference/v5/#type_string) types or [user-defined types](language/Type_system.html#pagetypesystem-userdefinedtypes) that exclusively contain within their fields these types or collections ([arrays](https://tradingview.com/pine-script-docs/en/v5/language/Arrays.html#pagearrays), matrices, or [maps](https://tradingview.com/pine-script-docs/en/v5/language/Maps.html#pagemaps)) of these types.
 
 [Reading and writing matrix elements](#id4)
 -----------------------------------------------------------------------------------------------------------------
@@ -84,7 +84,7 @@ The example below defines a square matrix `m` with two rows and columns and an `
 
 ![../_images/Matrices-Reading-and-writing-matrix-elements-1.png](https://tradingview.com/pine-script-docs/en/v5/_images/Matrices-Reading-and-writing-matrix-elements-1.png)
 
-```
+```swift
 //@version=5
 indicator("Reading and writing elements demo")
 
@@ -109,20 +109,20 @@ plot(m.get(1, 1), "Row 1, Column 1 Value", color.blue, 2)
 
 To overwrite all matrix elements with a specific value, use [matrix.fill()](https://www.tradingview.com/pine-script-reference/v5/#fun_matrix.fill). This function points all items in the entire matrix or within the `from_row/column` and `to_row/column` index range to the `value` specified in the call. For example, this snippet declares a 4x4 square matrix, then fills its elements with a [random](https://www.tradingview.com/pine-script-reference/v5/#fun_math.random) value:
 
-```
+```swift
 myMatrix = matrix.new<float>(4, 4)
 myMatrix.fill(math.random())
 
 ```
 
 
-Note when using [matrix.fill()](https://www.tradingview.com/pine-script-reference/v5/#fun_matrix.fill) with matrices containing special types ([line](https://www.tradingview.com/pine-script-reference/v5/#op_line), [linefill](https://www.tradingview.com/pine-script-reference/v5/#op_linefill), [label](https://www.tradingview.com/pine-script-reference/v5/#op_label), [box](https://www.tradingview.com/pine-script-reference/v5/#op_box), or [table](https://www.tradingview.com/pine-script-reference/v5/#op_table)) or [UDTs](https://tradingview.com/pine-script-docs/en/v5/language/Type_system.html#pagetypesystem-userdefinedtypes), all replaced elements will point to the same object passed in the function call.
+Note when using [matrix.fill()](https://www.tradingview.com/pine-script-reference/v5/#fun_matrix.fill) with matrices containing special types ([line](https://www.tradingview.com/pine-script-reference/v5/#op_line), [linefill](https://www.tradingview.com/pine-script-reference/v5/#op_linefill), [label](https://www.tradingview.com/pine-script-reference/v5/#op_label), [box](https://www.tradingview.com/pine-script-reference/v5/#op_box), or [table](https://www.tradingview.com/pine-script-reference/v5/#op_table)) or [UDTs](language/Type_system.html#pagetypesystem-userdefinedtypes), all replaced elements will point to the same object passed in the function call.
 
 This script declares a matrix with four rows and columns of [label](https://www.tradingview.com/pine-script-reference/v5/#op_label) references, which it fills with a new [label](https://www.tradingview.com/pine-script-reference/v5/#op_label) object on the first bar. On each bar, the script sets the `x` attribute of the label referenced at row 0, column 0 to [bar\_index](https://www.tradingview.com/pine-script-reference/v5/#var_bar_index), and the `text` attribute of the one referenced at row 3, column 3 to the number of labels on the chart. Although the matrix can reference 16 (4x4) labels, each element points to the _same_ instance, resulting in only one label on the chart that updates its `x` and `text` attributes on each bar:
 
 ![../_images/Matrices-Reading-and-writing-matrix-elements-2.png](https://tradingview.com/pine-script-docs/en/v5/_images/Matrices-Reading-and-writing-matrix-elements-2.png)
 
-```
+```swift
 //@version=5
 indicator("Object matrix fill demo")
 
@@ -155,7 +155,7 @@ The script below populates a 3x2 `m` matrix with the values 1 - 6 on the first c
 
 ![../_images/Matrices-Rows-and-columns-Retrieving-1.png](https://tradingview.com/pine-script-docs/en/v5/_images/Matrices-Rows-and-columns-Retrieving-1.png)
 
-```
+```swift
 //@version=5
 indicator("Retrieving rows and columns demo")
 
@@ -187,13 +187,13 @@ Note that:
 
 *   To get the sizes of the arrays displayed in the label, we used the [rows()](https://www.tradingview.com/pine-script-reference/v5/#fun_matrix.rows) and [columns()](https://www.tradingview.com/pine-script-reference/v5/#fun_matrix.columns) methods rather than [array.size()](https://www.tradingview.com/pine-script-reference/v5/#fun_array.size) to demonstrate that the size of the `row0` array equals the number of columns and the size of the `column0` array equals the number of rows.
 
-[matrix.row()](https://www.tradingview.com/pine-script-reference/v5/#fun_matrix.row) and [matrix.col()](https://www.tradingview.com/pine-script-reference/v5/#fun_matrix.col) copy the references in a row/column to a new [array](https://www.tradingview.com/pine-script-reference/v5/#op_array). Modifications to the [arrays](https://tradingview.com/pine-script-docs/en/v5/language/Arrays.html#pagearrays) returned by these functions do not directly affect the elements or the shape of a matrix.
+[matrix.row()](https://www.tradingview.com/pine-script-reference/v5/#fun_matrix.row) and [matrix.col()](https://www.tradingview.com/pine-script-reference/v5/#fun_matrix.col) copy the references in a row/column to a new [array](https://www.tradingview.com/pine-script-reference/v5/#op_array). Modifications to the [arrays](language/Arrays.html#pagearrays) returned by these functions do not directly affect the elements or the shape of a matrix.
 
 Here, we’ve modified the previous script to set the first element of `row0` to 10 via the [array.set()](https://www.tradingview.com/pine-script-reference/v5/#fun_array.set) method before displaying the label. This script also plots the value from row 0, column 0. As we see, the label shows that the first element of the `row0` array is 10. However, the [plot](https://www.tradingview.com/pine-script-reference/v5/#fun_plot) shows that the corresponding matrix element still has a value of 1:
 
 ![../_images/Matrices-Rows-and-columns-Retrieving-2.png](https://tradingview.com/pine-script-docs/en/v5/_images/Matrices-Rows-and-columns-Retrieving-2.png)
 
-```
+```swift
 //@version=5
 indicator("Retrieving rows and columns demo")
 
@@ -227,11 +227,11 @@ plot(m.get(0, 0), linewidth = 3)
 ```
 
 
-Although changes to an [array](https://www.tradingview.com/pine-script-reference/v5/#op_array) returned by [matrix.row()](https://www.tradingview.com/pine-script-reference/v5/#fun_matrix.row) or [matrix.col()](https://www.tradingview.com/pine-script-reference/v5/#fun_matrix.col) do not directly affect a parent matrix, it’s important to note the resulting array from a matrix containing [UDTs](https://tradingview.com/pine-script-docs/en/v5/language/Type_system.html#pagetypesystem-userdefinedtypes) or special types, including [line](https://www.tradingview.com/pine-script-reference/v5/#op_line), [linefill](https://www.tradingview.com/pine-script-reference/v5/#op_linefill), [label](https://www.tradingview.com/pine-script-reference/v5/#op_label), [box](https://www.tradingview.com/pine-script-reference/v5/#op_box), or [table](https://www.tradingview.com/pine-script-reference/v5/#op_table), behaves as a _shallow copy_ of a row/column, i.e., the elements within an array returned from these functions point to the same objects as the corresponding matrix elements.
+Although changes to an [array](https://www.tradingview.com/pine-script-reference/v5/#op_array) returned by [matrix.row()](https://www.tradingview.com/pine-script-reference/v5/#fun_matrix.row) or [matrix.col()](https://www.tradingview.com/pine-script-reference/v5/#fun_matrix.col) do not directly affect a parent matrix, it’s important to note the resulting array from a matrix containing [UDTs](language/Type_system.html#pagetypesystem-userdefinedtypes) or special types, including [line](https://www.tradingview.com/pine-script-reference/v5/#op_line), [linefill](https://www.tradingview.com/pine-script-reference/v5/#op_linefill), [label](https://www.tradingview.com/pine-script-reference/v5/#op_label), [box](https://www.tradingview.com/pine-script-reference/v5/#op_box), or [table](https://www.tradingview.com/pine-script-reference/v5/#op_table), behaves as a _shallow copy_ of a row/column, i.e., the elements within an array returned from these functions point to the same objects as the corresponding matrix elements.
 
 This script contains a custom `myUDT` type containing a `value` field with an initial value of 0. It declares a 1x1 `m` matrix to hold a single `myUDT` instance on the first bar, then calls `m.row(0)` to copy the first row of the matrix as an [array](https://www.tradingview.com/pine-script-reference/v5/#op_array). On every chart bar, the script adds 1 to the `value` field of the first `row` array element. In this case, the `value` field of the matrix element increases on every bar as well since both elements reference the same object:
 
-```
+```swift
 //@version=5
 indicator("Row with reference types demo")
 
@@ -263,7 +263,7 @@ The resulting matrix has four rows and columns and contains values 1-16 in ascen
 
 ![../_images/Matrices-Rows-and-columns-Inserting-1.png](https://tradingview.com/pine-script-docs/en/v5/_images/Matrices-Rows-and-columns-Inserting-1.png)
 
-```
+```swift
 //@version=5
 indicator("Rows and columns demo")
 
@@ -316,7 +316,7 @@ if bar_index == last_bar_index - 1
 
 Note
 
-Just as the row or column arrays [retrieved](#pagematrices-rowsandcolumns-retrieving) from a matrix of [line](https://www.tradingview.com/pine-script-reference/v5/#op_line), [linefill](https://www.tradingview.com/pine-script-reference/v5/#op_linefill), [label](https://www.tradingview.com/pine-script-reference/v5/#op_label), [box](https://www.tradingview.com/pine-script-reference/v5/#op_box), [table](https://www.tradingview.com/pine-script-reference/v5/#op_table), or [UDT](https://tradingview.com/pine-script-docs/en/v5/language/Type_system.html#pagetypesystem-userdefinedtypes) instances behave as shallow copies, the elements of matrices containing such types reference the same objects as the [arrays](https://tradingview.com/pine-script-docs/en/v5/language/Arrays.html#pagearrays) inserted into them. Modifications to the element values in either object affect the other in such cases.
+Just as the row or column arrays [retrieved](#pagematrices-rowsandcolumns-retrieving) from a matrix of [line](https://www.tradingview.com/pine-script-reference/v5/#op_line), [linefill](https://www.tradingview.com/pine-script-reference/v5/#op_linefill), [label](https://www.tradingview.com/pine-script-reference/v5/#op_label), [box](https://www.tradingview.com/pine-script-reference/v5/#op_box), [table](https://www.tradingview.com/pine-script-reference/v5/#op_table), or [UDT](language/Type_system.html#pagetypesystem-userdefinedtypes) instances behave as shallow copies, the elements of matrices containing such types reference the same objects as the [arrays](https://tradingview.com/pine-script-docs/en/v5/language/Arrays.html#pagearrays) inserted into them. Modifications to the element values in either object affect the other in such cases.
 
 ### [Removing](#id10)
 
@@ -324,7 +324,7 @@ To remove a specific row or column from a matrix, use [matrix.remove\_row()](htt
 
 For this example, we’ve added these lines of code to our “Rows and columns demo” script from the [section above](#pagematrices-rowsandcolumns-inserting):
 
-```
+```swift
 // Removing example
 
     // Remove the first row and last column from the matrix. `m` will now have 3 rows and 3 columns.
@@ -345,7 +345,7 @@ To swap the rows and columns of a matrix without altering its dimensions, use [m
 
 Let’s add the following lines to the [previous example](#pagematrices-rowsandcolumns-removing), which swap the first and last rows of `m` and display the changes in a label at `bar_index + 40`:
 
-```
+```swift
 // Swapping example
 
     // Swap the first and last row. `m` retains the same dimensions.
@@ -367,7 +367,7 @@ In the following code, we’ve defined a `replaceRow()` method that uses the [ad
 
 ![../_images/Matrices-Rows-and-columns-Replacing-1.png](https://tradingview.com/pine-script-docs/en/v5/_images/Matrices-Rows-and-columns-Replacing-1.png)
 
-```
+```swift
 //@version=5
 indicator("Replacing rows demo")
 
@@ -416,7 +416,7 @@ if bar_index == last_bar_index - 1
 
 When a script only needs to iterate over the row/column indices in a matrix, the most common method is to use [for](https://www.tradingview.com/pine-script-reference/v5/#op_for) loops. For example, this line creates a loop with a `row` value that starts at 0 and increases by one until it reaches one less than the number of rows in the `m` matrix (i.e., the last row index):
 
-```
+```swift
 for row = 0 to m.rows() - 1
 
 ```
@@ -424,20 +424,20 @@ for row = 0 to m.rows() - 1
 
 To iterate over all index values in the `m` matrix, we can create a _nested_ loop that iterates over each `column` index on each `row` value:
 
-```
+```swift
 for row = 0 to m.rows() - 1
     for column = 0 to m.columns() - 1
 
 ```
 
 
-Let’s use this nested structure to create a [method](https://tradingview.com/pine-script-docs/en/v5/language/Methods.html#pagemethods) that visualizes matrix elements. In the script below, we’ve defined a `toTable()` method that displays the elements of a matrix within a [table](https://www.tradingview.com/pine-script-reference/v5/#op_table) object. It iterates over each `row` index and over each `column` index on every `row`. Within the loop, it converts each element to a [string](https://www.tradingview.com/pine-script-reference/v5/#op_string) to display in the corresponding table cell.
+Let’s use this nested structure to create a [method](language/Methods.html#pagemethods) that visualizes matrix elements. In the script below, we’ve defined a `toTable()` method that displays the elements of a matrix within a [table](https://www.tradingview.com/pine-script-reference/v5/#op_table) object. It iterates over each `row` index and over each `column` index on every `row`. Within the loop, it converts each element to a [string](https://www.tradingview.com/pine-script-reference/v5/#op_string) to display in the corresponding table cell.
 
 On the first bar, the script creates an empty `m` matrix, populates it with rows, and calls `m.toTable()` to display its elements:
 
 ![../_images/Matrices-Looping-through-a-matrix-For-1.png](https://tradingview.com/pine-script-docs/en/v5/_images/Matrices-Looping-through-a-matrix-For-1.png)
 
-```
+```swift
 //@version=5
 indicator("for loop demo", "Matrix to table")
 
@@ -494,7 +494,7 @@ if bar_index == 0
 
 ### [\`for…in\`](#id15)
 
-When a script needs to iterate over and retrieve the rows of a matrix, using the [for…in](https://www.tradingview.com/pine-script-reference/v5/#op_for{dot}{dot}{dot}in) structure is often preferred over the standard `for` loop. This structure directly references the row [arrays](https://tradingview.com/pine-script-docs/en/v5/language/Arrays.html#pagearrays) in a matrix, making it a more convenient option for such use cases. For example, this line creates a loop that returns a `row` array for each row in the `m` matrix:
+When a script needs to iterate over and retrieve the rows of a matrix, using the [for…in](https://www.tradingview.com/pine-script-reference/v5/#op_for{dot}{dot}{dot}in) structure is often preferred over the standard `for` loop. This structure directly references the row [arrays](language/Arrays.html#pagearrays) in a matrix, making it a more convenient option for such use cases. For example, this line creates a loop that returns a `row` array for each row in the `m` matrix:
 
 The following indicator calculates the moving average of OHLC data with an input `length` and displays the values on the chart. The custom `rowWiseAvg()` method loops through the rows of a matrix using a `for...in` structure to produce an array containing the [array.avg()](https://www.tradingview.com/pine-script-reference/v5/#fun_array.avg) of each `row`.
 
@@ -502,7 +502,7 @@ On the first chart bar, the script creates a new `m` matrix with four rows and `
 
 ![../_images/Matrices-Looping-through-a-matrix-For-in-1.png](https://tradingview.com/pine-script-docs/en/v5/_images/Matrices-Looping-through-a-matrix-For-in-1.png)
 
-```
+```swift
 //@version=5
 indicator("for...in loop demo", "Average OHLC", overlay = true)
 
@@ -553,7 +553,7 @@ For example, this script assigns a new matrix to the `myMatrix` variable and add
 
 ![../_images/Matrices-Copying-a-matrix-Shallow-copies-1.png](https://tradingview.com/pine-script-docs/en/v5/_images/Matrices-Copying-a-matrix-Shallow-copies-1.png)
 
-```
+```swift
 //@version=5
 indicator("Shallow copy demo")
 
@@ -592,13 +592,13 @@ if bar_index == last_bar_index - 1
 ```
 
 
-It’s important to note that the elements within shallow copies of a matrix point to the same values as the original matrix. When matrices contain special types ([line](https://www.tradingview.com/pine-script-reference/v5/#op_line), [linefill](https://www.tradingview.com/pine-script-reference/v5/#op_linefill), [label](https://www.tradingview.com/pine-script-reference/v5/#op_label), [box](https://www.tradingview.com/pine-script-reference/v5/#op_box), or [table](https://www.tradingview.com/pine-script-reference/v5/#op_table)) or [user-defined types](https://tradingview.com/pine-script-docs/en/v5/language/Type_system.html#pagetypesystem-userdefinedtypes), the elements of a shallow copy reference the same objects as the original.
+It’s important to note that the elements within shallow copies of a matrix point to the same values as the original matrix. When matrices contain special types ([line](https://www.tradingview.com/pine-script-reference/v5/#op_line), [linefill](https://www.tradingview.com/pine-script-reference/v5/#op_linefill), [label](https://www.tradingview.com/pine-script-reference/v5/#op_label), [box](https://www.tradingview.com/pine-script-reference/v5/#op_box), or [table](https://www.tradingview.com/pine-script-reference/v5/#op_table)) or [user-defined types](language/Type_system.html#pagetypesystem-userdefinedtypes), the elements of a shallow copy reference the same objects as the original.
 
 This script declares a `myMatrix` variable with a `newLabel` as the initial value. It then copies `myMatrix` to a `myCopy` variable via [myMatrix.copy()](https://www.tradingview.com/pine-script-reference/v5/#fun_matrix.copy) and plots the number of labels. As we see below, there’s only one [label](https://www.tradingview.com/pine-script-reference/v5/#op_label) on the chart, as the element in `myCopy` references the same object as the element in `myMatrix`. Consequently, changes to the element values in `myCopy` affect the values in both matrices:
 
 ![../_images/Matrices-Copying-a-matrix-Shallow-copies-2.png](https://tradingview.com/pine-script-docs/en/v5/_images/Matrices-Copying-a-matrix-Shallow-copies-2.png)
 
-```
+```swift
 //@version=5
 indicator("Shallow copy demo")
 
@@ -634,7 +634,7 @@ Here, we’ve added a `deepCopy()` user-defined method to our previous script. T
 
 ![../_images/Matrices-Copying-a-matrix-Deep-copies-1.png](https://tradingview.com/pine-script-docs/en/v5/_images/Matrices-Copying-a-matrix-Deep-copies-1.png)
 
-```
+```swift
 //@version=5
 indicator("Deep copy demo")
 
@@ -683,7 +683,7 @@ For example, the script below creates an `mSub` matrix from the `m` matrix via t
 
 ![../_images/Matrices-Copying-a-matrix-Submatrices-1.png](https://tradingview.com/pine-script-docs/en/v5/_images/Matrices-Copying-a-matrix-Submatrices-1.png)
 
-```
+```swift
 //@version=5
 indicator("Submatrix demo")
 
@@ -726,13 +726,13 @@ if bar_index == last_bar_index - 1
 [Scope and history](#id20)
 ------------------------------------------------------------------------------
 
-Matrix variables leave historical trails on each bar, allowing scripts to use the history-referencing operator [\[\]](https://www.tradingview.com/pine-script-reference/v5/#op_[]) to interact with past matrix instances previously assigned to a variable. Additionally, scripts can modify matrices assigned to global variables from within the scopes of [functions](https://tradingview.com/pine-script-docs/en/v5/language/User-defined_functions.html#pageuserdefinedfunctions), [methods](https://tradingview.com/pine-script-docs/en/v5/language/Methods.html#pagemethods), and [conditional structures](https://tradingview.com/pine-script-docs/en/v5/language/Conditional_structures.html#pageconditionalstructures).
+Matrix variables leave historical trails on each bar, allowing scripts to use the history-referencing operator [\[\]](https://www.tradingview.com/pine-script-reference/v5/#op_[]) to interact with past matrix instances previously assigned to a variable. Additionally, scripts can modify matrices assigned to global variables from within the scopes of [functions](language/User-defined_functions.html#pageuserdefinedfunctions), [methods](https://tradingview.com/pine-script-docs/en/v5/language/Methods.html#pagemethods), and [conditional structures](https://tradingview.com/pine-script-docs/en/v5/language/Conditional_structures.html#pageconditionalstructures).
 
 This script calculates the average ratios of body and wick distances relative to the bar range over `length` bars. It displays the data along with values from `length` bars ago in a table. The user-defined `addData()` function adds columns of current and historical ratios to the `globalMatrix`, and the `calcAvg()` function references `previous` matrices assigned to `globalMatrix` using the [\[\]](https://www.tradingview.com/pine-script-reference/v5/#op_[]) operator to calculate a matrix of averages:
 
 ![../_images/Matrices-Scope-and-history-1.png](https://tradingview.com/pine-script-docs/en/v5/_images/Matrices-Scope-and-history-1.png)
 
-```
+```swift
 //@version=5
 indicator("Scope and history demo", "Bar ratio comparison")
 
@@ -822,7 +822,7 @@ To demonstrate these features, this example contains a custom `inspect()` method
 
 ![../_images/Matrices-Inspecting-a-matrix-1.png](https://tradingview.com/pine-script-docs/en/v5/_images/Matrices-Inspecting-a-matrix-1.png)
 
-```
+```swift
 //@version=5
 indicator("Matrix inspection demo")
 
@@ -885,7 +885,7 @@ This example demonstrates the results of multiple reshaping operations on a matr
 
 ![../_images/Matrices-Manipulating-a-matrix-Reshaping-1.png](https://tradingview.com/pine-script-docs/en/v5/_images/Matrices-Manipulating-a-matrix-Reshaping-1.png)
 
-```
+```swift
 //@version=5
 indicator("Reshaping example")
 
@@ -942,7 +942,7 @@ For example, this script creates a 3x3 matrix containing the values 1-9 in ascen
 
 ![../_images/Matrices-Manipulating-a-matrix-Reversing-1.png](https://tradingview.com/pine-script-docs/en/v5/_images/Matrices-Manipulating-a-matrix-Reversing-1.png)
 
-```
+```swift
 //@version=5
 indicator("Reversing demo")
 
@@ -991,7 +991,7 @@ This example declares a 2x4 `m` matrix, calculates its transpose using the [m.tr
 
 ![../_images/Matrices-Manipulating-a-matrix-Transposing-1.png](https://tradingview.com/pine-script-docs/en/v5/_images/Matrices-Manipulating-a-matrix-Transposing-1.png)
 
-```
+```swift
 //@version=5
 indicator("Transpose example")
 
@@ -1039,7 +1039,7 @@ This script declares a 3x3 `m` matrix, sorts the rows of the `m1` copy in ascend
 
 ![../_images/Matrices-Manipulating-a-matrix-Sorting-1.png](https://tradingview.com/pine-script-docs/en/v5/_images/Matrices-Manipulating-a-matrix-Sorting-1.png)
 
-```
+```swift
 //@version=5
 indicator("Sorting rows example")
 
@@ -1089,7 +1089,7 @@ As an example, this script contains a `sortColumns()` method that uses the [sort
 
 ![../_images/Matrices-Manipulating-a-matrix-Sorting-2.png](https://tradingview.com/pine-script-docs/en/v5/_images/Matrices-Manipulating-a-matrix-Sorting-2.png)
 
-```
+```swift
 //@version=5
 indicator("Sorting columns example")
 
@@ -1147,7 +1147,7 @@ For example, this script appends the rows of the `m2` matrix to the `m1` matrix 
 
 ![../_images/Matrices-Manipulating-a-matrix-Concatenating-1.png](https://tradingview.com/pine-script-docs/en/v5/_images/Matrices-Manipulating-a-matrix-Concatenating-1.png)
 
-```
+```swift
 //@version=5
 indicator("Concatenation demo")
 
@@ -1203,7 +1203,7 @@ The script below uses `*.avg()`, `*.max()`, and `*.min()` methods to calculate d
 
 ![../_images/Matrices-Matrix-calculations-Element-wise-calculations-1.png](https://tradingview.com/pine-script-docs/en/v5/_images/Matrices-Matrix-calculations-Element-wise-calculations-1.png)
 
-```
+```swift
 //@version=5
 indicator("Element-wise calculations example", "Developing values", overlay = true)
 
@@ -1272,7 +1272,7 @@ This script demonstrates a simple example of matrix addition and subtraction in 
 
 ![../_images/Matrices-Matrix-calculations-Special-calculations-1.png](https://tradingview.com/pine-script-docs/en/v5/_images/Matrices-Matrix-calculations-Special-calculations-1.png)
 
-```
+```swift
 //@version=5
 indicator("Matrix sum and diff example")
 
@@ -1328,7 +1328,7 @@ In the case of multiplying two matrices, unlike addition and subtraction, matrix
 
 ![../_images/Matrices-Matrix-calculations-Special-calculations-2.png](https://tradingview.com/pine-script-docs/en/v5/_images/Matrices-Matrix-calculations-Special-calculations-2.png)
 
-```
+```swift
 //@version=5
 indicator("Matrix mult example")
 
@@ -1390,7 +1390,7 @@ For example, this script utilizes determinants to solve a system of linear equat
 
 In this script, we’ve defined the matrix `m` that holds coefficients and constants for these three equations:
 
-```
+```swift
 3 * x0 + 4 * x1 - 1 * x2 = 8
 5 * x0 - 2 * x1 + 1 * x2 = 4
 2 * x0 - 2 * x1 + 1 * x2 = 1
@@ -1402,7 +1402,7 @@ The solution to this system is `(x0 = 1, x1 = 2, x2 = 3)`. The script calculates
 
 ![../_images/Matrices-Matrix-calculations-Special-calculations-3.png](https://tradingview.com/pine-script-docs/en/v5/_images/Matrices-Matrix-calculations-Special-calculations-3.png)
 
-```
+```swift
 //@version=5
 indicator("Determinants example", "Cramer's Rule")
 
@@ -1468,7 +1468,7 @@ The following example forms a 2x2 `m` matrix from user inputs, then uses the [m.
 
 ![../_images/Matrices-Matrix-calculations-Special-calculations-4.png](https://tradingview.com/pine-script-docs/en/v5/_images/Matrices-Matrix-calculations-Special-calculations-4.png)
 
-```
+```swift
 //@version=5
 indicator("Inverse example")
 
@@ -1532,7 +1532,7 @@ This script identifies the number of linearly independent vectors in two 3x3 mat
 
 ![../_images/Matrices-Matrix-calculations-Special-calculations-5.png](https://tradingview.com/pine-script-docs/en/v5/_images/Matrices-Matrix-calculations-Special-calculations-5.png)
 
-```
+```swift
 //@version=5
 indicator("Matrix rank example")
 
@@ -1577,7 +1577,7 @@ This runtime error occurs when trying to access indices outside the matrix dimen
 
 For example, this code contains two lines that will produce this runtime error. The [m.set()](https://www.tradingview.com/pine-script-reference/v5/#fun_matrix.set) method references a `row` index that doesn’t exist (2). The [m.submatrix()](https://www.tradingview.com/pine-script-reference/v5/#fun_matrix.submatrix) method references all column indices up to `to_column - 1`. A `to_column` value of 4 results in a runtime error because the last column index referenced (3) does not exist in `m`:
 
-```
+```swift
 //@version=5
 indicator("Out of bounds demo")
 
@@ -1599,7 +1599,7 @@ Users can avoid this error in their scripts by ensuring their function calls do 
 
 When using [matrix.add\_row()](https://www.tradingview.com/pine-script-reference/v5/#fun_matrix.add_row) and [matrix.add\_col()](https://www.tradingview.com/pine-script-reference/v5/#fun_matrix.add_col) functions to [insert](#pagematrices-rowsandcolumns-inserting) rows and columns into a non-empty matrix, the size of the inserted array must align with the matrix dimensions. The size of an inserted row must match the number of columns, and the size of an inserted column must match the number of rows. Otherwise, the script will raise this runtime error. For example:
 
-```
+```swift
 //@version=5
 indicator("Invalid array size demo")
 
@@ -1622,7 +1622,7 @@ Note that:
 
 When a matrix variable is assigned to `na`, it means that the variable doesn’t reference an existing object. Consequently, one cannot use built-in `matrix.*()` functions and methods with it. For example:
 
-```
+```swift
 //@version=5
 indicator("na matrix methods demo")
 
@@ -1643,7 +1643,7 @@ To resolve this error, assign `m` to a valid matrix instance before using `matri
 
 The total number of elements in a matrix ([matrix.elements\_count()](https://www.tradingview.com/pine-script-reference/v5/#fun_matrix.elements_count)) cannot exceed **100,000**, regardless of its shape. For example, this script will raise an error because it [inserts](#pagematrices-rowsandcolumns-inserting) 1000 rows with 101 elements into the `m` matrix:
 
-```
+```swift
 //@version=5
 indicator("Matrix too large demo")
 
@@ -1666,7 +1666,7 @@ When using `matrix.*()` functions with `from_row/column` and `to_row/column` ind
 
 For example, this script shows an attempt to declare a [submatrix](#pagematrices-copyingamatrix-submatrices) from a 4x4 `m` matrix with a `from_row` value of 2 and a `to_row` value of 2, which will result in an error:
 
-```
+```swift
 //@version=5
 indicator("Invalid from_row, to_row demo")
 
@@ -1684,7 +1684,7 @@ plot(mSub.get(0, 0))
 
 When using [matrix.sum() and matrix.diff()](#pagematrices-matrixcalculations-specialcalculations-matrixsumandmatrixdiff) functions, the `id1` and `id2` matrices must have the same number of rows and the same number of columns. Attempting to add or subtract two matrices with mismatched dimensions will raise an error, as demonstrated by this code:
 
-```
+```swift
 //@version=5
 indicator("Invalid sum dimensions demo")
 
@@ -1706,7 +1706,7 @@ When using [matrix.mult()](#pagematrices-matrixcalculations-specialcalculations-
 
 For example, this script tries to multiply two 2x3 matrices. While _adding_ these matrices is possible, _multiplying_ them is not:
 
-```
+```swift
 //@version=5
 indicator("Invalid mult dimensions demo")
 
@@ -1726,7 +1726,7 @@ plot(mSum.get(0, 0))
 
 Some matrix operations, including [matrix.inv()](https://www.tradingview.com/pine-script-reference/v5/#fun_matrix.inv), [matrix.det()](https://www.tradingview.com/pine-script-reference/v5/#fun_matrix.det), [matrix.eigenvalues()](https://www.tradingview.com/pine-script-reference/v5/#fun_matrix.eigenvalues), and [matrix.eigenvectors()](https://www.tradingview.com/pine-script-reference/v5/#fun_matrix.inv) only work with **square** matrices, i.e., matrices with the same number of rows and columns. When attempting to execute such functions on non-square matrices, the script will raise an error stating the operation isn’t available or that it cannot calculate the result for the matrix `id`. For example:
 
-```
+```swift
 //@version=5
 indicator("Non-square demo")
 

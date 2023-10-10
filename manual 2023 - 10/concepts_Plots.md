@@ -3,13 +3,13 @@
 
 The [plot()](https://www.tradingview.com/pine-script-reference/v5/#fun_plot) function is the most frequently used function used to display information calculated using Pine scripts. It is versatile and can plot different styles of lines, histograms, areas, columns (like volume columns), fills, circles or crosses.
 
-The use of [plot()](https://www.tradingview.com/pine-script-reference/v5/#fun_plot) to create fills is explained in the page on [Fills](https://tradingview.com/pine-script-docs/en/v5/concepts/Fills.html#pagefills).
+The use of [plot()](https://www.tradingview.com/pine-script-reference/v5/#fun_plot) to create fills is explained in the page on [Fills](concepts_Fills.html#pagefills).
 
 This script showcases a few different uses of [plot()](https://www.tradingview.com/pine-script-reference/v5/#fun_plot) in an overlay script:
 
 ![../_images/Plots-Introduction-01.png](https://tradingview.com/pine-script-docs/en/v5/_images/Plots-Introduction-01.png)
 
-```
+```swift
 //@version=5
 indicator("`plot()`", "", true)
 plot(high, "Blue `high` line")
@@ -39,7 +39,7 @@ This script shows other uses of [plot()](https://www.tradingview.com/pine-script
 
 ![../_images/Plots-Introduction-02.png](https://tradingview.com/pine-script-docs/en/v5/_images/Plots-Introduction-02.png)
 
-```
+```swift
 //@version=5
 indicator("Volume change", format = format.volume)
 
@@ -77,14 +77,14 @@ Note that:
 
 [plot()](https://www.tradingview.com/pine-script-reference/v5/#fun_plot) calls must always be placed in a line’s first position, which entails they are always in the script’s global scope. They can’t be placed in user-defined functions or structures like [if](https://www.tradingview.com/pine-script-reference/v5/#op_if), [for](https://www.tradingview.com/pine-script-reference/v5/#op_for), etc. Calls to [plot()](https://www.tradingview.com/pine-script-reference/v5/#fun_plot) **can**, however, be designed to plot conditionally in two ways, which we cover in the Conditional plots section of this page.
 
-A script can only plot in its own visual space, whether it is in a pane or on the chart as an overlay. Scripts running in a pane can only [color bars](https://tradingview.com/pine-script-docs/en/v5/concepts/Bar_coloring.html#pagebarcoloring) in the chart area.
+A script can only plot in its own visual space, whether it is in a pane or on the chart as an overlay. Scripts running in a pane can only [color bars](concepts_Bar_coloring.html#pagebarcoloring) in the chart area.
 
 [\`plot()\` parameters](#id2)
 -------------------------------------------------------------------------------
 
 The [plot()](https://www.tradingview.com/pine-script-reference/v5/#fun_plot) function has the following signature:
 
-```
+```swift
 plot(series, title, color, linewidth, style, trackprice, histbase, offset, join, editable, show_last, display) → plot
 
 ```
@@ -156,7 +156,7 @@ Allows control over how many of the last bars the plotted values are visible. An
 
 The default is [display.all](https://www.tradingview.com/pine-script-reference/v5/#var_display{dot}all). When it is set to [display.none](https://www.tradingview.com/pine-script-reference/v5/#var_display{dot}none), plotted values will not affect the scale of the script’s visual space. The plot will be invisible and will not appear in indicator values or the Data Window. It can be useful in plots destined for use as external inputs for other scripts, or for plots used with the `{{plot("[plot_title]")}}` placeholder in [alertcondition()](https://www.tradingview.com/pine-script-reference/v5/#fun_alertcondition) calls, e.g.:
 
-```
+```swift
 //@version=5
 indicator("")
 r = ta.rsi(close, 14)
@@ -178,7 +178,7 @@ One way to control the display of plots is to plot [na](https://www.tradingview.
 
 ![../_images/Plots-PlottingConditionally-01.png](https://tradingview.com/pine-script-docs/en/v5/_images/Plots-PlottingConditionally-01.png)
 
-```
+```swift
 //@version=5
 indicator("Discontinuous plots", "", true)
 bool plotValues = bar_index % 3 == 0
@@ -202,7 +202,7 @@ Note that:
 
 This script shows how you can restrict plotting to bars after a user-defined date. We use the [input.time()](https://www.tradingview.com/pine-script-reference/v5/#fun_input{dot}time) function to create an input widget allowing script users to select a date and time, using Jan 1st 2021 as its default value:
 
-```
+```swift
 //@version=5
 indicator("", "", true)
 startInput = input.time(timestamp("2021-01-01"))
@@ -213,11 +213,11 @@ plot(time > startInput ? close : na)
 
 ### [Color control](#id5)
 
-The [Conditional coloring](https://tradingview.com/pine-script-docs/en/v5/concepts/Colors.html#pagecolors-conditionalcoloring) section of the page on colors discusses color control for plots. We’ll look here at a few examples.
+The [Conditional coloring](concepts_Colors.html#pagecolors-conditionalcoloring) section of the page on colors discusses color control for plots. We’ll look here at a few examples.
 
-The value of the `color` parameter in [plot()](https://www.tradingview.com/pine-script-reference/v5/#fun_plot) can be a constant, such as one of the built-in [constant colors](https://tradingview.com/pine-script-docs/en/v5/concepts/Colors.html#pagecolors-constantcolors) or a [color literal](https://tradingview.com/pine-script-docs/en/v5/language/Type_system.html#pagetypesystem-color). In Pine Script®, the form-type of such colors is called **“const color”** (see the [Type system](https://tradingview.com/pine-script-docs/en/v5/language/Type_system.html#pagetypesystem) page). They are known at compile time:
+The value of the `color` parameter in [plot()](https://www.tradingview.com/pine-script-reference/v5/#fun_plot) can be a constant, such as one of the built-in [constant colors](concepts_Colors.html#pagecolors-constantcolors) or a [color literal](https://tradingview.com/pine-script-docs/en/v5/language/Type_system.html#pagetypesystem-color). In Pine Script®, the form-type of such colors is called **“const color”** (see the [Type system](https://tradingview.com/pine-script-docs/en/v5/language/Type_system.html#pagetypesystem) page). They are known at compile time:
 
-```
+```swift
 //@version=5
 indicator("", "", true)
 plot(close, color = color.gray)
@@ -227,7 +227,7 @@ plot(close, color = color.gray)
 
 The color of a plot can also be determined using information that is only known when the script begins execution on the first historical bar of a chart (bar zero, i.e., `bar_index == 0` or `barstate.isfirst == true`), as will be the case when the information needed to determine a color depends on the chart the script is running on. Here, we calculate a plot color using the [syminfo.type](https://www.tradingview.com/pine-script-reference/v5/#var_syminfo{dot}type) built-in variable, which returns the type of the chart’s symbol. The form-type of `plotColor` in this case will be **“simple color”**:
 
-```
+```swift
 //@version=5
 indicator("", "", true)
 plotColor = switch syminfo.type
@@ -248,7 +248,7 @@ printTable(syminfo.type)
 
 Plot colors can also be chosen through a script’s inputs. In this case, the `lineColorInput` variable is of form-type **“input color”**:
 
-```
+```swift
 //@version=5
 indicator("", "", true)
 color lineColorInput  = input(#1848CC, "Line color")
@@ -259,7 +259,7 @@ plot(close, color = lineColorInput)
 
 Finally, plot colors can also be a _dynamic_ value, i.e., a calculated value that is only known on each bar. These are of form-type **“series color”**:
 
-```
+```swift
 //@version=5
 indicator("", "", true)
 plotColor = close >= open ? color.lime : color.red
@@ -268,11 +268,11 @@ plot(close, color = plotColor)
 ```
 
 
-When plotting pivot levels, one common requirement is to avoid plotting level transitions. Using [lines](https://tradingview.com/pine-script-docs/en/v5/concepts/Lines_and_boxes.html#pagelinesandboxes) is one alternative, but you can also use [plot()](https://www.tradingview.com/pine-script-reference/v5/#fun_plot) like this:
+When plotting pivot levels, one common requirement is to avoid plotting level transitions. Using [lines](concepts_Lines_and_boxes.html#pagelinesandboxes) is one alternative, but you can also use [plot()](https://www.tradingview.com/pine-script-reference/v5/#fun_plot) like this:
 
 ![../_images/Plots-PlottingConditionally-02.png](https://tradingview.com/pine-script-docs/en/v5/_images/Plots-PlottingConditionally-02.png)
 
-```
+```swift
 //@version=5
 indicator("Pivot plots", "", true)
 pivotHigh = fixnan(ta.pivothigh(3,3))
@@ -292,13 +292,13 @@ Note that:
 [Levels](#id6)
 -------------------------------------------------------
 
-Pine Script® has an [hline()](https://www.tradingview.com/pine-script-reference/v5/#fun_hline) function to plot horizontal lines (see the page on [Levels](https://tradingview.com/pine-script-docs/en/v5/concepts/Levels.html#pagelevels)). [hline()](https://www.tradingview.com/pine-script-reference/v5/#fun_hline) is useful because it has some line styles unavailable with [plot()](https://www.tradingview.com/pine-script-reference/v5/#fun_plot), but it also has some limitations, namely that it does not accept “series color”, and that its `price` parameter requires an “input int/float”, so cannot vary during the script’s execution.
+Pine Script® has an [hline()](https://www.tradingview.com/pine-script-reference/v5/#fun_hline) function to plot horizontal lines (see the page on [Levels](concepts_Levels.html#pagelevels)). [hline()](https://www.tradingview.com/pine-script-reference/v5/#fun_hline) is useful because it has some line styles unavailable with [plot()](https://www.tradingview.com/pine-script-reference/v5/#fun_plot), but it also has some limitations, namely that it does not accept “series color”, and that its `price` parameter requires an “input int/float”, so cannot vary during the script’s execution.
 
 You can plot levels with [plot()](https://www.tradingview.com/pine-script-reference/v5/#fun_plot) in a few different ways. This shows a [CCI](https://www.tradingview.com/support/solutions/43000502001) indicator with levels plotted using [plot()](https://www.tradingview.com/pine-script-reference/v5/#fun_plot):
 
 ![../_images/Plots-Levels-01.png](https://tradingview.com/pine-script-docs/en/v5/_images/Plots-Levels-01.png)
 
-```
+```swift
 //@version=5
 indicator("CCI levels with `plot()`")
 plot(ta.cci(close, 20))
@@ -325,7 +325,7 @@ Note that:
 
 The `offset` parameter specifies the shift used when the line is plotted (negative values shift in the past, positive values shift into the future. For example:
 
-```
+```swift
 //@version=5
 indicator("", "", true)
 plot(close, color = color.red, offset = -5)
@@ -345,7 +345,7 @@ Each script is limited to a maximum plot count of 64. All `plot*()` calls and [a
 
 [plot()](https://www.tradingview.com/pine-script-reference/v5/#fun_plot) calls count for one in the total plot count if they use a “const color” argument for the `color` parameter, which means it is known at compile time, e.g.:
 
-```
+```swift
 plot(close, color = color.green)
 
 ```
@@ -353,7 +353,7 @@ plot(close, color = color.green)
 
 When they use another form, such as any one of these, they will count for two in the total plot count:
 
-```
+```swift
 plot(close, color = syminfo.mintick > 0.0001 ? color.green : color.red) //🠆 "simple color"
 plot(close, color = input.color(color.purple)) //🠆 "input color"
 plot(close, color = close > open ? color.green : color.red) //🠆 "series color"
@@ -369,7 +369,7 @@ Not all values can be plotted everywhere. Your script’s visual space is always
 
 ![../_images/Plots-Scale-01.png](https://tradingview.com/pine-script-docs/en/v5/_images/Plots-Scale-01.png)
 
-```
+```swift
 //@version=5
 indicator("RSI")
 myRSI = ta.rsi(close, 20)
@@ -382,7 +382,7 @@ hline(50)
 ```
 
 
-Note that the _y_ axis of our script’s visual space is automatically sized using the range of values plotted, i.e., the values of RSI. See the page on [Colors](https://tradingview.com/pine-script-docs/en/v5/concepts/Colors.html#pagecolors) for more information on the [color.from\_gradient()](https://www.tradingview.com/pine-script-reference/v5/#fun_color{dot}from_gradient) function used in the script.
+Note that the _y_ axis of our script’s visual space is automatically sized using the range of values plotted, i.e., the values of RSI. See the page on [Colors](concepts_Colors.html#pagecolors) for more information on the [color.from\_gradient()](https://www.tradingview.com/pine-script-reference/v5/#fun_color{dot}from_gradient) function used in the script.
 
 If we try to plot the symbol’s [close](https://www.tradingview.com/pine-script-reference/v5/#var_close) values in the same space by adding the following line to our script:
 
@@ -400,7 +400,7 @@ If both your indicators used fixed ranges, you can shift the values of one of th
 
 ![../_images/Plots-Scale-03.png](https://tradingview.com/pine-script-docs/en/v5/_images/Plots-Scale-03.png)
 
-```
+```swift
 //@version=5
 indicator("RSI and TSI")
 myRSI = ta.rsi(close, 20)
@@ -426,13 +426,13 @@ hline(150)
 Note that:
 
 *   We have added levels using [hline](https://www.tradingview.com/pine-script-reference/v5/#fun_hline) to situate both signals.
-    
+
 *   In order for both signal lines to oscillate on the same range of 100, we divide the [TSI](https://www.tradingview.com/support/solutions/43000592290) value by 2 because it has a 200 range (-100 to +100). We then shift this value up by 150 so it oscillates between 100 and 200, making 150 its centerline.
-    
+
 *   The manipulations we make here are typical of the compromises required to bring two indicators with different scales in the same visual space, even when their values, contrary to [MACD](https://www.tradingview.com/support/solutions/43000502344), are bounded in a fixed range.
-    
+
     [
-    
+
     ![../_images/TradingView-Logo-Block.svg](https://tradingview.com/pine-script-docs/en/v5/_images/TradingView-Logo-Block.svg)
-    
+
     ](https://www.tradingview.com/)

@@ -10,7 +10,7 @@ When a script uses the [strategy()](https://www.tradingview.com/pine-script-refe
 
 The following script is a simple strategy that simulates the entry of long or short positions upon the crossing of two moving averages:
 
-```
+```swift
 //@version=5
 strategy("test", overlay = true)
 
@@ -101,7 +101,7 @@ The Properties tab provides detailed information about a strategy’s configurat
 [Broker emulator](#id9)
 -------------------------------------------------------------------------
 
-TradingView utilizes a _broker emulator_ to simulate the performance of trading strategies. Unlike in real-life trading, the emulator strictly uses available chart prices for order simulation. Consequently, the simulation can only place historical trades after a bar closes, and it can only place real-time trades on a new price tick. For more information on this behavior, please refer to the Pine Script® [Execution model](https://tradingview.com/pine-script-docs/en/v5/language/Execution_model.html#pageexecutionmodel).
+TradingView utilizes a _broker emulator_ to simulate the performance of trading strategies. Unlike in real-life trading, the emulator strictly uses available chart prices for order simulation. Consequently, the simulation can only place historical trades after a bar closes, and it can only place real-time trades on a new price tick. For more information on this behavior, please refer to the Pine Script® [Execution model](language/Execution_model.html#pageexecutionmodel).
 
 Since the emulator can only use chart data, it makes assumptions about intrabar price movement. It uses a bar’s open, high, and low prices to infer intrabar activity while calculating order fills with the following logic:
 
@@ -119,7 +119,7 @@ To demonstrate, the following script places a “Buy” limit order at the `entr
 
 ![../_images/Strategies-Broker-emulator-Bar-magnifier-1.png](https://tradingview.com/pine-script-docs/en/v5/_images/Strategies-Broker-emulator-Bar-magnifier-1.png)
 
-```
+```swift
 //@version=5
 strategy("Bar Magnifier Demo", overlay = true, use_bar_magnifier = false)
 
@@ -174,7 +174,7 @@ Just like in real-life trading, Pine strategies use orders to manage positions. 
 
 To take a closer look at how orders work and how they become trades, let’s write a simple strategy script:
 
-```
+```swift
 //@version=5
 strategy("My strategy", overlay = true, margin_long = 100, margin_short = 100)
 
@@ -214,7 +214,7 @@ The following script simulates a long market order when the `bar_index` is divis
 
 ![../_images/Strategies-Orders-and-entries-Order-types-1.png](https://tradingview.com/pine-script-docs/en/v5/_images/Strategies-Orders-and-entries-Order-types-1.png)
 
-```
+```swift
 //@version=5
 strategy("Market order demo", overlay = true, margin_long = 100, margin_short = 100)
 
@@ -252,7 +252,7 @@ To simulate limit orders in a script, pass a price value to an order placement c
 
 ![../_images/Strategies-Orders-and-entries-Order-types-2.png](https://tradingview.com/pine-script-docs/en/v5/_images/Strategies-Orders-and-entries-Order-types-2.png)
 
-```
+```swift
 //@version=5
 strategy("Limit order demo", overlay = true, margin_long = 100, margin_short = 100)
 
@@ -280,7 +280,7 @@ Note how the script placed the label and started the line several bars before th
 
 ![../_images/Strategies-Orders-and-entries-Order-types-3.png](https://tradingview.com/pine-script-docs/en/v5/_images/Strategies-Orders-and-entries-Order-types-3.png)
 
-```
+```swift
 //@version=5
 strategy("Limit order demo", overlay = true, margin_long = 100, margin_short = 100)
 
@@ -312,7 +312,7 @@ The script below places a stop order 800 ticks above the `close` 100 bars ago. I
 
 ![../_images/Strategies-Orders-and-entries-Order-types-4.png](https://tradingview.com/pine-script-docs/en/v5/_images/Strategies-Orders-and-entries-Order-types-4.png)
 
-```
+```swift
 //@version=5
 strategy("Stop order demo", overlay = true, margin_long = 100, margin_short = 100)
 
@@ -343,7 +343,7 @@ Let’s modify our previous script to simulate and visualize a stop-limit order.
 
 ![../_images/Strategies-Orders-and-entries-Order-types-5.png](https://tradingview.com/pine-script-docs/en/v5/_images/Strategies-Orders-and-entries-Order-types-5.png)
 
-```
+```swift
 //@version=5
 strategy("Stop-Limit order demo", overlay = true, margin_long = 100, margin_short = 100)
 
@@ -392,7 +392,7 @@ The example below demonstrates a strategy that uses only [strategy.entry()](http
 
 ![../_images/Strategies-Orders-and-entries-Order-placement-commands-1.png](https://tradingview.com/pine-script-docs/en/v5/_images/Strategies-Orders-and-entries-Order-placement-commands-1.png)
 
-```
+```swift
 //@version=5
 strategy("Entry demo", "test", overlay = true)
 
@@ -428,7 +428,7 @@ The following script uses only [strategy.order()](https://www.tradingview.com/pi
 
 ![../_images/Strategies-Orders-and-entries-Order-placement-commands-3.png](https://tradingview.com/pine-script-docs/en/v5/_images/Strategies-Orders-and-entries-Order-placement-commands-3.png)
 
-```
+```swift
 //@version=5
 strategy("Order demo", "test", overlay = true)
 
@@ -468,7 +468,7 @@ The following strategy places a “buy” entry order via [strategy.entry()](htt
 
 ![../_images/Strategies-Orders-and-entries-Order-placement-commands-4.png](https://tradingview.com/pine-script-docs/en/v5/_images/Strategies-Orders-and-entries-Order-placement-commands-4.png)
 
-```
+```swift
 //@version=5
 strategy("Exit demo", "test", overlay = true)
 
@@ -510,7 +510,7 @@ In this example, the strategy creates “buy1” and “buy2” entry orders and
 
 ![../_images/Strategies-Orders-and-entries-Order-placement-commands-4a.png](https://tradingview.com/pine-script-docs/en/v5/_images/Strategies-Orders-and-entries-Order-placement-commands-4a.png)
 
-```
+```swift
 //@version=5
 strategy("Exit all demo", "test", overlay = true, pyramiding = 2)
 
@@ -548,7 +548,7 @@ In the example below, we’ve modified our previous “Exit demo” script to si
 
 ![../_images/Strategies-Orders-and-entries-Order-placement-commands-5.png](https://tradingview.com/pine-script-docs/en/v5/_images/Strategies-Orders-and-entries-Order-placement-commands-5.png)
 
-```
+```swift
 //@version=5
 strategy("Multiple exit demo", "test", overlay = true)
 
@@ -604,7 +604,7 @@ The following script simulates a “buy” market order for 20 shares 100 bars a
 
 ![../_images/Strategies-Orders-and-entries-Order-placement-commands-5a.png](https://tradingview.com/pine-script-docs/en/v5/_images/Strategies-Orders-and-entries-Order-placement-commands-5a.png)
 
-```
+```swift
 //@version=5
 strategy("Reserved exit demo", "test", overlay = true)
 
@@ -637,7 +637,7 @@ The green dashed line on the chart shows the level the market price must cross t
 
 ![../_images/Strategies-Orders-and-entries-Order-placement-commands-5b.png](https://tradingview.com/pine-script-docs/en/v5/_images/Strategies-Orders-and-entries-Order-placement-commands-5b.png)
 
-```
+```swift
 //@version=5
 strategy("Trailing stop order demo", overlay = true, margin_long = 100, margin_short = 100)
 
@@ -704,7 +704,7 @@ The example below demonstrates a simple strategy that places a “buy” order v
 
 ![../_images/Strategies-Orders-and-entries-Order-placement-commands-6.png](https://tradingview.com/pine-script-docs/en/v5/_images/Strategies-Orders-and-entries-Order-placement-commands-6.png)
 
-```
+```swift
 //@version=5
 strategy("Close demo", "test", overlay = true)
 
@@ -730,7 +730,7 @@ To demonstrate, the following script places a “buy” order once every 25 bars
 
 ![../_images/Strategies-Orders-and-entries-Order-placement-commands-7.png](https://tradingview.com/pine-script-docs/en/v5/_images/Strategies-Orders-and-entries-Order-placement-commands-7.png)
 
-```
+```swift
 //@version=5
 strategy("Multiple close demo", "test", overlay = true, pyramiding = 3)
 
@@ -756,7 +756,7 @@ The script below places “A”, “B”, and “C” entry orders sequentially 
 
 ![../_images/Strategies-Orders-and-entries-Order-placement-commands-8.png](https://tradingview.com/pine-script-docs/en/v5/_images/Strategies-Orders-and-entries-Order-placement-commands-8.png)
 
-```
+```swift
 //@version=5
 strategy("Close multiple ID demo", "test", overlay = true, pyramiding = 3)
 
@@ -777,7 +777,7 @@ The following strategy simulates a “buy” limit order 500 ticks below the clo
 
 ![../_images/Strategies-Orders-and-entries-Order-placement-commands-9.png](https://tradingview.com/pine-script-docs/en/v5/_images/Strategies-Orders-and-entries-Order-placement-commands-9.png)
 
-```
+```swift
 //@version=5
 strategy("Cancel demo", "test", overlay = true)
 
@@ -808,7 +808,7 @@ In this example, we’ve modified the previous script to place a “buy” limit
 
 ![../_images/Strategies-Orders-and-entries-Order-placement-commands-10.png](https://tradingview.com/pine-script-docs/en/v5/_images/Strategies-Orders-and-entries-Order-placement-commands-10.png)
 
-```
+```swift
 //@version=5
 strategy("Multiple cancel demo", "test", overlay = true, pyramiding = 3)
 
@@ -843,7 +843,7 @@ This example simulates a “buy” market order 100 bars ago, then attempts to c
 
 ![../_images/Strategies-Orders-and-entries-Order-placement-commands-11.png](https://tradingview.com/pine-script-docs/en/v5/_images/Strategies-Orders-and-entries-Order-placement-commands-11.png)
 
-```
+```swift
 //@version=5
 strategy("Cancel market demo", "test", overlay = true)
 
@@ -875,7 +875,7 @@ The following example simulates “Buy” orders of `longAmount` size whenever t
 
 ![../_images/Strategies-Position-sizing-1.png](https://tradingview.com/pine-script-docs/en/v5/_images/Strategies-Position-sizing-1.png)
 
-```
+```swift
 //@version=5
 strategy("Buy low, sell high", overlay = true, default_qty_type = strategy.cash, default_qty_value = 5000)
 
@@ -897,7 +897,7 @@ Notice that in the above example, although we’ve specified the `default_qty_ty
 
 ![../_images/Strategies-Position-sizing-2.png](https://tradingview.com/pine-script-docs/en/v5/_images/Strategies-Position-sizing-2.png)
 
-```
+```swift
 //@version=5
 strategy("Buy low, sell high", overlay = true, default_qty_type = strategy.cash, default_qty_value = 5000)
 
@@ -922,7 +922,7 @@ The following example simulates two orders sequentially: “Buy1” at the marke
 
 ![../_images/Strategies-Closing-a-market-position-1.png](https://tradingview.com/pine-script-docs/en/v5/_images/Strategies-Closing-a-market-position-1.png)
 
-```
+```swift
 //@version=5
 strategy("Exit Demo", pyramiding = 2)
 
@@ -948,7 +948,7 @@ Suppose we wanted to exit “Buy2” before “Buy1”. Let’s see what happens
 
 ![../_images/Strategies-Closing-a-market-position-2.png](https://tradingview.com/pine-script-docs/en/v5/_images/Strategies-Closing-a-market-position-2.png)
 
-```
+```swift
 //@version=5
 strategy("Exit Demo", pyramiding = 2)
 
@@ -982,7 +982,7 @@ For example, the following strategy executes orders upon `ma1` crossing `ma2`. W
 
 ![../_images/Strategies-OCA-groups-Strategy-oca-cancel-1.png](https://tradingview.com/pine-script-docs/en/v5/_images/Strategies-OCA-groups-Strategy-oca-cancel-1.png)
 
-```
+```swift
 //@version=5
 strategy("OCA Cancel Demo", overlay=true)
 
@@ -1006,7 +1006,7 @@ To eliminate scenarios where the strategy fills long and short orders before a c
 
 ![../_images/Strategies-OCA-groups-Strategy-oca-cancel-2.png](https://tradingview.com/pine-script-docs/en/v5/_images/Strategies-OCA-groups-Strategy-oca-cancel-2.png)
 
-```
+```swift
 //@version=5
 strategy("OCA Cancel Demo", overlay=true)
 
@@ -1036,7 +1036,7 @@ After adding the strategy to our chart, we see it doesn’t work as intended. Th
 
 ![../_images/Strategies-OCA-groups-Strategy-oca-reduce-1.png](https://tradingview.com/pine-script-docs/en/v5/_images/Strategies-OCA-groups-Strategy-oca-reduce-1.png)
 
-```
+```swift
 //@version=5
 strategy("Multiple TP Demo", overlay = true)
 
@@ -1068,7 +1068,7 @@ In the example below, we’ve set the `oca_name` for each order in our exit stra
 
 ![../_images/Strategies-OCA-groups-Strategy-oca-reduce-2.png](https://tradingview.com/pine-script-docs/en/v5/_images/Strategies-OCA-groups-Strategy-oca-reduce-2.png)
 
-```
+```swift
 //@version=5
 strategy("Multiple TP Demo", overlay = true)
 
@@ -1107,7 +1107,7 @@ When a strategy script uses a specified base currency, it multiplies the simulat
 
 ![../_images/Strategies-Currency-1.png](https://tradingview.com/pine-script-docs/en/v5/_images/Strategies-Currency-1.png)
 
-```
+```swift
 //@version=5
 strategy("Currency Test", currency = currency.EUR)
 
@@ -1137,7 +1137,7 @@ Enabling this calculation behavior may be particularly useful when forward testi
 
 The following script will simulate a new order each time that `close` reaches the `highest` or `lowest` value over the input `length`. Since `calc_on_every_tick` is enabled in the strategy declaration, the script will simulate new orders on each new real-time price tick after compilation:
 
-```
+```swift
 //@version=5
 strategy("Donchian Channel Break", overlay = true, calc_on_every_tick = true, pyramiding = 20)
 
@@ -1186,7 +1186,7 @@ The example below shows a simple strategy declared with `calc_on_order_fills` en
 
 ![../_images/Strategies-Altering-calculation-behavior-Calc-on-order-fills-1.png](https://tradingview.com/pine-script-docs/en/v5/_images/Strategies-Altering-calculation-behavior-Calc-on-order-fills-1.png)
 
-```
+```swift
 //@version=5
 strategy("Intrabar exit", overlay = true, calc_on_order_fills = true)
 
@@ -1214,7 +1214,7 @@ The following example simulates a “Buy” order after each new order fill and 
 
 ![../_images/Strategies-Altering-calculation-behavior-Calc-on-order-fills-2.png](https://tradingview.com/pine-script-docs/en/v5/_images/Strategies-Altering-calculation-behavior-Calc-on-order-fills-2.png)
 
-```
+```swift
 //@version=5
 strategy("buy on every fill", overlay = true, calc_on_order_fills = true, pyramiding = 100)
 
@@ -1247,7 +1247,7 @@ The following script is a simple strategy that simulates a “Long” position o
 
 ![../_images/Strategies-Simulating-trading-costs-Commission-1.png](https://tradingview.com/pine-script-docs/en/v5/_images/Strategies-Simulating-trading-costs-Commission-1.png)
 
-```
+```swift
 //@version=5
 strategy("Commission Demo", overlay=true, default_qty_value = 2, default_qty_type = strategy.percent_of_equity)
 
@@ -1270,7 +1270,7 @@ Upon inspecting the results in the Strategy Tester, we see that the strategy had
 
 ![../_images/Strategies-Simulating-trading-costs-Commission-2.png](https://tradingview.com/pine-script-docs/en/v5/_images/Strategies-Simulating-trading-costs-Commission-2.png)
 
-```
+```swift
 //@version=5
 strategy(
      "Commission Demo", overlay=true, default_qty_value = 2, default_qty_type = strategy.percent_of_equity,
@@ -1302,7 +1302,7 @@ The following example demonstrates how slippage simulation affects the fill pric
 
 ![../_images/Strategies-Simulating-trading-costs-Slippage-and-unfilled-limits-1.png](https://tradingview.com/pine-script-docs/en/v5/_images/Strategies-Simulating-trading-costs-Slippage-and-unfilled-limits-1.png)
 
-```
+```swift
 //@version=5
 strategy(
      "Slippage Demo", overlay = true, slippage = 20,
@@ -1366,7 +1366,7 @@ The following example places a limit order of 2% equity at a bar’s `hlcc4` whe
 
 ![../_images/Strategies-Simulating-trading-costs-Slippage-and-unfilled-limits-2.png](https://tradingview.com/pine-script-docs/en/v5/_images/Strategies-Simulating-trading-costs-Slippage-and-unfilled-limits-2.png)
 
-```
+```swift
 //@version=5
 strategy(
      "Verify price for limits example", overlay = true,
@@ -1467,7 +1467,7 @@ To examine this calculation in detail, let’s add the built-in Supertrend Strat
 
 The first entry happened at the bar’s opening price on 16 Sep 2010. The strategy bought 682,438 shares (Position size) at 4.43 USD (Entry price). Then, on 23 Sep 2010, when the price dipped to 3.9 (Current price), the emulator forcibly liquidated 111,052 shares via margin call.
 
-```
+```swift
 Money spent: 682438 * 4.43 = 3023200.34
 MVS: 682438 * 3.9 = 2661508.2
 Open Profit: −361692.14
@@ -1487,7 +1487,7 @@ Margin Call Size: -27763 * 4 = - 111052
 
 Regular Pine Script® indicators have two different mechanisms to set up custom alert conditions: the [alertcondition()](https://www.tradingview.com/pine-script-reference/v5/#fun_alertcondition) function, which tracks one specific condition per function call, and the [alert()](https://www.tradingview.com/pine-script-reference/v5/#fun_alert) function, which tracks all its calls simultaneously, but provides greater flexibility in the number of calls, alert messages, etc.
 
-Pine Script® strategies do not work with [alertcondition()](https://www.tradingview.com/pine-script-reference/v5/#fun_alertcondition) calls, but they do support the generation of custom alerts via the [alert()](https://www.tradingview.com/pine-script-reference/v5/#fun_alert) function. Along with this, each function that creates orders also comes with its own built-in alert functionality that does not require any additional code to implement. As such, any strategy that uses an order placement command can issue alerts upon order execution. The precise mechanics of such built-in strategy alerts are described in the Order Fill events section of the [Alerts](https://tradingview.com/pine-script-docs/en/v5/concepts/Alerts.html#pagealerts) page in our User Manual.
+Pine Script® strategies do not work with [alertcondition()](https://www.tradingview.com/pine-script-reference/v5/#fun_alertcondition) calls, but they do support the generation of custom alerts via the [alert()](https://www.tradingview.com/pine-script-reference/v5/#fun_alert) function. Along with this, each function that creates orders also comes with its own built-in alert functionality that does not require any additional code to implement. As such, any strategy that uses an order placement command can issue alerts upon order execution. The precise mechanics of such built-in strategy alerts are described in the Order Fill events section of the [Alerts](concepts_Alerts.html#pagealerts) page in our User Manual.
 
 When a strategy uses functions that create orders and the `alert()` function together, the alert creation dialogue provides a choice between the conditions that it will trigger upon: it can trigger on `alert()` events, order fill events, or both.
 
@@ -1497,7 +1497,7 @@ When sending alerts to a third party for strategy automation, we recommend using
 
 The following script shows a simple example of a default order fill alert message. Above the [strategy()](https://www.tradingview.com/pine-script-reference/v5/#fun_strategy) declaration statement, it uses `@strategy_alert_message` with _placeholders_ for the trade action, position size, ticker, and fill price values in the message text:
 
-```
+```swift
 //@version=5
 //@strategy_alert_message {{strategy.order.action}} {{strategy.position_size}} {{ticker}} @ {{strategy.order.price}}
 strategy("Alert Message Demo", overlay = true)
@@ -1543,7 +1543,7 @@ Backtesting and forward testing are two sides of the same coin, as both approach
 
 ### [Lookahead bias](#id41)
 
-One typical issue in backtesting some strategies, namely ones that request alternate timeframe data, use repainting variables such as [timenow](https://www.tradingview.com/pine-script-reference/v5/#var_timenow), or alter calculation behavior for intrabar order fills, is the leakage of future data into the past during evaluation, which is known as lookahead bias. Not only is this bias a common cause of unrealistic strategy results since the future is never actually knowable beforehand, but it is also one of the typical causes of strategy repainting. Traders can often confirm this bias by forward testing their systems, as lookahead bias does not apply to real-time data where no known data exists beyond the current bar. Users can eliminate this bias in their strategies by ensuring that they don’t use repainting variables that leak the future into the past, `request.*()` functions don’t include [barmerge.lookahead\_on](https://www.tradingview.com/pine-script-reference/v5/#var_barmerge{dot}lookahead_on) without offsetting the data series as described on [this](https://www.tradingview.com/pine-script-docs/en/v5/concepts/Repainting.html?highlight=barmerge#future-leak-with-request-security) section of our page on [repainting](https://tradingview.com/pine-script-docs/en/v5/concepts/Repainting.html#pagerepainting), and they use realistic calculation behavior.
+One typical issue in backtesting some strategies, namely ones that request alternate timeframe data, use repainting variables such as [timenow](https://www.tradingview.com/pine-script-reference/v5/#var_timenow), or alter calculation behavior for intrabar order fills, is the leakage of future data into the past during evaluation, which is known as lookahead bias. Not only is this bias a common cause of unrealistic strategy results since the future is never actually knowable beforehand, but it is also one of the typical causes of strategy repainting. Traders can often confirm this bias by forward testing their systems, as lookahead bias does not apply to real-time data where no known data exists beyond the current bar. Users can eliminate this bias in their strategies by ensuring that they don’t use repainting variables that leak the future into the past, `request.*()` functions don’t include [barmerge.lookahead\_on](https://www.tradingview.com/pine-script-reference/v5/#var_barmerge{dot}lookahead_on) without offsetting the data series as described on [this](https://www.tradingview.com/pine-script-docs/en/v5/concepts_Repainting.html?highlight=barmerge#future-leak-with-request-security) section of our page on [repainting](concepts_Repainting.html#pagerepainting), and they use realistic calculation behavior.
 
 ### [Selection bias](#id42)
 

@@ -39,7 +39,7 @@ Keep in mind that each successive call to [table.cell()](https://www.tradingview
 
 Let’s create our first table, which will place the value of ATR in the upper-right corner of the chart. We first create a one-cell table, then populate that cell:
 
-```
+```swift
 //@version=5
 indicator("ATR", "", true)
 // We use `var` to only initialize the table on the first bar.
@@ -64,7 +64,7 @@ Note that:
 
 Let’s improve the usability and aesthethics of our script:
 
-```
+```swift
 //@version=5
 indicator("ATR", "", true)
 atrPeriodInput = input.int(14,  "ATR period", minval = 1, tooltip = "Using a period of 1 yields True Range.")
@@ -90,7 +90,7 @@ Note that:
 
 This example uses a one-cell table to color the chart’s background on the bull/bear state of RSI:
 
-```
+```swift
 //@version=5
 indicator("Chart background", "", true)
 bullColorInput = input.color(color.new(color.green, 95), "Bull", inline = "1")
@@ -122,7 +122,7 @@ Here, we create a basic display panel showing a user-selected quantity of MAs va
 
 ![../_images/Tables-DisplayPanel-1.png](https://tradingview.com/pine-script-docs/en/v5/_images/Tables-DisplayPanel-1.png)
 
-```
+```swift
 //@version=5
 indicator("Price vs MA", "", true)
 
@@ -174,7 +174,7 @@ Our next project is a heatmap, which will indicate the bull/bear relationship of
 
 ![../_images/Tables-Heatmap-1.png](https://tradingview.com/pine-script-docs/en/v5/_images/Tables-Heatmap-1.png)
 
-```
+```swift
 //@version=5
 indicator("Price vs Past", "", true)
 

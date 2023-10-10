@@ -1,4 +1,4 @@
-```
+```swift
 //@version=5
 indicator('Linear Regression', shorttitle='LinReg', overlay=true)
 

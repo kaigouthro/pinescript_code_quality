@@ -2,13 +2,13 @@
 
 ![Pine Script® logo](https://tradingview.com/pine-script-docs/en/v5/_images/Pine-script-logo.svg)
 
-](https://www.tradingview.com/pine-script-docs/en/v5/Introduction.html)
+](https://www.tradingview.com/pine-script-docs/en/v5/Introduction.md)
 
 The [barcolor()](https://www.tradingview.com/pine-script-reference/v5/#fun_barcolor) function lets you color chart bars. It is the only Pine Script® function that allows a script running in a pane to affect the chart.
 
 The function’s signature is:
 
-```
+```swift
 barcolor(color, offset, editable, show_last, title) → void
 
 ```
@@ -20,7 +20,7 @@ The following script renders _inside_ and _outside_ bars in different colors:
 
 ![../_images/BarColoring-1.png](https://tradingview.com/pine-script-docs/en/v5/_images/BarColoring-1.png)
 
-```
+```swift
 //@version=5
 indicator("barcolor example", overlay = true)
 isUp = close > open

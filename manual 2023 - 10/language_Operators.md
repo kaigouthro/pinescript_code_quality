@@ -14,11 +14,11 @@ Other operators are used to assign values to variables:
 *   `=` is used to assign a value to a variable, **but only when you declare the variable** (the first time you use it)
 *   `:=` is used to assign a value to a **previously declared variable**. The following operators can also be used in such a way: `+=`, `-=`, `*=`, `/=`, `%=`
 
-As is explained in the [Type system](https://tradingview.com/pine-script-docs/en/v5/language/Type_system.html#pagetypesystem) page, _forms_ and _types_ play a critical role in determining the type of results that expressions yield. This, in turn, has an impact on how and with what functions you will be allowed to use those results. Expressions always return a form of the strongest one used in the expression, e.g., if you multiply an “input int” with a “series int”, the expression will produce a “series int” result, which you will not be able to use as the argument to `length` in [ta.ema()](https://www.tradingview.com/pine-script-reference/v5/#fun_ta{dot}ema).
+As is explained in the [Type system](language/Type_system.html#pagetypesystem) page, _forms_ and _types_ play a critical role in determining the type of results that expressions yield. This, in turn, has an impact on how and with what functions you will be allowed to use those results. Expressions always return a form of the strongest one used in the expression, e.g., if you multiply an “input int” with a “series int”, the expression will produce a “series int” result, which you will not be able to use as the argument to `length` in [ta.ema()](https://www.tradingview.com/pine-script-reference/v5/#fun_ta{dot}ema).
 
 This script will produce a compilation error:
 
-```
+```swift
 //@version=5
 indicator("")
 lenInput = input.int(14, "Length")
@@ -59,7 +59,7 @@ The `+` operator also serves as the concatenation operator for strings. `"EUR"+"
 
 The `%` operator calculates the modulo by rounding down the quotient to the lowest possible value. Here is an easy example that helps illustrate how the modulo is calculated behind the scenes:
 
-```
+```swift
 //@version=5
 indicator("Modulo function")
 modulo(series int a, series int b) =>
@@ -88,7 +88,7 @@ Comparison operations are binary. If both operands have a numerical value, the r
 
 Examples
 
-```
+```swift
 1 > 2  // false
 1 != 1 // false
 close >= open  // Depends on values of `close` and `open`
@@ -137,7 +137,7 @@ The operator `not` is unary. When applied to a `true`, operand the result will b
 
 The [?:](https://www.tradingview.com/pine-script-reference/v5/#op_{question}{colon}) ternary operator is used to create expressions of the form:
 
-```
+```swift
 condition ? valueWhenConditionIsTrue : valueWhenConditionIsFalse
 
 ```
@@ -147,7 +147,7 @@ The ternary operator returns a result that depends on the value of `condition`. 
 
 A combination of ternary expressions can be used to achieve the same effect as a [switch](https://www.tradingview.com/pine-script-reference/v5/#op_switch) structure, e.g.:
 
-```
+```swift
 timeframe.isintraday ? color.red : timeframe.isdaily ? color.green : timeframe.ismonthly ? color.blue : na
 
 ```
@@ -164,7 +164,7 @@ Note that the return values on each side of the `:` are expressions — not loca
 [\`\[ \]\` history-referencing operator](#id6)
 -------------------------------------------------------------------------------------------------------------
 
-It is possible to refer to past values of [time series](https://tradingview.com/pine-script-docs/en/v5/language/Time_series.html#pagetimeseries) using the [\[\]](https://www.tradingview.com/pine-script-reference/v5/#op_[]) history-referencing operator. Past values are values a variable had on bars preceding the bar where the script is currently executing — the _current bar_. See the [Execution model](https://tradingview.com/pine-script-docs/en/v5/language/Execution_model.html#pageexecutionmodel) page for more information about the way scripts are executed on bars.
+It is possible to refer to past values of [time series](language/Time_series.html#pagetimeseries) using the [\[\]](https://www.tradingview.com/pine-script-reference/v5/#op_[]) history-referencing operator. Past values are values a variable had on bars preceding the bar where the script is currently executing — the _current bar_. See the [Execution model](https://tradingview.com/pine-script-docs/en/v5/language/Execution_model.html#pageexecutionmodel) page for more information about the way scripts are executed on bars.
 
 The [\[\]](https://www.tradingview.com/pine-script-reference/v5/#op_[]) operator is used after a variable, expression or function call. The value used inside the square brackets of the operator is the offset in the past we want to refer to. To refer to the value of the [volume](https://www.tradingview.com/pine-script-reference/v5/#var_volume) built-in variable two bars away from the current bar, one would use `volume[2]`.
 
@@ -182,7 +182,7 @@ There is another important consideration to keep in mind when using the `[]` ope
 
 These are all valid uses of the [\[\]](https://www.tradingview.com/pine-script-reference/v5/#op_[]) operator:
 
-```
+```swift
 high[10]
 ta.sma(close, 10)[1]
 ta.highest(high, 10)[20]
@@ -193,7 +193,7 @@ close > nz(close[1], open)
 
 Note that the [\[\]](https://www.tradingview.com/pine-script-reference/v5/#op_[]) operator can only be used once on the same value. This is not allowed:
 
-```
+```swift
 close[1][2] // Error: incorrect use of [] operator
 
 ```
@@ -229,7 +229,7 @@ The `=` operator is used to assign a variable when it is initialized — or decl
 
 These are all valid variable declarations:
 
-```
+```swift
 i = 1
 MS_IN_ONE_MINUTE = 1000 * 60
 showPlotInput = input.bool(true, "Show plots")
@@ -239,16 +239,16 @@ plotColor = color.green
 ```
 
 
-See the [Variable declarations](https://tradingview.com/pine-script-docs/en/v5/language/Variable_declarations.html#pagevariabledeclarations) page for more information on how to declare variables.
+See the [Variable declarations](language/Variable_declarations.html#pagevariabledeclarations) page for more information on how to declare variables.
 
 [\`:=\` reassignement operator](#id9)
 ----------------------------------------------------------------------------------------------
 
 The `:=` is used to _reassign_ a value to an existing variable. It says _use this variable that was declared earlier in my script, and give it a new value_.
 
-Variables which have been first declared, then reassigned using `:=`, are called _mutable_ variables. All the following examples are valid variable reassignments. You will find more information on how [var](https://www.tradingview.com/pine-script-reference/v5/#op_var) works in the section on the [\`var\` declaration mode](https://tradingview.com/pine-script-docs/en/v5/language/Variable_declarations.html#pagevariabledeclarations-var):
+Variables which have been first declared, then reassigned using `:=`, are called _mutable_ variables. All the following examples are valid variable reassignments. You will find more information on how [var](https://www.tradingview.com/pine-script-reference/v5/#op_var) works in the section on the [\`var\` declaration mode](language/Variable_declarations.html#pagevariabledeclarations-var):
 
-```
+```swift
 //@version=5
 indicator("", "", true)
 // Declare `pHi` and initilize it on the first bar only.
@@ -274,7 +274,7 @@ Note that:
 *   The line preserves its previous value until a new pivot is found.
 *   Pivots are detected five bars after the pivot actually occurs because our `ta.pivothigh(5, 5)` call says that we require five lower highs on both sides of a high point for it to be detected as a pivot.
 
-See the [Variable reassignment](https://tradingview.com/pine-script-docs/en/v5/language/Variable_declarations.html#pagevariabledeclarations-variablereassignment) section for more information on how to reassign values to variables.
+See the [Variable reassignment](language/Variable_declarations.html#pagevariabledeclarations-variablereassignment) section for more information on how to reassign values to variables.
 
 [
 

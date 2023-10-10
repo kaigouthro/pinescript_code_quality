@@ -1,4 +1,4 @@
-Understanding the impact that declaration modes have on the behavior of variables requires prior knowledge of Pine Script®’s [execution model](https://tradingview.com/pine-script-docs/en/v5/language/Execution_model.html#pageexecutionmodel).
+Understanding the impact that declaration modes have on the behavior of variables requires prior knowledge of Pine Script®’s [execution model](language/Execution_model.html#pageexecutionmodel).
 
 When you declare a variable, if a declaration mode is specified, it must come first. Three modes can be used:
 
@@ -6,7 +6,7 @@ When you declare a variable, if a declaration mode is specified, it must come fi
 
 When no explicit declaration mode is specified, i.e. no [var](https://www.tradingview.com/pine-script-reference/v5/#op_var) or [varip](https://www.tradingview.com/pine-script-reference/v5/#op_varip) keyword is used, the variable is declared and initialized on each bar, e.g., the following declarations from our first set of examples in this page’s introduction:
 
-```
+```swift
 BULL_COLOR = color.lime
 i = 1
 len = input(20, "Length")
@@ -26,7 +26,7 @@ else
 
 When the [var](https://www.tradingview.com/pine-script-reference/v5/#op_var) keyword is used, the variable is only initialized once, on the first bar if the declaration is in the global scope, or the first time the local block is executed if the declaration is inside a local block. After that, it will preserve its last value on successive bars, until we reassign a new value to it. This behavior is very useful in many cases where a variable’s value must persist through the iterations of a script across successive bars. For example, suppose we’d like to count the number of green bars on the chart:
 
-```
+```swift
 //@version=5
 indicator("Green Bars Count")
 var count = 0
@@ -44,7 +44,7 @@ Without the `var` modifier, variable `count` would be reset to zero (thus losing
 
 Declaring variables on the first bar only is often useful to manage drawings more efficiently. Suppoose we want to extend the last bar’s [close](https://www.tradingview.com/pine-script-reference/v5/#var_close) line to the right of the right chart. We could write:
 
-```
+```swift
 //@version=5
 indicator("Inefficient version", "", true)
 closeLine = line.new(bar_index - 1, close, bar_index, close, extend = extend.right, width = 3)
@@ -55,7 +55,7 @@ line.delete(closeLine[1])
 
 but this is inefficient because we are creating and deleting the line on each historical bar and on each update in the realtime bar. It is more efficient to use:
 
-```
+```swift
 //@version=5
 indicator("Efficient version", "", true)
 var closeLine = line.new(bar_index - 1, close, bar_index, close, extend = extend.right, width = 3)
@@ -75,9 +75,9 @@ There is a very slight penalty performance for using the [var](https://www.tradi
 
 ### [\`varip\`](#id8)
 
-Understanding the behavior of variables using the [varip](https://www.tradingview.com/pine-script-reference/v5/#op_varip) declaration mode requires prior knowledge of Pine Script®’s [execution model](https://tradingview.com/pine-script-docs/en/v5/language/Execution_model.html#pageexecutionmodel) and [bar states](https://tradingview.com/pine-script-docs/en/v5/concepts/Bar_states.html#pagebarstates).
+Understanding the behavior of variables using the [varip](https://www.tradingview.com/pine-script-reference/v5/#op_varip) declaration mode requires prior knowledge of Pine Script®’s [execution model](language/Execution_model.html#pageexecutionmodel) and [bar states](https://tradingview.com/pine-script-docs/en/v5/concepts_Bar_states.html#pagebarstates).
 
-The [varip](https://www.tradingview.com/pine-script-reference/v5/#op_varip) keyword can be used to declare variables that escape the _rollback process_, which is explained in the page on Pine Script®’s [execution model](https://tradingview.com/pine-script-docs/en/v5/language/Execution_model.html#pageexecutionmodel).
+The [varip](https://www.tradingview.com/pine-script-reference/v5/#op_varip) keyword can be used to declare variables that escape the _rollback process_, which is explained in the page on Pine Script®’s [execution model](language/Execution_model.html#pageexecutionmodel).
 
 Whereas scripts only execute once at the close of historical bars, when a script is running in realtime, it executes every time the chart’s feed detects a price or volume update. At every realtime update, Pine Script®’s runtime normally resets the values of a script’s variables to their last committed value, i.e., the value they held when the previous bar closed. This is generally handy, as each realtime script execution starts from a known state, which simplifies script logic.
 
@@ -85,7 +85,7 @@ Sometimes, however, script logic requires code to be able to save variable value
 
 Let’s look at the following code, which does not use [varip](https://www.tradingview.com/pine-script-reference/v5/#op_varip):
 
-```
+```swift
 //@version=5
 indicator("")
 int updateNo = na
@@ -103,7 +103,7 @@ On historical bars, [barstate.isnew](https://www.tradingview.com/pine-script-ref
 
 If we now use [varip](https://www.tradingview.com/pine-script-reference/v5/#op_varip) to declare the `updateNo` variable, the script behaves very differently:
 
-```
+```swift
 //@version=5
 indicator("")
 varip int updateNo = na

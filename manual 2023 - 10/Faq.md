@@ -2,14 +2,14 @@
 
 ![Pine Script® logo](https://tradingview.com/pine-script-docs/en/v5/_images/Pine-script-logo.svg)
 
-](https://www.tradingview.com/pine-script-docs/en/v5/Introduction.html)
+](https://www.tradingview.com/pine-script-docs/en/v5/Introduction.md)
 
 [Get real OHLC price on a Heikin Ashi chart](#id1)
 -------------------------------------------------------------------------------------------------------------------------------
 
 Suppose, we have a Heikin Ashi chart (or Renko, Kagi, PriceBreak etc) and we’ve added a Pine script on it:
 
-```
+```swift
 //@version=5
 indicator("Visible OHLC", overlay=true)
 c = close
@@ -22,7 +22,7 @@ You may see that variable `c` is a Heikin Ashi _close_ price which is not the sa
 
 So, how do we get the real OHLC prices in Pine Script® code, if current chart type is non-standard? We should use `request.security` function in combination with `ticker.new` function. Here is an example:
 
-```
+```swift
 //@version=5
 indicator("Real OHLC", overlay = true)
 t = ticker.new(syminfo.prefix, syminfo.ticker)
@@ -39,7 +39,7 @@ In a similar way we may get other OHLC prices: _open_, _high_ and _low_.
 
 Backtesting on non-standard chart types (e.g. Heikin Ashi or Renko) is not recommended because the bars on these kinds of charts do not represent real price movement that you would encounter while trading. If you want your strategy to enter and exit on real prices but still use Heikin Ashi-based signals, you can use the same method to get Heikin Ashi values on a regular candlestick chart:
 
-```
+```swift
 //@version=5
 strategy("BarUpDn Strategy", overlay = true, default_qty_type = strategy.percent_of_equity, default_qty_value = 10)
 maxIdLossPcntInput = input.float(1, "Max Intraday Loss(%)")
@@ -59,7 +59,7 @@ if trade == -1
 
 You may use plotshape with style `shape.arrowup` and `shape.arrowdown`:
 
-```
+```swift
 //@version=5
 indicator('Ex 1', overlay = true)
 condition = close >= open
@@ -73,7 +73,7 @@ plotshape(not condition, color = color.red, style = shape.arrowdown, text = "Sel
 
 You may use the `plotchar` function with any unicode character:
 
-```
+```swift
 //@version=5
 indicator('buy/sell arrows', overlay = true)
 condition = close >= open
@@ -90,7 +90,7 @@ plotchar(condition, char='↑', location = location.belowbar, color = color.red,
 
 There is the function `hline` in Pine Script®, but it is limited to only plot a constant value. Here is a simple script with a workaround to plot a changing hline:
 
-```
+```swift
 //@version=5
 indicator("Horizontal line", overlay = true)
 plot(close[10], trackprice = true, offset = -9999)
@@ -104,7 +104,7 @@ plot(close, color = #FFFFFFFF)  // forces display
 [Plot a vertical line on condition](#id5)
 -------------------------------------------------------------------------------------------------------------
 
-```
+```swift
 //@version=5
 indicator("Vertical line", overlay = true, scale = scale.none)
 // scale.none means do not resize the chart to fit this plot
@@ -126,7 +126,7 @@ Lookback 5 days from the current bar, find the highest bar, plot a star characte
 
 ![_images/Faq-Wiki_howto_range_analysis.png](https://tradingview.com/pine-script-docs/en/v5/_images/Faq-Wiki_howto_range_analysis.png)
 
-```
+```swift
 //@version=5
 indicator("High of last 5 days", overlay = true)
 
@@ -163,7 +163,7 @@ bgcolor(leftBorder and not rightBorder ? color.new(color.aqua, 70) : na)
 
 Get a count of all the bars in the loaded dataset. Might be useful for calculating flexible lookback periods based on number of bars.
 
-```
+```swift
 //@version=5
 indicator("Bar Count", overlay = true, scale = scale.none)
 plot(bar_index + 1, style = plot.style_histogram)
@@ -174,7 +174,7 @@ plot(bar_index + 1, style = plot.style_histogram)
 [Enumerate bars in a day](#id9)
 -----------------------------------------------------------------------------------------
 
-```
+```swift
 //@version=5
 indicator("My Script", overlay = true, scale = scale.none)
 
@@ -190,7 +190,7 @@ plot(ta.barssince(isNewDay()), style = plot.style_cross)
 [Find the highest and lowest values for the entire dataset](#id10)
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-```
+```swift
 //@version=5
 indicator("", "", true)
 
@@ -213,7 +213,7 @@ plot(allTimetLo(close), "ATL", color.red)
 
 You can use the script below to avoid gaps in a series:
 
-```
+```swift
 //@version=5
 indicator("")
 series = close >= open ? close : na

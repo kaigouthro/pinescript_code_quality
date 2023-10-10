@@ -12,11 +12,11 @@ Experienced programmers can think of UDTs as methodless classes. They allow user
 [Creating objects](#id2)
 ---------------------------------------------------------------------------
 
-Before an object can be created, its type must be defined. The [User-defined types](https://tradingview.com/pine-script-docs/en/v5/language/Type_system.html#pagetypesystem-userdefinedtypes) section of the [Type system](https://tradingview.com/pine-script-docs/en/v5/language/Type_system.html#pagetypesystem) page explains how to do so.
+Before an object can be created, its type must be defined. The [User-defined types](language/Type_system.html#pagetypesystem-userdefinedtypes) section of the [Type system](https://tradingview.com/pine-script-docs/en/v5/language/Type_system.html#pagetypesystem) page explains how to do so.
 
 Let’s define a `pivotPoint` type to hold pivot information:
 
-```
+```swift
 type pivotPoint
     int x
     float y
@@ -36,7 +36,7 @@ Note that:
 
 Now that our `pivotPoint` UDT is defined, we can proceed to create objects from it. We create objects using the UDT’s `new()` built-in method. To create a new `foundPoint` object from our `pivotPoint` UDT, we use:
 
-```
+```swift
 foundPoint = pivotPoint.new()
 
 ```
@@ -44,7 +44,7 @@ foundPoint = pivotPoint.new()
 
 We can also specify field values for the created object using the following:
 
-```
+```swift
 foundPoint = pivotPoint.new(time, high)
 
 ```
@@ -52,7 +52,7 @@ foundPoint = pivotPoint.new(time, high)
 
 Or the equivalent:
 
-```
+```swift
 foundPoint = pivotPoint.new(x = time, y = high)
 
 ```
@@ -62,7 +62,7 @@ At this point, the `foundPoint` object’s `x` field will contain the value of t
 
 Object placeholders can also be created by declaring [na](https://www.tradingview.com/pine-script-reference/v5/#var_na) object names using the following:
 
-```
+```swift
 pivotPoint foundPoint = na
 
 ```
@@ -70,7 +70,7 @@ pivotPoint foundPoint = na
 
 This example displays a label where high pivots are detected. The pivots are detected `legsInput` bars after they occur, so we must plot the label in the past for it to appear on the pivot:
 
-```
+```swift
 //@version=5
 indicator("Pivot labels", overlay = true)
 int legsInput = input(10)
@@ -98,7 +98,7 @@ if not na(pivotHighPrice)
 
 Take note of this line from the above example:
 
-```
+```swift
 foundPoint = pivotPoint.new(time[legsInput], pivotHighPrice)
 
 ```
@@ -106,7 +106,7 @@ foundPoint = pivotPoint.new(time[legsInput], pivotHighPrice)
 
 This could also be written using the following:
 
-```
+```swift
 pivotPoint foundPoint = na
 foundPoint := pivotPoint.new(time[legsInput], pivotHighPrice)
 
@@ -115,7 +115,7 @@ foundPoint := pivotPoint.new(time[legsInput], pivotHighPrice)
 
 When an object is created using [var](https://www.tradingview.com/pine-script-reference/v5/#op_var) or [varip](https://www.tradingview.com/pine-script-reference/v5/#op_varip), those keywords apply to all of the object’s fields:
 
-```
+```swift
 //@version=5
 indicator("")
 type barInfo
@@ -137,11 +137,11 @@ plot(currentBar.i)
 [Changing field values](#id3)
 -------------------------------------------------------------------------------------
 
-The value of an object’s fields can be changed using the [:=](https://tradingview.com/pine-script-docs/en/v5/language/Operators.html#pageoperators-reassignmentoperator) reassignment operator.
+The value of an object’s fields can be changed using the [:=](language/Operators.html#pageoperators-reassignmentoperator) reassignment operator.
 
 This line of our previous example:
 
-```
+```swift
 foundPoint = pivotPoint.new(time[legsInput], pivotHighPrice)
 
 ```
@@ -149,7 +149,7 @@ foundPoint = pivotPoint.new(time[legsInput], pivotHighPrice)
 
 Could be written using the following:
 
-```
+```swift
 foundPoint = pivotPoint.new()
 foundPoint.x := time[legsInput]
 foundPoint.y := pivotHighPrice
@@ -160,19 +160,19 @@ foundPoint.y := pivotHighPrice
 [Collecting objects](#id4)
 -------------------------------------------------------------------------------
 
-Pine Script® collections ([arrays](https://tradingview.com/pine-script-docs/en/v5/language/Arrays.html#pagearrays), [matrices](https://tradingview.com/pine-script-docs/en/v5/language/Matrices.html#pagematrices), and [maps](https://tradingview.com/pine-script-docs/en/v5/language/Maps.html#pagemaps)) can contain objects, allowing users to add virtual dimensions to their data structures. To declare a collection of objects, pass a UDT name into its [type template](https://tradingview.com/pine-script-docs/en/v5/language/Type_system.html#pagetypesystem-typetemplates).
+Pine Script® collections ([arrays](language/Arrays.html#pagearrays), [matrices](https://tradingview.com/pine-script-docs/en/v5/language/Matrices.html#pagematrices), and [maps](https://tradingview.com/pine-script-docs/en/v5/language/Maps.html#pagemaps)) can contain objects, allowing users to add virtual dimensions to their data structures. To declare a collection of objects, pass a UDT name into its [type template](https://tradingview.com/pine-script-docs/en/v5/language/Type_system.html#pagetypesystem-typetemplates).
 
 This example declares an empty [array](https://www.tradingview.com/pine-script-reference/v5/#type_array) that will hold objects of a `pivotPoint` user-defined type:
 
-```
+```swift
 pivotHighArray = array.new<pivotPoint>()
 
 ```
 
 
-To explicitly declare the type of a variable as an [array](https://www.tradingview.com/pine-script-reference/v5/#type_array), [matrix](https://www.tradingview.com/pine-script-reference/v5/#type_matrix), or [map](https://www.tradingview.com/pine-script-reference/v5/#type_map) of a [user-defined type](https://tradingview.com/pine-script-docs/en/v5/language/Type_system.html#pagetypesystem-userdefinedtypes), use the collection’s type keyword followed by its [type template](https://tradingview.com/pine-script-docs/en/v5/language/Type_system.html#pagetypesystem-typetemplates). For example:
+To explicitly declare the type of a variable as an [array](https://www.tradingview.com/pine-script-reference/v5/#type_array), [matrix](https://www.tradingview.com/pine-script-reference/v5/#type_matrix), or [map](https://www.tradingview.com/pine-script-reference/v5/#type_map) of a [user-defined type](language/Type_system.html#pagetypesystem-userdefinedtypes), use the collection’s type keyword followed by its [type template](https://tradingview.com/pine-script-docs/en/v5/language/Type_system.html#pagetypesystem-typetemplates). For example:
 
-```
+```swift
 var array<pivotPoint> pivotHighArray = na
 pivotHighArray := array.new<pivotPoint>()
 
@@ -183,7 +183,7 @@ Let’s use what we have learned to create a script that detects high pivot poin
 
 ![../_images/Objects-CollectingObjects-1.png](https://tradingview.com/pine-script-docs/en/v5/_images/Objects-CollectingObjects-1.png)
 
-```
+```swift
 //@version=5
 indicator("Pivot Points High", overlay = true)
 
@@ -230,7 +230,7 @@ In Pine, objects are assigned by reference. When an existing object is assigned 
 
 In the example below, we create a `pivot1` object and set its `x` field to 1000. Then, we declare a `pivot2` variable containing the reference to the `pivot1` object, so both point to the same instance. Changing `pivot2.x` will thus also change `pivot1.x`, as both refer to the `x` field of the same object:
 
-```
+```swift
 //@version=5
 indicator("")
 type pivotPoint
@@ -251,7 +251,7 @@ To create a copy of an object that is independent of the original, we can use th
 
 In this example, we declare the `pivot2` variable referring to a copied instance of the `pivot1` object. Now, changing `pivot2.x` will not change `pivot1.x`, as it refers to the `x` field of a separate object:
 
-```
+```swift
 //@version=5
 indicator("")
 type pivotPoint
@@ -270,9 +270,9 @@ plot(pivot2.x)
 
 It’s important to note that the built-in `copy()` method produces a _shallow copy_ of an object. If an object has fields with _special types_ ([array](https://www.tradingview.com/pine-script-reference/v5/#type_array), [matrix](https://www.tradingview.com/pine-script-reference/v5/#type_matrix), [map](https://www.tradingview.com/pine-script-reference/v5/#type_map), [line](https://www.tradingview.com/pine-script-reference/v5/#type_line), [linefill](https://www.tradingview.com/pine-script-reference/v5/#type_linefill), [label](https://www.tradingview.com/pine-script-reference/v5/#type_label), [box](https://www.tradingview.com/pine-script-reference/v5/#type_box), or [table](https://www.tradingview.com/pine-script-reference/v5/#type_table)), those fields in a shallow copy of the object will point to the same instances as the original.
 
-In the following example, we have defined an `InfoLabel` type with a label as one of its fields. The script instantiates a `shallow` copy of the `parent` object, then calls a user-defined `set()` [method](https://tradingview.com/pine-script-docs/en/v5/language/Methods.html#pagemethods) to update the `info` and `lbl` fields of each object. Since the `lbl` field of both objects points to the same label instance, changes to this field in either object affect the other:
+In the following example, we have defined an `InfoLabel` type with a label as one of its fields. The script instantiates a `shallow` copy of the `parent` object, then calls a user-defined `set()` [method](language/Methods.html#pagemethods) to update the `info` and `lbl` fields of each object. Since the `lbl` field of both objects points to the same label instance, changes to this field in either object affect the other:
 
-```
+```swift
 //@version=5
 indicator("Shallow Copy")
 
@@ -302,7 +302,7 @@ To produce a _deep copy_ of an object with all of its special type fields pointi
 
 In this example, we have defined a `deepCopy()` method that instantiates a new `InfoLabel` object with its `lbl` field pointing to a copy of the original’s field. Changes to the `deep` copy’s `lbl` field will not affect the `parent` object, as it points to a separate instance:
 
-```
+```swift
 //@version=5
 indicator("Deep Copy")
 

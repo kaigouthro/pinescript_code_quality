@@ -1,6 +1,6 @@
 A Pine script follows this general structure:
 
-```
+```swift
 <version>
 <declaration_statement>
 <code>
@@ -17,12 +17,12 @@ A [compiler annotation](#pagescriptstructure-compilerannotations) in the followi
 *   The compiler annotation is not mandatory. When omitted, version 1 is assumed. It is strongly recommended to always use the latest version of the language.
 *   While it is synctactically correct to place the version compiler annotation anywhere in the script, it is much more useful to readers when it appears at the top of the script.
 
-Notable changes to the current version of Pine Script® are documented in the [Release notes](https://tradingview.com/pine-script-docs/en/v5/Release_notes.html#pagereleasenotes).
+Notable changes to the current version of Pine Script® are documented in the [Release notes](Release_notes.html#pagereleasenotes).
 
 [Declaration statement](#id2)
 -------------------------------------------------------------------------------------
 
-All Pine scripts must contain one [declaration statement](https://tradingview.com/pine-script-docs/en/v5/language/Declaration_statements.html#pagedeclarationstatements), which is a call to one of these functions:
+All Pine scripts must contain one [declaration statement](language/Declaration_statements.html#pagedeclarationstatements), which is a call to one of these functions:
 
 *   [indicator()](https://www.tradingview.com/pine-script-reference/v5/#fun_indicator)
 *   [strategy()](https://www.tradingview.com/pine-script-reference/v5/#fun_strategy)
@@ -37,7 +37,7 @@ Each type of script has distinct requirements:
 
 *   Indicators must contain at least one function call which produces output on the chart (e.g., [plot()](https://www.tradingview.com/pine-script-reference/v5/#fun_plot), [plotshape()](https://www.tradingview.com/pine-script-reference/v5/#fun_plotshape), [barcolor()](https://www.tradingview.com/pine-script-reference/v5/#fun_barcolor), [line.new()](https://www.tradingview.com/pine-script-reference/v5/#fun_line{dot}new), etc.).
 *   Strategies must contain at least one `strategy.*()` call, e.g., [strategy.entry()](https://www.tradingview.com/pine-script-reference/v5/#fun_strategy{dot}entry).
-*   Libraries must contain at least one exported [function](https://tradingview.com/pine-script-docs/en/v5/concepts/Libraries.html#pagelibraries-functions) or [user-defined type](https://tradingview.com/pine-script-docs/en/v5/concepts/Libraries.html#pagelibraries-objects).
+*   Libraries must contain at least one exported [function](concepts_Libraries.html#pagelibraries-functions) or [user-defined type](https://tradingview.com/pine-script-docs/en/v5/concepts_Libraries.html#pagelibraries-objects).
 
 [Code](#id3)
 ---------------------------------------------------
@@ -47,7 +47,7 @@ Lines in a script that are not [comments](#pagescriptstructure-comments) or [com
 *   variable declaration
 *   variable reassignement
 *   function declaration
-*   built-in function call, [user-defined function call](https://tradingview.com/pine-script-docs/en/v5/language/User-defined_functions.html#pageuserdefinedfunctions) or [a library function call](https://tradingview.com/pine-script-docs/en/v5/concepts/Libraries.html#pagelibraries-usingalibrary)
+*   built-in function call, [user-defined function call](language/User-defined_functions.html#pageuserdefinedfunctions) or [a library function call](https://tradingview.com/pine-script-docs/en/v5/concepts_Libraries.html#pagelibraries-usingalibrary)
 *   [if](https://www.tradingview.com/pine-script-reference/v5/#op_if), [for](https://www.tradingview.com/pine-script-reference/v5/#op_for), [while](https://www.tradingview.com/pine-script-reference/v5/#op_while), [switch](https://www.tradingview.com/pine-script-reference/v5/#op_switch) or [type](https://www.tradingview.com/pine-script-reference/v5/#op_type) _structure_.
 
 Statements can be arranged in multiple ways:
@@ -58,7 +58,7 @@ Statements can be arranged in multiple ways:
 
 A simple valid Pine Script® v5 indicator can be generated in the Pine Script® Editor by using the “Open” button and choosing “New blank indicator”:
 
-```
+```swift
 //@version=5
 indicator("My Script")
 plot(close)
@@ -68,7 +68,7 @@ plot(close)
 
 This indicator includes three local blocks, one in the `f()` function declaration, and two in the variable declaration using an [if](https://www.tradingview.com/pine-script-reference/v5/#op_if) structure:
 
-```
+```swift
 //@version=5
 
 indicator("", "", true)    // Declaration statement (global scope)
@@ -88,7 +88,7 @@ bgcolor(color.new(plotColor, 70))   // Call to a built-in function  (global scop
 
 You can bring up a simple Pine Script® v5 strategy by selecting “New blank strategy” instead:
 
-```
+```swift
 //@version=5
 strategy("My Strategy", overlay=true, margin_long=100, margin_short=100)
 
@@ -108,7 +108,7 @@ if (shortCondition)
 
 Long lines can be split on multiple lines, or “wrapped”. Wrapped lines must be indented with any number of spaces, provided it’s not a multiple of four (those boundaries are used to indent local blocks):
 
-```
+```swift
 a = open + high + low + close
 
 ```
@@ -116,7 +116,7 @@ a = open + high + low + close
 
 may be wrapped as:
 
-```
+```swift
 a = open +
       high +
           low +
@@ -127,7 +127,7 @@ a = open +
 
 A long [plot()](https://www.tradingview.com/pine-script-reference/v5/#fun_plot) call may be wrapped as:
 
-```
+```swift
 plot(ta.correlation(src, ovr, length),
    color = color.new(color.purple, 40),
    style = plot.style_area,
@@ -138,7 +138,7 @@ plot(ta.correlation(src, ovr, length),
 
 Statements inside user-defined function declarations can also be wrapped. However, since a local block must syntactically begin with an indentation (4 spaces or 1 tab), when splitting it onto the following line, the continuation of the statement must start with more than one indentation (not equal to a multiple of four spaces). For example:
 
-```
+```swift
 updown(s) =>
     isEqual = s == s[1]
     isGrowing = s > s[1]
@@ -157,7 +157,7 @@ updown(s) =>
 
 You can use comments in wrapped lines:
 
-```
+```swift
 //@version=5
 indicator("")
 c = open > close ? color.red :
@@ -176,7 +176,7 @@ Compiler annotations are [comments](#pagescriptstructure-comments) that issue sp
 *   `//@version=` specifies the PineScript™ version that the compiler will use. The number in this annotation should not be confused with the script’s revision number, which updates on every saved change to the code.
 *   `//@description` sets a custom description for scripts that use the [library()](https://www.tradingview.com/pine-script-reference/v5/#fun_library) declaration statement.
 *   `//@function`, `//@param` and `//@returns` add custom descriptions for a user-defined function, its parameters, and its result when placed above the function declaration.
-*   `//@type` and `//@field` add custom descriptions for a [user-defined type (UDT)](https://tradingview.com/pine-script-docs/en/v5/language/Type_system.html#pagetypesystem-userdefinedtypes) and its fields when placed above the type declaration.
+*   `//@type` and `//@field` add custom descriptions for a [user-defined type (UDT)](language/Type_system.html#pagetypesystem-userdefinedtypes) and its fields when placed above the type declaration.
 *   `//@variable` adds a custom description for a variable when placed above its declaration.
 *   `//@strategy_alert_message` provides a default message for strategy scripts to pre-fill the “Message” field in the alert creation dialogue.
 *   `//#region` and `//#endregion` create collapsible code regions in the Pine Editor. Clicking the dropdown arrow next to `//#region` collapses the lines of code between the two annotations.
@@ -185,7 +185,7 @@ This script draws a rectangle using three interactively selected points on the c
 
 ![../_images/ScriptStructure-CompilerAnnotations01.png](https://tradingview.com/pine-script-docs/en/v5/_images/ScriptStructure-CompilerAnnotations01.png)
 
-```
+```swift
 //@version=5
 indicator("Triangle", "", true)
 

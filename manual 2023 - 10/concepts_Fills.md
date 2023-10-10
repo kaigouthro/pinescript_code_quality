@@ -2,7 +2,7 @@
 
 ![Pine Script® logo](https://tradingview.com/pine-script-docs/en/v5/_images/Pine-script-logo.svg)
 
-](https://www.tradingview.com/pine-script-docs/en/v5/Introduction.html)
+](https://www.tradingview.com/pine-script-docs/en/v5/Introduction.md)
 
 [Introduction](#id1)
 -------------------------------------------------------------------
@@ -17,7 +17,7 @@ There are two different mechanisms dedicated to filling the space between Pine v
 
 The [fill()](https://www.tradingview.com/pine-script-reference/v5/#fun_fill) function has two signatures:
 
-```
+```swift
 fill(plot1, plot2, color, title, editable, show_last, fillgaps) → void
 fill(hline1, hline2, color, title, editable, fillgaps) → void
 
@@ -30,7 +30,7 @@ See in this first example how the IDs returned by the [plot()](https://www.tradi
 
 ![../_images/Fills-Fill-1.png](https://tradingview.com/pine-script-docs/en/v5/_images/Fills-Fill-1.png)
 
-```
+```swift
 //@version=5
 indicator("Example 1")
 p1 = plot(math.sin(high))
@@ -52,7 +52,7 @@ Because [fill()](https://www.tradingview.com/pine-script-reference/v5/#fun_fill)
 
 ![../_images/Fills-Fill-2.png](https://tradingview.com/pine-script-docs/en/v5/_images/Fills-Fill-2.png)
 
-```
+```swift
 //@version=5
 indicator("Example 2")
 src = close
@@ -70,7 +70,7 @@ Because a “series color” can be used as an argument for the `color` paramete
 
 ![../_images/Fills-Fill-3.png](https://tradingview.com/pine-script-docs/en/v5/_images/Fills-Fill-3.png)
 
-```
+```swift
 //@version=5
 indicator("Example 3", "", true)
 line1 = ta.sma(close, 5)
@@ -87,7 +87,7 @@ fill(p1PlotID, p2PlotID, line1 > line2 ? color.new(color.green, 90) : color.new(
 
 Linefills are objects that allow you to fill the space between two line drawings created via the [line.new()](https://www.tradingview.com/pine-script-reference/v5/#fun_line{dot}new) function. A linefill object is displayed on the chart when the [linefill.new()](https://www.tradingview.com/pine-script-reference/v5/#fun_linefill{dot}new) function is called. The function has the following signature:
 
-```
+```swift
 linefill.new(line1, line2, color) → series linefill
 
 ```
@@ -103,7 +103,7 @@ In the example below, our indicator draws two lines connecting the last two high
 
 ![../_images/Fills-Linefill-01.png](https://tradingview.com/pine-script-docs/en/v5/_images/Fills-Linefill-01.png)
 
-```
+```swift
 //@version=5
 indicator("Channel", overlay = true)
 

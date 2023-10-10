@@ -19,7 +19,7 @@ The local blocks in conditional structures must be indented by four spaces or a 
 
 An [if](https://www.tradingview.com/pine-script-reference/v5/#op_if) structure used for its side effects has the following syntax:
 
-```
+```swift
 if <expression>
     <local_block>
 {else if <expression>
@@ -33,7 +33,7 @@ if <expression>
 where:
 
 *   Parts enclosed in square brackets (`[]`) can appear zero or one time, and those enclosed in curly braces (`{}`) can appear zero or more times.
-*   <expression> must be of “bool” type or be auto-castable to that type, which is only possible for “int” or “float” values (see the [Type system](https://tradingview.com/pine-script-docs/en/v5/language/Type_system.html#pagetypesystem-types) page).
+*   <expression> must be of “bool” type or be auto-castable to that type, which is only possible for “int” or “float” values (see the [Type system](language/Type_system.html#pagetypesystem-types) page).
 *   <local\_block> consists of zero or more statements followed by a return value, which can be a tuple of values. It must be indented by four spaces or a tab.
 *   There can be zero or more `else if` clauses.
 *   There can be zero or one `else` clause.
@@ -48,7 +48,7 @@ When no <expression> has evaluated to [true](https://www.tradingview.com/pine-sc
 
 Using [if](https://www.tradingview.com/pine-script-reference/v5/#op_if) structures for their side effects can be useful to manage the order flow in strategies, for example. While the same functionality can often be achieved using the `when` parameter in `strategy.*()` calls, code using [if](https://www.tradingview.com/pine-script-reference/v5/#op_if) structures is easier to read:
 
-```
+```swift
 if (ta.crossover(source, lower))
     strategy.entry("BBandLE", strategy.long, stop=lower,
                    oca_name="BollingerBands",
@@ -61,7 +61,7 @@ else
 
 Restricting the execution of your code to specific bars ican be done using [if](https://www.tradingview.com/pine-script-reference/v5/#op_if) structures, as we do here to restrict updates to our label to the chart’s last bar:
 
-```
+```swift
 //@version=5
 indicator("", "", true)
 var ourLabel = label.new(bar_index, na, na, color = color(na), textcolor = color.orange)
@@ -84,7 +84,7 @@ Note that:
 
 An [if](https://www.tradingview.com/pine-script-reference/v5/#op_if) structure used to return one or more values has the following syntax:
 
-```
+```swift
 [<declaration_mode>] [<type>] <identifier> = if <expression>
     <local_block>
 {else if <expression>
@@ -98,16 +98,16 @@ An [if](https://www.tradingview.com/pine-script-reference/v5/#op_if) structure u
 where:
 
 *   Parts enclosed in square brackets (`[]`) can appear zero or one time, and those enclosed in curly braces (`{}`) can appear zero or more times.
-*   <declaration\_mode> is the variable’s [declaration mode](https://tradingview.com/pine-script-docs/en/v5/language/Variable_declarations.html#pagevariabledeclarations-declarationmodes)
-*   <type> is optional, as in almost all Pine Script® variable declarations (see [types](https://tradingview.com/pine-script-docs/en/v5/language/Type_system.html#pagetypesystem-types))
-*   <identifier> is the variable’s [name](https://tradingview.com/pine-script-docs/en/v5/language/Identifiers.html#pageidentifiers)
+*   <declaration\_mode> is the variable’s [declaration mode](language/Variable_declarations.html#pagevariabledeclarations-declarationmodes)
+*   <type> is optional, as in almost all Pine Script® variable declarations (see [types](language/Type_system.html#pagetypesystem-types))
+*   <identifier> is the variable’s [name](language/Identifiers.html#pageidentifiers)
 *   <expression> can be a literal, a variable, an expression or a function call.
 *   <local\_block> consists of zero or more statements followed by a return value, which can be a tuple of values. It must be indented by four spaces or a tab.
 *   The value assigned to the variable is the return value of the <local\_block>, or [na](https://www.tradingview.com/pine-script-reference/v5/#var_na) if no local block is executed.
 
 This is an example:
 
-```
+```swift
 //@version=5
 indicator("", "", true)
 string barState = if barstate.islastconfirmedhistory
@@ -131,7 +131,7 @@ It is possible to omit the _else_ block. In this case, if the `condition` is fal
 
 This is an example showing how [na](https://www.tradingview.com/pine-script-reference/v5/#var_na) is returned when no local block is executed. If `close > open` is `false` in here, [na](https://www.tradingview.com/pine-script-reference/v5/#var_na) is returned:
 
-```
+```swift
 x = if close > open
     close
 
@@ -140,7 +140,7 @@ x = if close > open
 
 Scripts can contain `if` structures with nested `if` and other conditional structures. For example:
 
-```
+```swift
 if condition1
     if condition2
         if condition3
@@ -151,7 +151,7 @@ if condition1
 
 However, nesting these structures is not recommended from a performance perspective. When possible, it is typically more optimal to compose a single `if` statement with multiple logical operators rather than several nested `if` blocks:
 
-```
+```swift
 if condition1 and condition2 and condition3
     expression
 
@@ -163,7 +163,7 @@ if condition1 and condition2 and condition3
 
 The [switch](https://www.tradingview.com/pine-script-reference/v5/#op_switch) structure exists in two forms. One switches on the different values of a key expression:
 
-```
+```swift
 [[<declaration_mode>] [<type>] <identifier> = ]switch <expression>
     {<expression> => <local_block>}
     => <local_block>
@@ -173,7 +173,7 @@ The [switch](https://www.tradingview.com/pine-script-reference/v5/#op_switch) st
 
 The other form does not use an expression as a key; it switches on the evaluation of different expressions:
 
-```
+```swift
 [[<declaration_mode>] [<type>] <identifier> = ]switch
     {<expression> => <local_block>}
     => <local_block>
@@ -184,9 +184,9 @@ The other form does not use an expression as a key; it switches on the evaluatio
 where:
 
 *   Parts enclosed in square brackets (`[]`) can appear zero or one time, and those enclosed in curly braces (`{}`) can appear zero or more times.
-*   <declaration\_mode> is the variable’s [declaration mode](https://tradingview.com/pine-script-docs/en/v5/language/Variable_declarations.html#pagevariabledeclarations-declarationmodes)
-*   <type> is optional, as in almost all Pine Script® variable declarations (see [types](https://tradingview.com/pine-script-docs/en/v5/language/Type_system.html#pagetypesystem-types))
-*   <identifier> is the variable’s [name](https://tradingview.com/pine-script-docs/en/v5/language/Identifiers.html#pageidentifiers)
+*   <declaration\_mode> is the variable’s [declaration mode](language/Variable_declarations.html#pagevariabledeclarations-declarationmodes)
+*   <type> is optional, as in almost all Pine Script® variable declarations (see [types](language/Type_system.html#pagetypesystem-types))
+*   <identifier> is the variable’s [name](language/Identifiers.html#pageidentifiers)
 *   <expression> can be a literal, a variable, an expression or a function call.
 *   <local\_block> consists of zero or more statements followed by a return value, which can be a tuple of values. It must be indented by four spaces or a tab.
 *   The value assigned to the variable is the return value of the <local\_block>, or [na](https://www.tradingview.com/pine-script-reference/v5/#var_na) if no local block is executed.
@@ -202,7 +202,7 @@ As with the [if](https://www.tradingview.com/pine-script-reference/v5/#op_if) st
 
 Let’s look at an example of a [switch](https://www.tradingview.com/pine-script-reference/v5/#op_switch) using an expression:
 
-```
+```swift
 //@version=5
 indicator("Switch using an expression", "", true)
 
@@ -225,14 +225,14 @@ plot(ma)
 
 Note that:
 
-*   The expression we are switching on is the variable `maType`, which is of “input int” type (see here for an explanation of what the “[input](https://tradingview.com/pine-script-docs/en/v5/language/Type_system.html#pagetypesystem-input)” form is). Since it cannot change during the execution of the script, this guarantees that whichever MA type the user selects will be executing on each bar, which is a requirement for functions like [ta.ema()](https://www.tradingview.com/pine-script-reference/v5/#fun_ta{dot}ema) which require a “simple int” argument for their `length` parameter.
+*   The expression we are switching on is the variable `maType`, which is of “input int” type (see here for an explanation of what the “[input](language/Type_system.html#pagetypesystem-input)” form is). Since it cannot change during the execution of the script, this guarantees that whichever MA type the user selects will be executing on each bar, which is a requirement for functions like [ta.ema()](https://www.tradingview.com/pine-script-reference/v5/#fun_ta{dot}ema) which require a “simple int” argument for their `length` parameter.
 *   If no matching value is found for `maType`, the [switch](https://www.tradingview.com/pine-script-reference/v5/#op_switch) executes the last local block introduced by `=>`, which acts as a catch-all. We generate a runtime error in that block. We also end it with `float(na)` so the local block returns a value whose type is compatible with that of the other local blocks in the structure, to avoid a compilation error.
 
 ### [\`switch\` without an expression](#id7)
 
 This is an example of a [switch](https://www.tradingview.com/pine-script-reference/v5/#op_switch) structure wich does not use an exppression:
 
-```
+```swift
 //@version=5
 strategy("Switch without an expression", "", true)
 
@@ -249,12 +249,12 @@ switch
 Note that:
 
 *   We are using the [switch](https://www.tradingview.com/pine-script-reference/v5/#op_switch) to select the appropriate strategy order to emit, depending on whether the `longCondition` or `shortCondition` “bool” variables are `true`.
-    
+
 *   The building conditions of `longCondition` and `shortCondition` are exclusive. While they can both be `false` simultaneously, they cannot be `true` at the same time. The fact that only **one** local block of the [switch](https://www.tradingview.com/pine-script-reference/v5/#op_switch) structure is ever executed is thus not an issue for us.
-    
+
 *   We evaluate the calls to [ta.crossover()](https://www.tradingview.com/pine-script-reference/v5/#fun_ta{dot}crossover) and [ta.crossunder()](https://www.tradingview.com/pine-script-reference/v5/#fun_ta{dot}crossunder) **prior** to entry in the [switch](https://www.tradingview.com/pine-script-reference/v5/#op_switch) structure. Not doing so, as in the following example, would prevent the functions to be executed on each bar, which would result in a compiler warning and erratic behavior:
-    
-    ```
+
+    ```swift
 //@version=5
 strategy("Switch without an expression", "", true)
 
@@ -265,7 +265,7 @@ switch
 
 ```
 
-    
+
 
 [Matching local block type requirement](#id8)
 ---------------------------------------------------------------------------------------------------------------------
@@ -274,7 +274,7 @@ When multiple local blocks are used in structures, the type of the return value 
 
 This code compiles fine because [close](https://www.tradingview.com/pine-script-reference/v5/#var_close) and [open](https://www.tradingview.com/pine-script-reference/v5/#var_open) are both of the `float` type:
 
-```
+```swift
 x = if close > open
     close
 else
@@ -285,7 +285,7 @@ else
 
 This code does not compile because the first local block returns a `float` value, while the second one returns a string\`, and the result of the `if`\-statement is assigned to the `x` variable:
 
-```
+```swift
 // Compilation error!
 x = if close > open
     close

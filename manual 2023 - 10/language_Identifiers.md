@@ -6,7 +6,7 @@ Identifiers are names used for user-defined variables and functions:
 
 Here are some examples:
 
-```
+```swift
 myVar
 _myVar
 my123Var
@@ -19,9 +19,9 @@ maxLen
 ```
 
 
-The Pine Script® [Style Guide](https://tradingview.com/pine-script-docs/en/v5/writing/Style_guide.html#pagestyleguide) recommends using uppercase SNAKE\_CASE for constants, and camelCase for other identifiers:
+The Pine Script® [Style Guide](writing/Style_guide.html#pagestyleguide) recommends using uppercase SNAKE\_CASE for constants, and camelCase for other identifiers:
 
-```
+```swift
 GREEN_COLOR = #4CAF50
 MAX_LOOKBACK = 100
 int fastLength = 7

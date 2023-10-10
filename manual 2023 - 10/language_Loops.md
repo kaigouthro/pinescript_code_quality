@@ -5,7 +5,7 @@
 
 Pine Script®’s runtime and its built-in functions make loops unnecessary in many situations. Budding Pine Script® programmers not yet familiar with the Pine Script® runtime and built-ins who want to calculate the average of the last 10 [close](https://www.tradingview.com/pine-script-reference/v5/#var_close) values will often write code such as:
 
-```
+```swift
 //@version=5
 indicator("Inefficient MA", "", true)
 MA_LENGTH = 10
@@ -20,7 +20,7 @@ plot(inefficientMA)
 
 A [for](https://www.tradingview.com/pine-script-reference/v5/#op_for) loop is unnecessary and inefficient to accomplish tasks like this in Pine. This is how it should be done. This code is shorter _and_ will run much faster because it does not use a loop and uses the [ta.sma()](https://www.tradingview.com/pine-script-reference/v5/#fun_ta{dot}sma) built-in function to accomplish the task:
 
-```
+```swift
 //@version=5
 indicator("Efficient MA", "", true)
 thePineMA = ta.sma(close, 10)
@@ -31,7 +31,7 @@ plot(thePineMA)
 
 Counting the occurrences of a condition in the last bars is also a task which beginning Pine Script® programmers often think must be done with a loop. To count the number of up bars in the last 10 bars, they will use:
 
-```
+```swift
 //@version=5
 indicator("Inefficient sum")
 MA_LENGTH = 10
@@ -46,7 +46,7 @@ plot(upBars)
 
 The efficient way to write this in Pine (for the programmer because it saves time, to achieve the fastest-loading charts, and to share our common resources most equitably), is to use the [math.sum()](https://www.tradingview.com/pine-script-reference/v5/#fun_math{dot}sum) built-in function to accomplish the task:
 
-```
+```swift
 //@version=5
 indicator("Efficient sum")
 upBars = math.sum(close > open ? 1 : 0, 10)
@@ -64,7 +64,7 @@ What’s happening in there is:
 
 Loops exist for good reason because even in Pine Script®, they are necessary in some cases. These cases typically include:
 
-*   The manipulation of collections ([arrays](https://tradingview.com/pine-script-docs/en/v5/language/Arrays.html#pagearrays), [matrices](https://tradingview.com/pine-script-docs/en/v5/language/Matrices.html#pagematrices), and [maps](https://tradingview.com/pine-script-docs/en/v5/language/Maps.html#pagemaps)).
+*   The manipulation of collections ([arrays](language/Arrays.html#pagearrays), [matrices](https://tradingview.com/pine-script-docs/en/v5/language/Matrices.html#pagematrices), and [maps](https://tradingview.com/pine-script-docs/en/v5/language/Maps.html#pagemaps)).
 *   Looking back in history to analyze bars using a reference value that can only be known on the current bar, e.g., to find how many past highs are higher than the [high](https://www.tradingview.com/pine-script-reference/v5/#var_high) of the current bar. Since the current bar’s [high](https://www.tradingview.com/pine-script-reference/v5/#var_high) is only known on the bar the script is running on, a loop is necessary to go back in time and analyze past bars.
 *   Performing calculations on past bars that cannot be accomplished using built-in functions.
 
@@ -73,7 +73,7 @@ Loops exist for good reason because even in Pine Script®, they are necessary in
 
 The [for](https://www.tradingview.com/pine-script-reference/v5/#op_for) structure allows the repetitive execution of statements using a counter. Its syntax is:
 
-```
+```swift
 [[<declaration_mode>] [<type>] <identifier> = ]for <identifier> = <expression> to <expression>[ by <expression>]
     <local_block_loop>
 
@@ -83,9 +83,9 @@ The [for](https://www.tradingview.com/pine-script-reference/v5/#op_for) structur
 where:
 
 *   Parts enclosed in square brackets (`[]`) can appear zero or one time, and those enclosed in curly braces (`{}`) can appear zero or more times.
-*   <declaration\_mode> is the variable’s [declaration mode](https://tradingview.com/pine-script-docs/en/v5/language/Variable_declarations.html#pagevariabledeclarations-declarationmodes)
-*   <type> is optional, as in almost all Pine Script® variable declarations (see [types](https://tradingview.com/pine-script-docs/en/v5/language/Type_system.html#pagetypesystem-types))
-*   <identifier> is a variable’s [name](https://tradingview.com/pine-script-docs/en/v5/language/Identifiers.html#pageidentifiers)
+*   <declaration\_mode> is the variable’s [declaration mode](language/Variable_declarations.html#pagevariabledeclarations-declarationmodes)
+*   <type> is optional, as in almost all Pine Script® variable declarations (see [types](language/Type_system.html#pagetypesystem-types))
+*   <identifier> is a variable’s [name](language/Identifiers.html#pageidentifiers)
 *   <expression> can be a literal, a variable, an expression or a function call.
 *   <local\_block\_loop> consists of zero or more statements followed by a return value, which can be a tuple of values. It must be indented by four spaces or a tab. It can contain the `break` statement to exit the loop, or the `continue` statement to exit the current iteration and continue on with the next.
 *   The value assigned to the variable is the return value of the <local\_block\_loop>, i.e., the last value calculated on the loop’s last iteration, or [na](https://www.tradingview.com/pine-script-reference/v5/#var_na) if the loop is not executed.
@@ -96,7 +96,7 @@ where:
 
 This example uses a [for](https://www.tradingview.com/pine-script-reference/v5/#op_for) statement to look back a user-defined amount of bars to determine how many bars have a [high](https://www.tradingview.com/pine-script-reference/v5/#var_high) that is higher or lower than the [high](https://www.tradingview.com/pine-script-reference/v5/#var_high) of the last bar on the chart. A [for](https://www.tradingview.com/pine-script-reference/v5/#op_for) loop is necessary here, since the script only has access to the reference value on the chart’s last bar. Pine Script®’s runtime cannot, here, be used to calculate on the fly, as the script is executing bar to bar:
 
-```
+```swift
 //@version=5
 indicator("`for` loop")
 lookbackInput = input.int(50, "Lookback in bars", minval = 1, maxval = 4999)
@@ -117,7 +117,7 @@ if barstate.islast
 
 This example uses a loop in its `checkLinesForBreaches()` function to go through an array of pivot lines and delete them when price crosses them. A loop is necessary here because all the lines in each of the `hiPivotLines` and `loPivotLines` arrays must be checked on each bar, and there is no built-in that can do this for us:
 
-```
+```swift
 //@version=5
 MAX_LINES_COUNT = 100
 indicator("Pivot line breaches", "", true, max_lines_count = MAX_LINES_COUNT)
@@ -183,7 +183,7 @@ checkLinesForBreaches(loPivotLines)
 
 The [while](https://www.tradingview.com/pine-script-reference/v5/#op_while) structure allows the repetitive execution of statements until a condition is false. Its syntax is:
 
-```
+```swift
 [[<declaration_mode>] [<type>] <identifier> = ]while <expression>
     <local_block_loop>
 
@@ -193,16 +193,16 @@ The [while](https://www.tradingview.com/pine-script-reference/v5/#op_while) stru
 where:
 
 *   Parts enclosed in square brackets (`[]`) can appear zero or one time.
-*   <declaration\_mode> is the variable’s [declaration mode](https://tradingview.com/pine-script-docs/en/v5/language/Variable_declarations.html#pagevariabledeclarations-declarationmodes)
-*   <type> is optional, as in almost all Pine Script® variable declarations (see [types](https://tradingview.com/pine-script-docs/en/v5/language/Type_system.html#pagetypesystem-types))
-*   <identifier> is a variable’s [name](https://tradingview.com/pine-script-docs/en/v5/language/Identifiers.html#pageidentifiers)
+*   <declaration\_mode> is the variable’s [declaration mode](language/Variable_declarations.html#pagevariabledeclarations-declarationmodes)
+*   <type> is optional, as in almost all Pine Script® variable declarations (see [types](language/Type_system.html#pagetypesystem-types))
+*   <identifier> is a variable’s [name](language/Identifiers.html#pageidentifiers)
 *   <expression> can be a literal, a variable, an expression or a function call. It is evaluated at each iteration of the loop. When it evaluates to `true`, the loop executes. When it evaluates to `false` the loop stops. Note that evaluation of the expression is done before each iteration only. Changes to the expression’s value inside the loop will only have an impact on the next iteration.
 *   <local\_block\_loop> consists of zero or more statements followed by a return value, which can be a tuple of values. It must be indented by four spaces or a tab. It can contain the `break` statement to exit the loop, or the `continue` statement to exit the current iteration and continue on with the next.
 *   The value assigned to the <identifier> variable is the return value of the <local\_block\_loop>, i.e., the last value calculated on the loop’s last iteration, or [na](https://www.tradingview.com/pine-script-reference/v5/#var_na) if the loop is not executed.
 
 This is the first code example of the [for](#pageloops-for) section written using a [while](https://www.tradingview.com/pine-script-reference/v5/#op_while) structure instead of a [for](https://www.tradingview.com/pine-script-reference/v5/#op_for) one:
 
-```
+```swift
 //@version=5
 indicator("`for` loop")
 lookbackInput = input.int(50, "Lookback in bars", minval = 1, maxval = 4999)
@@ -233,7 +233,7 @@ Note that:
 
 Let’s calculate the factorial function using a [while](https://www.tradingview.com/pine-script-reference/v5/#op_while) structure:
 
-```
+```swift
 //@version=5
 indicator("")
 int n = input.int(10, "Factorial of", minval=0)
@@ -256,14 +256,14 @@ plot(answer)
 Note that:
 
 *   We use [input.int()](https://www.tradingview.com/pine-script-reference/v5/#fun_input{dot}int) for our input because we need to specify a `minval` value to protect our code. While [input()](https://www.tradingview.com/pine-script-reference/v5/#fun_input) also supports the input of “int” type values, it does not support the `minval` parameter.
-    
+
 *   We have packaged our script’s functionality in a `factorial()` function which accepts as an argument the value whose factorial it must calculate. We have used `int val = na` to declare our function’s parameter, which says that if the function is called without an argument, as in `factorial()`, then the `val` parameter will initialize to [na](https://www.tradingview.com/pine-script-reference/v5/#var_na), which will prevent the execution of the [while](https://www.tradingview.com/pine-script-reference/v5/#op_while) loop because its `counter > 0` expression will return [na](https://www.tradingview.com/pine-script-reference/v5/#var_na). The [while](https://www.tradingview.com/pine-script-reference/v5/#op_while) structure will thus initialize the `result` variable to [na](https://www.tradingview.com/pine-script-reference/v5/#var_na). In turn, because the initialization of `result` is the return value of the our function’s local block, the function will return [na](https://www.tradingview.com/pine-script-reference/v5/#var_na).
-    
+
 *   Note the last line of the [while](https://www.tradingview.com/pine-script-reference/v5/#op_while)’s local block: `fact`. It is the local block’s return value, so the value it had on the [while](https://www.tradingview.com/pine-script-reference/v5/#op_while) structure’s last iteration.
-    
+
 *   Our initialization of `result` is not required; we do it for readability. We could just as well have used:
-    
-    ```
+
+    ```swift
 while counter > 0
     fact := fact * counter
     counter := counter - 1
@@ -271,7 +271,7 @@ while counter > 0
 
 ```
 
-    
+
 
 [
 

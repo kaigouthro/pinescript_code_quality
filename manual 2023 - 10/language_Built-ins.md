@@ -22,7 +22,7 @@ Built-in variables exist for different purposes. These are a few examples:
 *   Price- and volume-related variables: [open](https://www.tradingview.com/pine-script-reference/v5/#var_open), [high](https://www.tradingview.com/pine-script-reference/v5/#var_high), [low](https://www.tradingview.com/pine-script-reference/v5/#var_low), [close](https://www.tradingview.com/pine-script-reference/v5/#var_close), [hl2](https://www.tradingview.com/pine-script-reference/v5/#var_hl2), [hlc3](https://www.tradingview.com/pine-script-reference/v5/#var_hlc3), [ohlc4](https://www.tradingview.com/pine-script-reference/v5/#var_ohlc4), and [volume](https://www.tradingview.com/pine-script-reference/v5/#var_volume).
 *   Symbol-related information in the `syminfo` namespace: [syminfo.basecurrency](https://www.tradingview.com/pine-script-reference/v5/#var_syminfo{dot}basecurrency), [syminfo.currency](https://www.tradingview.com/pine-script-reference/v5/#var_syminfo{dot}currency), [syminfo.description](https://www.tradingview.com/pine-script-reference/v5/#var_syminfo{dot}description), [syminfo.mintick](https://www.tradingview.com/pine-script-reference/v5/#var_syminfo{dot}mintick), [syminfo.pointvalue](https://www.tradingview.com/pine-script-reference/v5/#var_syminfo{dot}pointvalue), [syminfo.prefix](https://www.tradingview.com/pine-script-reference/v5/#var_syminfo{dot}prefix), [syminfo.root](https://www.tradingview.com/pine-script-reference/v5/#var_syminfo{dot}root), [syminfo.session](https://www.tradingview.com/pine-script-reference/v5/#var_syminfo{dot}session), [syminfo.ticker](https://www.tradingview.com/pine-script-reference/v5/#var_syminfo{dot}ticker), [syminfo.tickerid](https://www.tradingview.com/pine-script-reference/v5/#var_syminfo{dot}tickerid), [syminfo.timezone](https://www.tradingview.com/pine-script-reference/v5/#var_syminfo{dot}timezone), and [syminfo.type](https://www.tradingview.com/pine-script-reference/v5/#var_syminfo{dot}type).
 *   Timeframe (a.k.a. “interval” or “resolution”, e.g., 15sec, 30min, 60min, 1D, 3M) variables in the `timeframe` namespace: [timeframe.isseconds](https://www.tradingview.com/pine-script-reference/v5/#var_timeframe{dot}isseconds), [timeframe.isminutes](https://www.tradingview.com/pine-script-reference/v5/#var_timeframe{dot}isminutes), [timeframe.isintraday](https://www.tradingview.com/pine-script-reference/v5/#var_timeframe{dot}isintraday), [timeframe.isdaily](https://www.tradingview.com/pine-script-reference/v5/#var_timeframe{dot}isdaily), [timeframe.isweekly](https://www.tradingview.com/pine-script-reference/v5/#var_timeframe{dot}isweekly), [timeframe.ismonthly](https://www.tradingview.com/pine-script-reference/v5/#var_timeframe{dot}ismonthly), [timeframe.isdwm](https://www.tradingview.com/pine-script-reference/v5/#var_timeframe{dot}isdwm), [timeframe.multiplier](https://www.tradingview.com/pine-script-reference/v5/#var_timeframe{dot}multiplier), and [timeframe.period](https://www.tradingview.com/pine-script-reference/v5/#var_timeframe{dot}period).
-*   Bar states in the `barstate` namespace (see the [Bar states](https://tradingview.com/pine-script-docs/en/v5/concepts/Bar_states.html#pagebarstates) page): [barstate.isconfirmed](https://www.tradingview.com/pine-script-reference/v5/#var_barstate{dot}isconfirmed), [barstate.isfirst](https://www.tradingview.com/pine-script-reference/v5/#var_barstate{dot}isfirst), [barstate.ishistory](https://www.tradingview.com/pine-script-reference/v5/#var_barstate{dot}ishistory), [barstate.islast](https://www.tradingview.com/pine-script-reference/v5/#var_barstate{dot}islast), [barstate.islastconfirmedhistory](https://www.tradingview.com/pine-script-reference/v5/#var_barstate{dot}islastconfirmedhistory), [barstate.isnew](https://www.tradingview.com/pine-script-reference/v5/#var_barstate{dot}isnew), and [barstate.isrealtime](https://www.tradingview.com/pine-script-reference/v5/#var_barstate{dot}isrealtime).
+*   Bar states in the `barstate` namespace (see the [Bar states](concepts_Bar_states.html#pagebarstates) page): [barstate.isconfirmed](https://www.tradingview.com/pine-script-reference/v5/#var_barstate{dot}isconfirmed), [barstate.isfirst](https://www.tradingview.com/pine-script-reference/v5/#var_barstate{dot}isfirst), [barstate.ishistory](https://www.tradingview.com/pine-script-reference/v5/#var_barstate{dot}ishistory), [barstate.islast](https://www.tradingview.com/pine-script-reference/v5/#var_barstate{dot}islast), [barstate.islastconfirmedhistory](https://www.tradingview.com/pine-script-reference/v5/#var_barstate{dot}islastconfirmedhistory), [barstate.isnew](https://www.tradingview.com/pine-script-reference/v5/#var_barstate{dot}isnew), and [barstate.isrealtime](https://www.tradingview.com/pine-script-reference/v5/#var_barstate{dot}isrealtime).
 *   Strategy-related information in the `strategy` namespace: [strategy.equity](https://www.tradingview.com/pine-script-reference/v5/#var_strategy{dot}equity), [strategy.initial\_capital](https://www.tradingview.com/pine-script-reference/v5/#var_strategy{dot}initial_capital), [strategy.grossloss](https://www.tradingview.com/pine-script-reference/v5/#var_strategy{dot}grossloss), [strategy.grossprofit](https://www.tradingview.com/pine-script-reference/v5/#var_strategy{dot}grossprofit), [strategy.wintrades](https://www.tradingview.com/pine-script-reference/v5/#var_strategy{dot}wintrades), [strategy.losstrades](https://www.tradingview.com/pine-script-reference/v5/#var_strategy{dot}losstrades), [strategy.position\_size](https://www.tradingview.com/pine-script-reference/v5/#var_strategy{dot}position_size), [strategy.position\_avg\_price](https://www.tradingview.com/pine-script-reference/v5/#var_strategy{dot}position_avg_price), [strategy.wintrades](https://www.tradingview.com/pine-script-reference/v5/#var_strategy{dot}wintrades), etc.
 
 [Built-in functions](#id3)
@@ -63,33 +63,33 @@ Let’s look at the [ta.vwma()](https://www.tradingview.com/pine-script-referenc
 The entry gives us the information we need to use it:
 
 *   What the function does.
-    
+
 *   Its signature (or definition):
-    
-    ```
+
+    ```swift
 ta.vwma(source, length) → series float
 
 ```
 
-    
+
 *   The parameters it includes: `source` and `length`
-    
+
 *   The form and type of the result it returns: “series float”.
-    
+
 *   An example showing it in use: `plot(ta.vwma(close, 15))`.
-    
+
 *   An example showing what it does, but in long form, so you can better understand its calculations. Note that this is meant to explain — not as usable code, because it is more complicated and takes longer to execute. There are only disadvantages to using the long form.
-    
+
 *   The “RETURNS” section explains exacty what value the function returns.
-    
+
 *   The “ARGUMENTS” section lists each parameter and gives the critical information concerning what form-type is required for arguments used when calling the function.
-    
+
 *   The “SEE ALSO” section refers you to related Reference Manual entries.
-    
+
 
 This is a call to the function in a line of code that declares a `myVwma` variable and assigns the result of `ta.vwma(close, 20)` to it:
 
-```
+```swift
 myVwma = ta.vwma(close, 20)
 
 ```
@@ -103,7 +103,7 @@ Note that:
 
 We can also use the parameter names when calling the function. Parameter names are called _keyword arguments_ when used in a function call:
 
-```
+```swift
 myVwma = ta.vwma(source = close, length = 20)
 
 ```
@@ -111,7 +111,7 @@ myVwma = ta.vwma(source = close, length = 20)
 
 You can change the position of arguments when using keyword arguments, but only if you use them for all your arguments. When calling functions with many parameters such as [indicator()](https://www.tradingview.com/pine-script-reference/v5/#fun_indicator), you can also forego keyword arguments for the first arguments, as long as you don’t skip any. If you skip some, you must then use keyword arguments so the Pine Script® compiler can figure out which parameter they correspond to, e.g.:
 
-```
+```swift
 indicator("Example", "Ex", true, max_bars_back = 100)
 
 ```
@@ -119,7 +119,7 @@ indicator("Example", "Ex", true, max_bars_back = 100)
 
 Mixing things up this way is not allowed:
 
-```
+```swift
 indicator(precision = 3, "Example") // Compilation error!
 
 ```
@@ -127,7 +127,7 @@ indicator(precision = 3, "Example") // Compilation error!
 
 **When calling built-ins, it is critical to ensure that the arguments you use are of the form and type required, which will vary for each parameter.**
 
-To learn how to do this, one needs to understand Pine Script®’s [type system](https://tradingview.com/pine-script-docs/en/v5/language/Type_system.html#pagetypesystem). The Reference Manual entry for each built-in function includes an “ARGUMENTS” section which lists the form-type required for the argument supplied to each of the function’s parameters.
+To learn how to do this, one needs to understand Pine Script®’s [type system](language/Type_system.html#pagetypesystem). The Reference Manual entry for each built-in function includes an “ARGUMENTS” section which lists the form-type required for the argument supplied to each of the function’s parameters.
 
 [
 

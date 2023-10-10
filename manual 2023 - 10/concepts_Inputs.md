@@ -60,11 +60,11 @@ The following input functions are available:
 
 A specific input _widget_ is created in the “Inputs” tab to accept each type of input. Unless otherwise specified in the `input.*()` call, each input appears on a new line of the “Inputs” tab, in the order the `input.*()` calls appear in the script.
 
-Our [Style guide](https://tradingview.com/pine-script-docs/en/v5/writing/Style_guide.html#pagestyleguide) recommends placing `input.*()` calls at the beginning of the script.
+Our [Style guide](writing/Style_guide.html#pagestyleguide) recommends placing `input.*()` calls at the beginning of the script.
 
 Input function definitions typically contain many parameters, which allow you to control the default value of inputs, their limits, and their organization in the “Inputs” tab.
 
-An `input*.()` call being just another function call in Pine Script®, its result can be combined with [arithmetic](https://tradingview.com/pine-script-docs/en/v5/language/Operators.html#pageoperators-arithmeticoperators), comparison, [logical](https://tradingview.com/pine-script-docs/en/v5/language/Operators.html#pageoperators-logicaloperators) or [ternary](https://tradingview.com/pine-script-docs/en/v5/language/Operators.html#pageoperators-ternaryoperator) operators to form an expression to be assigned to the variable. Here, we compare the result of our call to [input.string()](https://www.tradingview.com/pine-script-reference/v5/#fun_input{dot}string) to the string `"On"`. The expression’s result is then stored in the `plotDisplayInput` variable. Since that variable holds a `true` or `false` value, it is a of “input bool” type:
+An `input*.()` call being just another function call in Pine Script®, its result can be combined with [arithmetic](language/Operators.html#pageoperators-arithmeticoperators), comparison, [logical](https://tradingview.com/pine-script-docs/en/v5/language/Operators.html#pageoperators-logicaloperators) or [ternary](https://tradingview.com/pine-script-docs/en/v5/language/Operators.html#pageoperators-ternaryoperator) operators to form an expression to be assigned to the variable. Here, we compare the result of our call to [input.string()](https://www.tradingview.com/pine-script-reference/v5/#fun_input{dot}string) to the string `"On"`. The expression’s result is then stored in the `plotDisplayInput` variable. Since that variable holds a `true` or `false` value, it is a of “input bool” type:
 
 ```
 //@version=5
@@ -75,7 +75,7 @@ plot(plotDisplayInput ? close : na)
 ```
 
 
-All values returned by `input.*()` functions except “source” ones are of the “input” form (see the section on [forms](https://tradingview.com/pine-script-docs/en/v5/language/Type_system.html#pagetypesystem-forms) for more information).
+All values returned by `input.*()` functions except “source” ones are of the “input” form (see the section on [forms](language/Type_system.html#pagetypesystem-forms) for more information).
 
 [Input function parameters](#id3)
 ---------------------------------------------------------------------------------------------
@@ -335,7 +335,7 @@ Note that:
 
 Session inputs are useful to gather start-stop values for periods of time. The [input.session()](https://www.tradingview.com/pine-script-reference/v5/#fun_input{dot}session) built-in function creates an input widget allowing users to specify the beginning and end time of a session. Selections can be made using a dropdown menu, or by entering time values in “hh:mm” format.
 
-The value returned by [input.session()](https://www.tradingview.com/pine-script-reference/v5/#fun_input{dot}session) is a valid string in session format. See the manual’s page on [sessions](https://tradingview.com/pine-script-docs/en/v5/concepts/Sessions.html#pagesessions) for more information.
+The value returned by [input.session()](https://www.tradingview.com/pine-script-reference/v5/#fun_input{dot}session) is a valid string in session format. See the manual’s page on [sessions](concepts_Sessions.html#pagesessions) for more information.
 
 Session information can also contain information on the days where the session is valid. We use an [input.string()](https://www.tradingview.com/pine-script-reference/v5/#fun_input{dot}string) function call here to input that day information:
 
@@ -385,7 +385,7 @@ This shows a chart where, in addition to our script, we have loaded an “Arnaud
 
 ### [Time input](#id14)
 
-Time inputs use the [input.time()](https://www.tradingview.com/pine-script-reference/v5/#fun_input{dot}time) function. The function returns a Unix time in milliseconds (see the [Time](https://tradingview.com/pine-script-docs/en/v5/concepts/Time.html#pagetime) page for more information). This type of data also contains date information, so the [input.time()](https://www.tradingview.com/pine-script-reference/v5/#fun_input{dot}time) function returns a time **and** a date. That is the reason why its widget allows for the selection of both.
+Time inputs use the [input.time()](https://www.tradingview.com/pine-script-reference/v5/#fun_input{dot}time) function. The function returns a Unix time in milliseconds (see the [Time](concepts_Time.html#pagetime) page for more information). This type of data also contains date information, so the [input.time()](https://www.tradingview.com/pine-script-reference/v5/#fun_input{dot}time) function returns a time **and** a date. That is the reason why its widget allows for the selection of both.
 
 Here, we test the bar’s time against an input value, and we plot an arrow when it is greater:
 
@@ -461,7 +461,7 @@ Note that:
 
 *   We use the `group` parameter to distinguish between the two sections of inputs. We use a constant to hold the name of the groups. This way, if we decide to change the name of the group, we only need to change it in one place.
 *   The first sections inputs widgets do not align vertically. We are using `inline`, which places the input widgets immediately to the right of the label. Because the labels for the `ma1SourceInput` and `long1SourceInput` inputs are of different lengths the labels are in different _y_ positions.
-*   To make up for the misalignment, we pad the `title` argument in the `ma2SourceInput` line with three Unicode EN spaces (U+2002). Unicode spaces are necessary because ordinary spaces would be stripped from the label. You can achieve precise alignment by combining different quantities and types of Unicode spaces. See here for a list of [Unicode spaces](https://jkorpela.fi/chars/spaces.html) of different widths.
+*   To make up for the misalignment, we pad the `title` argument in the `ma2SourceInput` line with three Unicode EN spaces (U+2002). Unicode spaces are necessary because ordinary spaces would be stripped from the label. You can achieve precise alignment by combining different quantities and types of Unicode spaces. See here for a list of [Unicode spaces](https://jkorpela.fi/chars/spaces.md) of different widths.
 
 [
 

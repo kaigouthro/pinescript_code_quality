@@ -2,13 +2,13 @@
 
 ![Pine Script® logo](https://tradingview.com/pine-script-docs/en/v5/_images/Pine-script-logo.svg)
 
-](https://www.tradingview.com/pine-script-docs/en/v5/Introduction.html)
+](https://www.tradingview.com/pine-script-docs/en/v5/Introduction.md)
 
 The [bgcolor()](https://www.tradingview.com/pine-script-reference/v5/#fun_bgcolor) function changes the color of the script’s background. If the script is running in `overlay = true` mode, then it will color the chart’s background.
 
 The function’s signature is:
 
-```
+```swift
 bgcolor(color, offset, editable, show_last, title) → void
 
 ```
@@ -20,7 +20,7 @@ If the correct transparency is not part of the color to be used, it can be be ge
 
 Here is a script that colors the background of trading sessions (try it on 30min EURUSD, for example):
 
-```
+```swift
 //@version=5
 indicator("Session backgrounds", overlay = true)
 
@@ -71,7 +71,7 @@ Note that:
 
 In our next example, we generate a gradient for the background of a CCI line:
 
-```
+```swift
 //@version=5
 indicator("CCI Background")
 
@@ -110,7 +110,7 @@ Note that:
 *   We provide inputs so the user can change the bull/bear colors, and we place both color input widgets on the same line using `inline = "1"` in both [input.color()](https://www.tradingview.com/pine-script-reference/v5/#fun_input{dot}color) calls.
 *   We plot the CCI signal using two [plot()](https://www.tradingview.com/pine-script-reference/v5/#fun_plot) calls to achieve the best contrast over the busy background: the first plot is a 3-pixel wide white background, the second [plot()](https://www.tradingview.com/pine-script-reference/v5/#fun_plot) call plots the thin, 1-pixel wide black line.
 
-See the [Colors](https://tradingview.com/pine-script-docs/en/v5/concepts/Colors.html#pagecolors) page for more examples of backgrounds.
+See the [Colors](concepts_Colors.html#pagecolors) page for more examples of backgrounds.
 
 [
 

@@ -1,4 +1,4 @@
-The execution model of the Pine Script® runtime is intimately linked to Pine Script®’s [time series](https://tradingview.com/pine-script-docs/en/v5/language/Time_series.html#pagetimeseries) and [type system](https://tradingview.com/pine-script-docs/en/v5/language/Type_system.html#pagetypesystem). Understanding all three is key to making the most of the power of Pine Script®.
+The execution model of the Pine Script® runtime is intimately linked to Pine Script®’s [time series](language/Time_series.html#pagetimeseries) and [type system](https://tradingview.com/pine-script-docs/en/v5/language/Type_system.html#pagetypesystem). Understanding all three is key to making the most of the power of Pine Script®.
 
 The execution model determines how your script is executed on charts, and thus how the code you write in scripts works. Your code would do nothing were it not for Pine Script®’s runtime, which kicks in after your code has compiled and it is executed on your chart because one of the [events triggering the execution of a script](#pageexecutionmodel-events) has occurred.
 
@@ -13,7 +13,7 @@ When the script first runs on a chart, all bars in a dataset are _historical bar
 
 Let’s take a simple script and follow its execution on historical bars:
 
-```
+```swift
 //@version=5
 indicator("My Script", overlay = true)
 src = close
@@ -85,8 +85,8 @@ When an event triggers the execution of the script on the chart and causes it to
 [More information](#id9)
 ---------------------------------------------------------------------------
 
-*   The built-in `barstate.*` variables provide information on [the type of bar or the event](https://tradingview.com/pine-script-docs/en/v5/concepts/Bar_states.html#pagebarstates) where the script is executing. The page where they are documented also contains a script that allows you to visualize the difference between elapsed realtime and historical bars, for example.
-*   The [Strategies](https://tradingview.com/pine-script-docs/en/v5/concepts/Strategies.html#pagestrategies) page explains the details of strategy calculations, which are not identical to those of indicators.
+*   The built-in `barstate.*` variables provide information on [the type of bar or the event](concepts_Bar_states.html#pagebarstates) where the script is executing. The page where they are documented also contains a script that allows you to visualize the difference between elapsed realtime and historical bars, for example.
+*   The [Strategies](concepts_Strategies.html#pagestrategies) page explains the details of strategy calculations, which are not identical to those of indicators.
 
 [Historical values of functions](#id10)
 --------------------------------------------------------------------------------------------------------
@@ -97,7 +97,7 @@ To demonstrate, let’s write a script that calculates the index of the current 
 
 ![../_images/Function_historical_context_1.png](https://tradingview.com/pine-script-docs/en/v5/_images/Function_historical_context_1.png)
 
-```
+```swift
 //@version=5
 indicator("My script")
 
@@ -132,7 +132,7 @@ To align the `calcBarIndex()` output with the `bar_index`, we can move the funct
 
 ![../_images/Function_historical_context_2.png](https://tradingview.com/pine-script-docs/en/v5/_images/Function_historical_context_2.png)
 
-```
+```swift
 //@version=5
 indicator("My script")
 
@@ -164,7 +164,7 @@ The following example calculates three SMA series: `controlSMA`, `localSMA`, and
 
 ![../_images/Function_historical_context_3.png](https://tradingview.com/pine-script-docs/en/v5/_images/Function_historical_context_3.png)
 
-```
+```swift
 //@version=5
 indicator("My script")
 

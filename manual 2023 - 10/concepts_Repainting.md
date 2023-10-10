@@ -61,7 +61,7 @@ Any script using values like [high](https://www.tradingview.com/pine-script-refe
 
 Let’s look at this simple script. It detects crosses of the [close](https://www.tradingview.com/pine-script-reference/v5/#var_close) value (in the realtime bar, this corresponds to the current price of the instrument) over and under an [EMA](https://www.tradingview.com/support/solutions/43000592270):
 
-```
+```swift
 //@version=5
 indicator("Repainting", "", true)
 ma = ta.ema(close, 5)
@@ -86,7 +86,7 @@ To prevent this repainting, we must rewrite our script so that it does not use v
 
 We can achieve this in many ways. This method adds a `and barstate.isconfirmed` condition to our cross detections, which requires the script to be executing on the bar’s last iteration, when it closes and prices are confirmed. It is a simple way to avoid repainting:
 
-```
+```swift
 //@version=5
 indicator("Repainting", "", true)
 ma = ta.ema(close, 5)
@@ -100,7 +100,7 @@ bgcolor(xUp ? color.new(color.lime, 80) : xDn ? color.new(color.fuchsia, 80) : n
 
 This uses the crosses detected on the previous bar:
 
-```
+```swift
 //@version=5
 indicator("Repainting", "", true)
 ma = ta.ema(close, 5)
@@ -114,7 +114,7 @@ bgcolor(xUp ? color.new(color.lime, 80) : xDn ? color.new(color.fuchsia, 80) : n
 
 This uses only confirmed [close](https://www.tradingview.com/pine-script-reference/v5/#var_close) and EMA values for its calculations:
 
-```
+```swift
 //@version=5
 indicator("Repainting", "", true)
 ma = ta.ema(close[1], 5)
@@ -128,7 +128,7 @@ bgcolor(xUp ? color.new(color.lime, 80) : xDn ? color.new(color.fuchsia, 80) : n
 
 This detects crosses between the realtime bar’s [open](https://www.tradingview.com/pine-script-reference/v5/#var_open) and the value of the EMA from the previous bars. Notice that the EMA is calculated using [close](https://www.tradingview.com/pine-script-reference/v5/#var_close), so it repaints. We must ensure we use a confirmed value to detect crosses, thus `ma[1]` in the cross detection logic:
 
-```
+```swift
 //@version=5
 indicator("Repainting", "", true)
 ma = ta.ema(close, 5)
@@ -146,7 +146,7 @@ bgcolor(xUp ? color.new(color.lime, 80) : xDn ? color.new(color.fuchsia, 80) : n
 
 The data fetched with [request.security()](https://www.tradingview.com/pine-script-reference/v5/#fun_request{dot}security) will differ on historical and realtime bars if the function is not used in the correct manner. Repainting [request.security()](https://www.tradingview.com/pine-script-reference/v5/#fun_request{dot}security) calls will produce historical data and plots that cannot be replicated in realtime. Let’s look at a script showing the difference between repainting and non-repainting [request.security()](https://www.tradingview.com/pine-script-reference/v5/#fun_request{dot}security) calls:
 
-```
+```swift
 //@version=5
 indicator("Repainting vs non-repainting `request.security()`", "", true)
 var BLACK_MEDIUM = color.new(color.black, 50)
@@ -184,7 +184,7 @@ Note that:
 
 This script shows a `nonRepaintingSecurity()` function that can be used to do the same as our non-repainting code in the previous example:
 
-```
+```swift
 //@version=5
 indicator("Non-repainting `nonRepaintingSecurity()`", "", true)
 
@@ -201,7 +201,7 @@ plot(nonRepaintingClose, "Non-repainting close", color.fuchsia, 3)
 
 Another way to produce non-repainting higher timeframe data is this, which uses an offset of `[1]` on the series, and `lookahead`:
 
-```
+```swift
 nonRepaintingSecurityAlternate(sym, tf, src) =>
     request.security(sym, tf, src[1], lookahead = barmerge.lookahead_on)
 
@@ -226,7 +226,7 @@ While historical bars will magically display future prices before they should be
 
 This is an example:
 
-```
+```swift
 // FUTURE LEAK! DO NOT USE!
 //@version=5
 indicator("Future leak", "", true)
@@ -244,11 +244,11 @@ Public scripts using this misleading technique will be moderated.
 
 ### [\`varip\`](#id9)
 
-Scripts using the [varip](https://www.tradingview.com/pine-script-reference/v5/#op_varip) declaration mode for variables (see our section on [varip](https://tradingview.com/pine-script-docs/en/v5/language/Variable_declarations.html#pagevariabledeclarations-varip) for more information) save information across realtime updates, which cannot be reproduced on historical bars where only OHLC information is available. Such scripts may be useful in realtime, including to generate alerts, but their logic cannot be backtested, nor can their plots on historical bars reflect calculations that will be done in realtime.
+Scripts using the [varip](https://www.tradingview.com/pine-script-reference/v5/#op_varip) declaration mode for variables (see our section on [varip](language/Variable_declarations.html#pagevariabledeclarations-varip) for more information) save information across realtime updates, which cannot be reproduced on historical bars where only OHLC information is available. Such scripts may be useful in realtime, including to generate alerts, but their logic cannot be backtested, nor can their plots on historical bars reflect calculations that will be done in realtime.
 
 ### [Bar state built-ins](#id10)
 
-Scripts using [bar states](https://tradingview.com/pine-script-docs/en/v5/concepts/Bar_states.html#pagebarstates) may or may not repaint. As we have seen in the previous section, using [barstate.isconfirmed](https://www.tradingview.com/pine-script-reference/v5/#var_barstate{dot}isconfirmed) is actually one way to **avoid** repainting that **will** reproduce on historical bars, which are always “confirmed”. Uses of other bar states such as [barstate.isnew](https://www.tradingview.com/pine-script-reference/v5/#var_barstate{dot}isnew), however, will lead to repainting. The reason is that on historical bars, [barstate.isnew](https://www.tradingview.com/pine-script-reference/v5/#var_barstate{dot}isnew) is `true` on the bar’s [close](https://www.tradingview.com/pine-script-reference/v5/#var_close), yet in realtime, it is `true` on the bar’s [open](https://www.tradingview.com/pine-script-reference/v5/#open). Using the other bar state variables will usually cause some type of behavioral discrepancy between historical and realtime bars.
+Scripts using [bar states](concepts_Bar_states.html#pagebarstates) may or may not repaint. As we have seen in the previous section, using [barstate.isconfirmed](https://www.tradingview.com/pine-script-reference/v5/#var_barstate{dot}isconfirmed) is actually one way to **avoid** repainting that **will** reproduce on historical bars, which are always “confirmed”. Uses of other bar states such as [barstate.isnew](https://www.tradingview.com/pine-script-reference/v5/#var_barstate{dot}isnew), however, will lead to repainting. The reason is that on historical bars, [barstate.isnew](https://www.tradingview.com/pine-script-reference/v5/#var_barstate{dot}isnew) is `true` on the bar’s [close](https://www.tradingview.com/pine-script-reference/v5/#var_close), yet in realtime, it is `true` on the bar’s [open](https://www.tradingview.com/pine-script-reference/v5/#open). Using the other bar state variables will usually cause some type of behavioral discrepancy between historical and realtime bars.
 
 ### [\`timenow\`](#id11)
 
@@ -265,7 +265,7 @@ Scripts detecting pivots after 5 bars have elapsed will often go back in the pas
 
 Let’s look at a script showing the price of high pivots by placing the price in the past, 5 bars after the pivot was detected:
 
-```
+```swift
 //@version=5
 indicator("Plotting in the past", "", true)
 pHi = ta.pivothigh(5, 5)
@@ -284,7 +284,7 @@ Note that:
 
 The best solution to this problem when developing script for others is to plot **without** an offset by default, but give the option for script users to turn on plotting in the past through inputs, so they are necessarily aware of what the script is doing, e.g.:
 
-```
+```swift
 //@version=5
 indicator("Plotting in the past", "", true)
 plotInThePast = input(false, "Plot in the past")
@@ -300,7 +300,7 @@ if not na(pHi)
 
 ### [Starting points](#id15)
 
-Scripts begin executing on the chart’s first historical bar, and then execute on each bar sequentially, as is explained in this manual’s page on Pine Script®’s [execution model](https://tradingview.com/pine-script-docs/en/v5/language/Execution_model.html#pageexecutionmodel). If the first bar changes, then the script will often not calculate the same way it did when the dataset began at a different point in time.
+Scripts begin executing on the chart’s first historical bar, and then execute on each bar sequentially, as is explained in this manual’s page on Pine Script®’s [execution model](language/Execution_model.html#pageexecutionmodel). If the first bar changes, then the script will often not calculate the same way it did when the dataset began at a different point in time.
 
 The following factors have an impact on the quantity of bars you see on your charts, and their _starting point_:
 
