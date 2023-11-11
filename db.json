@@ -1,0 +1,34 @@
+{
+    "Failed": [
+        {
+            "completion": "\n\n//@version=5\nindicator(\"Check Close Numbers\")\n\n//@function Check if there are any two numbers closer to each other than the given threshold\n//@param numbers (array<float>) The list of numbers\n//@param threshold (float) The threshold value\n//@returns (bool) True if there are two numbers closer than the threshold, false otherwise\ncheckCloseNumbers = (numbers, threshold) =>\n    for i = 0 to array.size(numbers) - 1\n        for j = i + 1 to array.size(numbers) - 1\n            if math.abs(array.get(numbers, i) - array.get(numbers, j)) < threshold\n                true\n    false\n\nnumbers = [1, 1.5, 2.8, 3.2, 4.1]\nthreshold = 0.5\n\nresult = checkCloseNumbers(numbers, threshold)\nplot(result, title=\"Close Numbers\")\n\n",
+            "error": "line 10: Mismatched input ',' expecting ')'",
+            "instruction": "\n\n\"Using Pine Script, check if in given list of numbers, are any two numbers closer to each other than given threshold.\"\n\n",
+            "trycount": 1
+        }
+    ],
+    "PINE": [
+        {
+            "completion": "\n //@version=5\nindicator(\"Check Close Numbers\")\n\n//@function Check if there are any two numbers closer to each other than the given threshold\n//@param numbers (array<float>) The list of numbers\n//@param threshold (float) The threshold value\n//@returns (bool) True if there are two numbers closer than the threshold, false otherwise\ncheckCloseNumbers = (numbers, threshold) =>\n    for i = 0 to array.size(numbers) - 1\n        for j = i + 1 to array.size(numbers) - 1\n            if abs(array.get(numbers, i) - array.get(numbers, j)) < threshold\n                true\n\n    false\n\nnumbers = array.new_float(1, 1.5, 2.8, 3.2, 4.1)\nthreshold = 0.5\n\nresult = checkCloseNumbers(numbers, threshold)\nplot(result, title=\"Close Numbers\")\n",
+            "instruction": "\n\n\"Using Pine Script, check if in given list of numbers, are any two numbers closer to each other than given threshold.\"\n\n"
+        },
+        {
+            "completion": "\n//@description This function separates nested groups of parentheses into separate strings.\n//@param paren_string (string) The input string containing multiple groups of nested parentheses.\n//@returns (array<string>) The list of separate groups of parentheses.\nfunction separateParenGroups(paren_string)\n    var result = array.new_string()\n    var current_string = array.new_string()\n    var current_depth = 0\n\n    for c in paren_string\n        if c == \"(\"\n            current_depth += 1\n            array.push(current_string, c)\n        elseif c == \")\"\n            current_depth -= 1\n            array.push(current_string, c)\n\n            if current_depth == 0\n                array.push(result, array.join(current_string))\n                array.clear(current_string)\n\n    result\n",
+            "instruction": "\n\n\"Using Pine Script, write a function which follows this instruction: Input to this function is a string containing multiple groups of nested parentheses. Your goal is to separate those groups into separate strings and return the list of those. Separate groups are balanced (each open brace is properly closed) and not nested within each other. Ignore any spaces in the input string.\"\n\n"
+        }
+    ],
+    "Successful": [
+        {
+            "completion": "\n\n//@version=5\nindicator(\"Concatenate Strings\")\n\n// Function to concatenate a list of strings into a single string\nconcatenateStrings(strings) =>\n    result = \"\"\n    for str in strings\n        result := result + str\n    result\n\n// Test the function with an example array of strings\narray<string> exampleStrings = array.from(\"Hello\", \"World\", \"!\")\nconcatenatedString = concatenateStrings(exampleStrings)\n\n// Plot the concatenated string\nlabel.new(bar_index, high, concatenatedString)\n\n",
+            "instruction": "\n\n\"Using Pine Script, concatenate list of strings into a single string\"\n\n"
+        }
+    ],
+    "Unfixable": [
+        {
+            "completion": "\n\n//@version=5\nindicator(\"Check Close Numbers\")\n\n// Function to check if there are any two numbers closer to each other than the given threshold\n//@param numbers (array<float>) The list of numbers\n//@param threshold (float) The threshold value\n//@returns (bool) True if there are two numbers closer than the threshold, false otherwise\ncheckCloseNumbers(numbers, threshold) =>\n    for i = 0 to array.size(numbers) - 1\n        for j = i + 1 to array.size(numbers) - 1\n            if math.abs(array.get(numbers, i) - array.get(numbers, j)) < threshold\n                true\n    false\n\nnumbers_float = array.new<float>()\n\narray.push(numbers_float, 1.0)\narray.push(numbers_float, 1.5)\narray.push(numbers_float, 2.8)\narray.push(numbers_float, 3.2)\narray.push(numbers_float, 4.1)\n\nthreshold = 0.5\n\nresult = checkCloseNumbers(numbers_float, threshold)\nplot(result, \"Close Numbers\", color=color.blue)\n\n",
+            "error": "line 28: Cannot call 'plot' with argument 'series'='result'. An argument of 'const bool' type was used but a 'series float' is expected.",
+            "instruction": "\n\n\"Using Pine Script, check if in given list of numbers, are any two numbers closer to each other than given threshold.\"\n\n",
+            "trycount": 3
+        }
+    ]
+}
