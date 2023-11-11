@@ -396,27 +396,19 @@ class TradingView:
         DB = self.load_db()
         print("Getting sessionid from db")
         self.sessionid = DB.get("sessionid", "abcd")
-        headers = {"cookie": "sessionid=" + self.sessionid}
+        headers = {"cookie": f"sessionid={self.sessionid}"}
         test = requests.request("GET", URLS["tvcoins"], headers=headers)
 
         print(test.text)
-        print("sessionid from db : " + self.sessionid)
+        print(f"sessionid from db : {self.sessionid}")
 
         if test.status_code != 200:
             print("session id from db is invalid")
-            username = os.environ["TV_USERNAME"]
             password = os.environ["TV_PASSWORD"]
+            username = os.environ["TV_USERNAME"]
             payload = {"username": username, "password": password, "remember": "on"}
             body, content_type = encode_multipart_formdata(payload)
-            user_agent = (
-                "TWAPI/3.0 ("
-                + platform.system()
-                + "; "
-                + platform.version()
-                + "; "
-                + platform.release()
-                + ")"
-            )
+            user_agent = f"TWAPI/3.0 ({platform.system()}; {platform.version()}; {platform.release()})"
             print(user_agent)
             login_headers = {
                 "origin": "https://www.tradingview.com",
@@ -454,23 +446,15 @@ class TradingView:
         but it returns the information from the compiler if there was an error, or if the script checks out.
         it does not save the script, only updaes i on the chart..
         """
-        user_agent = (
-            "TWAPI/3.0 ("
-            + platform.system()
-            + "; "
-            + platform.version()
-            + "; "
-            + platform.release()
-            + ")"
-        )
+        user_agent = f"TWAPI/3.0 ({platform.system()}; {platform.version()}; {platform.release()})"
+        url = "https://pine-facade.tradingview.com/pine-facade/save/new_draft/?user_name={username}&allow_use_existing_draft=true"
         headers = {
-            "cookie": "sessionid=" + self.sessionid,
+            "cookie": f"sessionid={self.sessionid}",
             "origin": "https://www.tradingview.com",
             "User-Agent": user_agent,
             "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
             "referer": "https://www.tradingview.com",
         }
-        url = "https://pine-facade.tradingview.com/pine-facade/save/new_draft/?user_name={username}&allow_use_existing_draft=true"
         body = {"source": source_code}
         response = requests.post(url, headers=headers, data=body)
 
@@ -514,7 +498,7 @@ class TradingView:
 
         self.update_db(DB)
 
-        if len(new_unsuccessful_responses) > 0:
+        if new_unsuccessful_responses:
             self.repair_gpt()
 
         return successful_responses, unsuccessful_responses
