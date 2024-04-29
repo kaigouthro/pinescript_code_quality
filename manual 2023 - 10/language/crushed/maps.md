@@ -529,3 +529,176 @@ debugLabel.set_x(bar_index)
 ```
 
 Note: The `toString()` method creates a string representation of the nested maps using a custom format.
+
+
+
+
+
+
+# Full example syntax:
+
+```lua
+//@version=5
+indicator("Combined Example")
+
+//@function Returns a label to display the keys and values from a map.
+method debugLabel(map<string, float> this, int barIndex = bar_index, color bgColor = color.blue, color textColor = color.white, string note = "") =>
+    labelText = note + "\n{" 
+    for [key, value] in this
+        if barstate.ishistory
+            labelresult = label.new(barIndex, 0, labelText, color = bgColor, style = label.style_label_center, textcolor = textColor, size = size.huge)
+        labelText := str.replace(labelText, ", ", "}", this.size() - 1) 
+        labelText += str.format("{0}: {1}, ", key, value)
+
+//@variable A map containing pairs of string keys and float values.
+var data = map.new<string, float>()
+
+// Put a new ("Rising", bar_index) pair into the data map when close is rising.
+if ta.rising(close, 2)
+    data.put("Rising", bar_index)
+// Put a new ("Falling", bar_index) pair into the data map when close is falling.
+if ta.falling(close, 2)
+    data.put("Falling", bar_index)
+
+// Put the "Difference" between current "Rising" and "Falling" values into the data map.
+data.put("Difference", data.get("Rising") - data.get("Falling"))
+
+//@variable The difference between the last "Rising" and "Falling" bar_index.
+int index = int(data.get("Difference"))
+
+//@variable Returns color.green when index is positive, color.red when negative, and color.gray otherwise.
+color indexColor = index > 0 ? color.green : index < 0 ? color.red : color.gray
+
+plot(index, color = indexColor, style = plot.style_columns)
+
+//@variable A map with int keys and hexadecimal string values.
+var thisMap = map.new<int, string>()
+
+import kaigouthro/Hex/1 as hex
+
+for number in array.from(101, 202, 303, 404)
+    thisMap.put(number, hex.fromDigits(number))
+
+if bar_index == last_bar_index - 1
+    m = map.new<string, float>()
+    for key in array.from("A", "B", "C", "D")
+        m.put(key, math.random(0, 10))
+    mCopy = m.copy()
+    for [i, key] in mCopy.keys()
+        mCopy.put(key, i)
+    m.debugLabel(bar_index, note = "Original")
+    m.copy().debugLabel(bar_index + 10, color.purple, note = "Copied and changed")
+    
+float source = input.source(close, "Source")
+
+globalData = map.new<int, float>()
+
+update() =>
+    map<int, float> previous = globalData[1]
+
+    if na(previous)
+        for i = 10 to 200
+            globalData.put(i, source)
+    else
+        for [key, value] in previous
+            float alpha = 2.0 / (key + 1.0)
+            float ema = (1.0 - alpha) * value + alpha * source
+            globalData.put(key, ema)
+
+update()
+
+array<float> values = globalData.values()
+
+plot(values.max(), "Max EMA", color.green, 2)
+plot(values.min(), "Min EMA", color.red, 2)
+plot(globalData.get(50), "50-bar EMA", color.orange, 3)
+
+//@variable The length of the moving average.
+int length = input.int(20, "Length")
+
+//@variable An array of string hex digits.
+var array<string> hexDigits = str.split("0123456789ABCDEF", "")
+
+//@function Returns a hexadecimal string for the specified value.
+hex(int value) =>
+    //@variable A string representing the hex form of the value.
+    string result = ""
+    //@variable A temporary value for digit calculation.
+    int tempValue = value
+    while tempValue > 0
+        //@variable The next integer digit.
+        int digit = tempValue % 16
+        // Add the hex form of the digit to the result.
+        result := hexDigits.get(digit) + result
+        // Divide the tempValue by the base.
+        tempValue := int(tempValue / 16)
+    result
+
+//@function Returns a map holding the numbers as keys and their hex strings as values.
+hexMap(array<int> numbers) =>
+    //@variable A map associating int keys with string values.
+    result = map.new<int, string>()
+    for number in numbers
+        // Put a pair containing the number and its hex() representation into the result.
+        result.put(number, hex(number))
+    result
+
+//@variable A map with int keys and hexadecimal string values.
+map<int, string> mapA = hexMap(array.from(101, 202, 303, 404))
+//@variable A map containing key-value pairs to add to mapA.
+map<int, string> mapB = hexMap(array.from(303, 404, 505, 606, 707, 808))
+
+// Put all pairs from mapB into mapA.
+mapA.put_all(mapB)
+
+//@variable A label showing the contents of mapA.
+label debugLabel = label.new(
+       bar_index, 0, str.tostring(mapA.values()),
+       textcolor = color.white, size = size.huge
+   )
+
+string tf = input.timeframe("D", "Timeframe")
+string symbol1 = input.symbol("EURUSD", "Symbol 1")
+string symbol2 = input.symbol("GBPUSD", "Symbol 2")
+string symbol3 = input.symbol("EURGBP", "Symbol 3")
+
+type Wrapper
+    map<string, float> data
+
+requestData(string tickerID, string timeframe) =>
+    [o, h, l, c, v] = request.security(
+         tickerID, timeframe,
+         [open, high, low, close, volume]
+     )
+    result = map.new<string, float>()
+    result.put("Open", o)
+    result.put("High", h)
+    result.put("Low", l)
+    result.put("Close", c)
+    result.put("Volume", v)
+    Wrapper.new(result)
+
+method toString(map<string, Wrapper> this) =>
+    string result = "{"
+    for [key1, wrapper] in this
+        result += key1
+        string innerStr = ": {"
+        for [key2, value] in wrapper.data
+            innerStr += str.format("{0}: {1}, ", key2, str.tostring(value))
+        result += str.replace(innerStr, ", ", "},\n", wrapper.data.size() - 1)
+    result := str.replace(result, ",\n", "}", this.size() - 1)
+    result
+
+var mapOfMaps = map.new<string, Wrapper>()
+debugLabel := label.new(
+      bar_index, 0, color = color.navy, textcolor = color.white, size = size.huge,
+     style = label.style_label_center, text_font_family = font.family_monospace
+  )
+
+mapOfMaps.put(symbol1, requestData(symbol1, tf))
+mapOfMaps.put(symbol2, requestData(symbol2, tf))
+mapOfMaps.put(symbol3, requestData(symbol3, tf))
+
+debugLabel.set_text(mapOfMaps.toString())
+debugLabel.set_x(bar_index)
+```
