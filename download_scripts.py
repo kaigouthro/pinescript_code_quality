@@ -2,160 +2,149 @@ import json
 import os
 import time
 import requests
-
-"""
-I only set it to grab cookies from chrome for logging in..
-you may choose otherwise..
-
-
-NEED TO INSTALL THESE modules here:
-"""
 import unidecode
 import browser_cookie3
 import urllib
-import alive_progress as ap
-from  codecs import decode
+from alive_progress import alive_bar
+from typing import List, Dict, Any
 
+# Configuration
+OVERWRITE = False
+BROWSER = "chrome"  # Change if using a different browser
 
-"""  SET THIS ? """
-overwrite = False
+# Constants for script categories
+SCRIPT_CATEGORIES = ["library", "strategy", "study"]
 
+# Base URL for API endpoints
+API_BASE_URL = "https://pine-facade.tradingview.com/pine-facade/"
 
-# Get logged in and fetched cookies from Chrome, download indexes of scripts.
+# -- Data Acquisition and Processing --
 
-############
-""" change chrome to whatever if ou user a different browser """
-cj = browser_cookie3.chrome()
-############
+def fetch_script_data(filter_type: str, cj: Any) -> List[Dict[str, Any]]:
+    """Fetches script metadata from the TradingView API."""
+    url = f"{API_BASE_URL}list?filter={filter_type}"
+    if filter_type != "published":
+        url += "&last?no_4xx=true"
+    response = requests.get(url, cookies=cj)
+    return json.loads(response.text)
 
-opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cj))
+def categorize_scripts(data: List[Dict[str, Any]]) -> Dict[str, List[Dict[str, Any]]]:
+    """Categorizes scripts based on their 'kind' attribute."""
+    categorized_scripts: Dict[str, List[Dict[str, Any]]] = {
+        category: [] for category in SCRIPT_CATEGORIES
+    }
+    categorized_scripts["rest"] = []
 
-login_html = opener.open(
-    "https://pine-facade.tradingview.com/pine-facade/list?filter=published"
-).read()
-published = json.loads(
-    requests.get(
-        "https://pine-facade.tradingview.com/pine-facade/list?filter=published&last?no_4xx=false",
-        cookies=cj,
-    ).text
-)
-saved = json.loads(
-    requests.get(
-        "https://pine-facade.tradingview.com/pine-facade/list?filter=saved&last?no_4xx=false",
-        cookies=cj,
-    ).text
-)
+    for script_sector in data:
+        for script in script_sector:
+            kind = script["extra"].get("kind")
+            if kind in SCRIPT_CATEGORIES:
+                categorized_scripts[kind].append(script)
+            else:
+                categorized_scripts["rest"].append(script)
+    return categorized_scripts
 
-# only load scripts without compile error "Error: cannot compile script"
-saved = [sc for sc in saved if "Error" not in sc["scriptTitle"]]
-data = [published, saved]
+# -- Script Download and Storage --
 
-# split the data apart . if "extra": { "kind": "library" }, then it is a library. and strategy as well separate. the remainder in a third group.
-libs = []
-strats = []
-study = []
-rest = []
+def sanitize_filename(filename: str) -> str:
+    """Removes invalid characters from a filename."""
+    invalid_chars = '<>:"/\\|?* '
+    return "".join(char for char in filename if char not in invalid_chars)
 
-##  rewrite to do this from data:
-for script_sector in data:
-    ([libs.append(sc) for sc in script_sector if sc["extra"]["kind"] == "library"])
-    ([strats.append(sc) for sc in script_sector if sc["extra"]["kind"] == "strategy"])
-    ([study.append(sc) for sc in script_sector if sc["extra"]["kind"] == "study"])
-    (
-        [
-            rest.append(sc)
-            for sc in script_sector
-            if sc["extra"]["kind"] not in ["library", "study", "strategy"]
-        ]
-    )
-# combine for iterating
-sections = [libs, strats, study, rest]
+def download_script(
+    script_id_part: str, version: str, script_name: str, sector_name: str, kind: str, cj: Any
+) -> bool:
+    """Downloads a script and its metadata, returning True if successful."""
+    url = f"{API_BASE_URL}get/{script_id_part}/{version}"
+    url2 = f"{API_BASE_URL}translate/{script_id_part}/{version}"
 
-# download functional files
-for pct, sector in enumerate(sections):
-    names = ["libs", "strats", "study", "rest"]
-    with ap.alive_bar(len(sector),calibrate = 5, dual_line = True, theme='smooth') as script_group:
-        script_group.title(f"\n\nChecking {names[pct]} scripts")
-        for scNum, sc in enumerate(sector):
+    script_name = sanitize_filename(script_name)
 
-            # put a 100ms delay
-            time.sleep(0.5)
-            scriptIdPart = sc["scriptIdPart"]
-            version = sc["version"]
-            urlpart = f"{scriptIdPart}/{version}"
-            sectorname = scriptIdPart.split(";")[0]
-            url2part = scriptIdPart.split(";")[-1]
-            script_name = sc["scriptName"]
-            s = sectorname == "STD"
-            u = sectorname == "USER"
-            p = sectorname == "PUB"
-            script_group()
-            good = s or p or u
-            if not good:
-                continue
-            script_group.text(f"Checking {script_name}")
-            url = f"https://pine-facade.tradingview.com/pine-facade/get/{urlpart}"
-            url2 = (
-                f"https://pine-facade.tradingview.com/pine-facade/translate/{urlpart}"
-            )
+    r = requests.get(url, cookies=cj)
+    r2 = requests.get(url2, cookies=cj)
 
-            # for formatting purposes
-            invalid = '<>:"/\|?* '
+    if r.status_code != 200:
+        return False
 
-            for char in invalid:
-	            script_name = script_name.replace(char, '')
+    script_data = json.loads(r.text)
+    metadata = r2.text.encode("utf-8").decode()
 
-            # using requests to download the pine script with cookies
-            r = requests.get(url, cookies=cj)
-            r2 = requests.get(url2, cookies=cj)
-            if r.status_code != 200:
-                script_group.text(f"Error: No Script found for {script_name}")
-                continue
+    if "source" not in script_data:
+        return False
 
-            # get the tet from the response
-            r = r.text
-            r = r.replace(r"\n\n+", r"\n")
-            r = json.loads(r)
+    script_source = script_data["source"].encode("utf-8").decode()
 
-            # get text of additional information
-            r2 = r2.text
-            r2 = r2.replace(r"\n\n+", r"\n")
-            r2 = r2.encode("utf-8").decode()
+    directory = f"scripts/{sector_name}/{kind}/"
+    if not os.path.exists(directory):
+        os.makedirs(directory)
 
-            # check if response is valid and contains the 'source' field
-            if "source" not in r:
-                script_group.text(f"Error: No Source field found for {script_name}")
-                continue
+    script_filepath = f"{directory}{script_name}.pine"
+    metadata_filepath = f"{directory}{script_name}.json"
 
-            # extract the source from the response
-            r = r["source"]
-            r = r.replace(r"\n\n+", r"\n")
-            r = r.encode("utf-8").decode()#unidecode.unidecode(r)
+    if os.path.isfile(script_filepath) and not OVERWRITE:
+        return True
 
-            # fix name
-            script_name = script_name.encode("utf-8").decode()
+    with open(script_filepath, "w", encoding="utf-8") as f:
+        f.write(script_source)
+    with open(metadata_filepath, "w", encoding="utf-8") as f:
+        f.write(metadata)
 
-            # if directory nott exist, create
-            if not os.path.exists(f'scripts/{sectorname}/{sc["extra"]["kind"]}/'):
-                os.makedirs(f'scripts/{sectorname}/{sc["extra"]["kind"]}/')
+    return True
 
-            # check if file exists, if not, save the script to file
-            if os.path.isfile(
-                f'scripts/{sectorname}/{sc["extra"]["kind"]}/{script_name}.pine'
-            ):
-                if not overwrite:
-                    script_group.text(f"{script_name}.pine exists" + "\n")
+# -- Main Execution Logic --
+
+def main():
+    """Main function to orchestrate script download."""
+    cj = getattr(browser_cookie3, BROWSER)()
+    
+    # -- Data Fetching and Categorization --
+
+    filters = ["published", "saved", "standard", "addon", "fundamental", "candlestick"]
+    
+    script_metadata = [
+        fetch_script_data(filter_type, cj)
+        for filter_type in filters
+        if "Error: cannot compile script"
+        not in fetch_script_data(filter_type, cj)
+    ]
+
+    categorized_scripts = categorize_scripts(script_metadata)
+
+    # -- Script Downloading with Progress Tracking --
+    
+    for category, scripts in categorized_scripts.items():
+        with alive_bar(
+            len(scripts), calibrate=5, dual_line=True, theme="smooth"
+        ) as bar:
+            bar.title(f"\n\nChecking {category} scripts")
+            for script in scripts:
+                time.sleep(0.01)
+                script_id_part = script["scriptIdPart"]
+                version = script["version"]
+                sector_name = script_id_part.split(";")[0]
+                
+                # -- Filter Script Types --
+                
+                is_valid_sector = sector_name in ["STD", "USER", "PUB"]
+                if not is_valid_sector:
+                    bar()
                     continue
-                else:
-                    script_group.text(f"Overwriting {script_name}.pine " + "\n")
 
-            with open(
-                f'scripts/{sectorname}/{sc["extra"]["kind"]}/{script_name}.pine', "w",
-            encoding="utf-8") as f:
-                script_group.text(f"{script_name}.pine saved" + "\n")
-                f.write(r)
-            with open(
-                f'scripts/{sectorname}/{sc["extra"]["kind"]}/{script_name}.json', "w",
-            encoding="utf-8") as f:
-                script_group.text(f"{script_name}.json saved" + "\n")
-                f.write(r2)
+                bar.text(f"Checking {script['scriptName']}")
+                success = download_script(
+                    script_id_part,
+                    version,
+                    script["scriptName"],
+                    sector_name,
+                    category,
+                    cj,
+                )
+                
+                # -- Conditional Logging for Errors --
+                
+                if not success:
+                    bar.text(f"Error downloading {script['scriptName']}")
+                bar()
+
+if __name__ == "__main__":
+    main()
