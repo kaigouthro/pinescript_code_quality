@@ -99,7 +99,7 @@ def main():
     
     # -- Data Fetching and Categorization --
 
-    filters = ["published", "saved", "standard", "addon", "fundamental", "candlestick"]
+    filters = ["published", "saved", "standard"]
     
     script_metadata = [
         fetch_script_data(filter_type, cj)
